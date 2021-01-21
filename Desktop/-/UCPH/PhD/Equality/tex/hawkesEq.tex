@@ -187,6 +187,8 @@ k(\tau) =
 $$
 
 [see Hawkes JRSS-B, 1971 - compare this to bacry and muzy]
+[see  Bacry and Muzy: Hawkes model for price and trades high-frequency 
+dynamics, they give explanation]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -283,7 +285,14 @@ the type, $\rightarrow$.
 Given a Hawkes process with coordinate processes indexed by $V = 
 \{1,2,\ldots,n\}$, we construct its graph, $\mathcal{D} = (V,E)$, such that 
 $\alpha \rightarrow_\mathcal{D} \beta$ if and only if $g_{\beta\alpha} \neq 0$. 
-We say that $\mathcal{D}$ is the {\it causal graph} of the Hawkes process.
+We say that $\mathcal{D}$ is the {\it causal graph} of the Hawkes process. Due 
+to the assumptions of continuous and nonnegative $g_{\beta\alpha}$, we see 
+that if $g_{\beta\alpha}\neq 0$, then there exist a nontrivial interval such 
+that $g_{\beta\alpha} > 0$ on this interval. [is g assumed to be zero on 
+negative axis?]
+
+As is common [refs], our results give identification results using graphical 
+constraints, i.e., sparsity as encoded by the graph.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -291,11 +300,20 @@ We say that $\mathcal{D}$ is the {\it causal graph} of the Hawkes process.
 
 \section{Identification}
 
-In this paper, we will mostly focus on the identification of the entries in the 
-matrix $R$, and of G?. We will say that some object, $i$, is identified from 
-$f(P)$ where 
-$P$ is the distribution of a stationary Hawkes process if $f(P_1) = f(P_2)$ 
-implies $i_1 = i_2$. [check definition]
+In this paper, we will discuss the identification of the entries in the 
+matrix $G$ and the functions $g_{\beta\alpha}$. We consider now two Hawkes 
+distributions on $P_1$ and $P_2$ on nodes $V_1$ and $V_2$, respectively. Let 
+$\tilde{P}, \tilde{P}_1, \tilde{P}_2$ be marginal 
+distributions of stationary Hawkes processes on a common observed set of 
+coordinate processes, $O$, let $f$ be a functional of 
+such a marginal distribution on coordinate processes $O$, and let 
+$\alpha,\beta\in O$. Finally, let $G_{\beta\alpha}^i$ and $g_{\beta\alpha}^i$ 
+denote the integrated direct effect and the directed effect from $\alpha$ to 
+$\beta$ in $P_i$. We will say that the parameter $G_{\beta\alpha}$ \emph{is 
+identified from} 
+$f(\tilde{P})$ if $f(\tilde{P}_1) = f(\tilde{P}_2)$ 
+implies $G_{\beta\alpha}^1 = G_{\beta\alpha}^2$. Similarly, we say 
+$g_{\beta\alpha}$ is identified from $f(P)$ if . [check definition]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -308,11 +326,15 @@ learning.
 
 [for this we can use half-trek arguments?]
 
+[be cautious: the HTC arguments to not translate perfectly, as parameters in 
+the full model may not correspond to any parameters in marginalized model 
+(e.g., if more directed paths) - how to describe this?]
+
 We will introduce the matrix $\tilde{G}$ by scaling each column of $G$ by its 
 diagonal element and placing zeros on the diagonal, i.e.,
 
 $$
-\tilde{g}_{ij} = g_{ij}/g_{jj}  \text{ if } i\neq j, \text{ and } 
+\tilde{g}_{ij} = g_{ij}/(1-g_{ii})  \text{ if } i\neq j, \text{ and } 
 \tilde{g}_{ij} 
 = 0 \text{ if } i= j.
 $$
@@ -321,16 +343,22 @@ $$
 diagonal matrix such that the $i$'th diagonal element equals 
 $1 - g_{ii}$. This means that 
 
-$$
-\Sigma = (I - G)\Lambda (I - G)^T = (I - \tilde{G})D \Lambda D(I - \tilde{G})^T.
-$$
+\begin{align*}
+\Sigma & = (I - G)^{-1}\Lambda (I - G)^{-T}  \\
+& = (D(I - \tilde{G}))^{-1}\Lambda (D(I - \tilde{G}))^{-T} \\
+& = (I - \tilde{G})^{-1}D^{-1} \Lambda D^{-1}(I - 
+\tilde{G})^{-T}
+\end{align*}
 
-The type of equation is well-studied in the context of linear structural 
+
+
+where $-T$ denotes the operation of transposing and inverting a matrix. This 
+type of equation has been studied in the context of linear structural 
 equation models [refs] and we can use available results to argue about 
 identifiability of the parameters in $\tilde{G}$ and $G$. Note that while this 
 casts the Hawkes identification as a set of equations describing the covariance 
 matrix of a linear structural equation model, this is not a reparametrization 
-of the latter as there are constraints on the the Hawkes parameters (spectral 
+of the latter as there are constraints on the Hawkes parameters (spectral 
 and nonnegativity of entries in $G$).
 
 
@@ -338,66 +366,114 @@ and nonnegativity of entries in $G$).
 
 We will mostly be interested in systems that are only partially observed in 
 which case only a proper submatrix of $\Sigma$ is observed. We let $V = O \cup 
-U$. Assume that $\bar{\Sigma}$ is the observed submatrix [argue that this 
-actually only uses the marginal distribution of the observed processes] We have 
+U$. Assume that $\bar{\Sigma}$ is the observed submatrix. We have 
 that 
 
 \begin{align}
-\bar{\Sigma} = (I - \bar{G})\Theta(I - \bar{G})^T
+\bar{\Sigma} = (I - \bar{G})^{-1}\Theta(I - \bar{G})^{-T}
 \end{align}
 
 where 
 
 \begin{align*}
-\bar{G} & = \\
-\Theta & = 
+\bar{G} & = \tilde{G}_{OO} +  \tilde{G}_{OU}(I_l + 
+\tilde{G}_{UU})^{-1}\tilde{G}_{UO} \\
+\Theta & = (I_k-\bar{G})[(I_n - \tilde{G})^{-1}D\Lambda D(I - 
+\tilde{G})^{-T}]_{OO}(I_k-\bar{G})^T
 \end{align*}
+
+[ref to hyttinen]. Using Schur complements, we can write, let $\tilde{\Lambda} 
+= D^{-1}\Lambda D^{-1}$,
+
+\begin{align*}
+\Theta & = (I_k - \bar{G})[((I_n - 
+\tilde{G})^{-1})_{OO}\tilde{\Lambda}_{OO}((I_n - \tilde{G})^{-T})_{OO} \\ & + 
+((I_n 
+- 
+\tilde{G})^{-1})_{OU}\tilde{\Lambda}_{UU}((I_n - \tilde{G})^{-T})_{UO}](I_k - 
+\bar{G})^T \\
+& = \tilde{\Lambda}_{OO} + (I_k - \bar{G})((I_n 
+- 
+\tilde{G})^{-1})_{OU}\tilde{\Lambda}_{UU}((I_n - \tilde{G})^{-T})_{UO}(I_k - 
+\bar{G})^T \\
+& = [D\Lambda D]_{OO} \\ & + (I_n - \tilde{G})_{OU}((I_n - 
+\tilde{G})^{-1})_{UU}[D\Lambda D]_{UU}((I_n - \tilde{G})^{-T})_{UU}(I_n - 
+\tilde{G})_{UU}^{-T}(I_n - 
+\tilde{G})_{OU}^T \\
+& = [D\Lambda D]_{OO} \\ & + \tilde{G}_{OU}((I_n - 
+\tilde{G})^{-1})_{UU}[D\Lambda D]_{UU}((I_n - \tilde{G})^{-T})_{UU}(I_n - 
+\tilde{G})_{UU}^{-T} 
+\tilde{G}_{OU}^T
+\end{align*}
+
+[this simplifies, I in outer factors not needed: are zero in these submatrices, 
+then minuses cancel - also not clear if subsets should be taken before inverse 
+etc, check computations - also numerically]
+The above computations are of course the same as in the case of a linear 
+structural equation model, however, one should note that while those are closed 
+under marginalization this is not the case for the Hawkes models.
 
 We say that $\alpha \rightarrow \gamma_1 \rightarrow \ldots \rightarrow 
 \gamma_k \rightarrow \beta$ is an \emph{unobserved} directed path from $\alpha$ 
 to $\beta$ if $\gamma_i \in U$ for all $i = 1,\ldots, k$. 
 
 \begin{prop}
-	Let $\alpha,\beta \in O$. The parameter $\tilde{G}_{\beta\alpha}$ is 
+	Let $\alpha,\beta \in O$, $\alpha\neq \beta$. The parameter 
+	$\tilde{G}_{\beta\alpha}$ is 
 	identified 
 	from the integrated first- and second order moments [define these] if there 
-	are no unobserved directed paths [maybe this should be walks - then also 
-	works for alpha = beta, then gives the next corollay directly?] from 
-	$\alpha$ to $\beta$ and [HTC criterion]. The parameter $G_{\beta\alpha}$ is 
-	identified if $\tilde{G}_{\beta\alpha}$ and $\tilde{G}_{\beta\beta}$ (no 
-	this is zero, maybe if something in theta is identified?) are 
-	identified.
+	are no unobserved directed paths from 
+	$\alpha$ to $\beta$ and $\bar{G}_{\beta\alpha}$ is identified from 
+	$\bar{\Sigma}$.
 \end{prop}
 
-[HTC is actually generic identifiability, not global identifiability!]
+The above proposition follows directly from the definitions. The key point is 
+that one can now use any available identification result from the linear 
+structural equation toolbox to show identification of the entries in 
+$\tilde{G}$ [refs]. These are often formulated in terms of graphical 
+conditions, and we note that the 
+marginalized set of equations are seen to correspond to a linear structural 
+equation model for described by the latent projection of the causal graph. 
+[define latent projection]
 
-\begin{proof}
-	content...
-\end{proof}
+\begin{prop}
+	Let $\alpha\in O$. The parameter $G_{\alpha\alpha}$ is identified if all 
+	parents of $\alpha$ are observed and $\bar{G}_{\beta\alpha}$ is identified 
+	from 
+	$\bar{\Sigma}$.
+\end{prop}
 
-\begin{cor}
-	[something about id of parameters in G]
-\end{cor}
+It is immediate that $G_{\beta\alpha}$ is identified if 
+$\tilde{G}_{\beta\alpha}$ and $G_{\alpha\alpha}$ are identified. Above the 
+conditions ensure that the parameters of the marginal system equals that of the 
+original system and therefore identification in the marginal system implies 
+identification in the normalized system. One could of course also consider 
+identification of parameters that do not occur in the original example and 
+these and also interpret these, e.g., [give example] [note also that normalized 
+parameters are also interpretable in a certain sense - or actually they are, 
+give interpretation]
+
+\begin{exmp}
+	Consider the graph in Figure \ref{fig:cyclicDGs} (left) and assume that 
+	this is the causal graph of a Hawkes process on nodes $V = \{1,2,3,4,5\}$ 
+	such that coordinate process $5$ is unobserved. If we apply, e.g., the 
+	HT-criterion, we see that every $\tilde{G}_{\beta\alpha}$ such that 
+	$\alpha,\beta\in O$ is identified and so is $\Theta$. Therefore is, e.g., 
+	$G_{43}$ identified using the above propositions. On the other hand, 
+	$G_{21}$ is not identified. This is explained by the fact that $G_{22}$ 
+	cannot 
+	be identified, 
+	intuitively that is because the parent $5$ is not observed (this is shown 
+	by a counterexample). In total, parameters $G_{21}, G_{22}, G_{24}, 
+	G_{43},$ and $G_{4,4}$ are not identified while all other parameters of 
+	$G_{OO}$ are, $O= \{1,2,3,4\}$. 
+\end{exmp}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Identifying total causal effect}
 
-From the integrated covariance matrix (name?), depending on the graphical 
-structure, we may obtain identification of some of the entries in $R$. We know 
-that 
 
-\begin{align*}
-	C & = R \Lambda R^T \\
-	& = S S^T
-\end{align*}
-
-\noindent where $S = R\Lambda^{1/2}$. The diagonal matrix $\Lambda^{1/2}$ is 
-the entrywise squareroot of $\Lambda$. 
-
-This is similar to the Gaussian linear structural equation model [ref] and we 
-can prove that similar identification results hold. [what we need is to argue 
-about the unobserved nodes]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -408,9 +484,9 @@ use more aspects of the distribution. [only stationary hawkes, needed for the
 next result?]
 
 \begin{prop}
-	Let $\mathcal{D} = (O\disjU U, E)$. If $\pa_\mathcal{D}(\alpha) \subseteq 
-	O$, then for all $\beta$ the function $g_{\alpha\beta}$ is identified from 
-	the covariance process of $O$-processes.
+	Let $\mathcal{D} = (O\disjU U, E)$. If $\pa_\mathcal{D}(\beta) \subseteq 
+	O$, then for all $\beta$ the function $g_{\beta\alpha}$ is identified from 
+	the infinitesimal covariance process of $O$-processes.
 	\label{prop:gPaId}
 \end{prop}
 
@@ -423,9 +499,12 @@ next result?]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Equality constraints}
+\section{Equality Constraints}
 
-In causal models, it is well-known that the structure imposes constraints that 
+[all headings in camel case, also in all caps, for labeling]
+
+In causal models, it is well-known that the graphical structure imposes 
+constraints that 
 are not described by conditional independence. Local independence (see 
 Definition \ref{def:li}) has been used analogously in stochastic processes and 
 the obvious question is therefore whether there are constraints imposed by the 
@@ -436,6 +515,10 @@ and moreover, one can use the integrated cumulants to find such examples.
 	\label{def:li}
 \end{defn}
 
+The results in this section are seen to be similar to those in causal models.
+
+\subsection{Integrated Covariance}
+
 From rewriting the equation into using $\tilde{G}$ we see that the equality 
 constraints in a linear structural equation model impose the same constraints 
 on the parameters $(\tilde{G}, \Theta)$ and this allows us to find constraints 
@@ -443,17 +526,30 @@ in the Hawkes process. We will show by an example that these constraints may
 provide information about the underlying structure that is not contained the 
 Markov equivalence class.
 
-\subsection{Integrated cumulants}
 
-\subsection{Dynamical cumulants}
 
-Q: is everything always id'ed in R using dynamical info? probably not, take a 
-complete graph with something unobserved?
 
-In this subsection, we will simply give an example where one can obtain 
-additional identification, and an additional equality constraint, using 
-dynamical observation as compared to only using the . From Proposition 
-\ref{prop:gPaId}, it follows that
+\begin{exmp}
+	Consider again the example illustrated by the graph in Figure 
+	\ref{fig:cyclicDGs} (left)
+	This graphical structure imposes the constraint ... using linear structural 
+	equation model theory [ref], and this means ... This is interested as this 
+	is not implied by the global Markov property using $\mu$-separation. This 
+	means that this property would not distinguish between that graph and 
+	adding 1 to 4. 
+\end{exmp}
+
+
+\subsection{Using Infinitesimal Covariance}
+
+The above subsection describes constraints that are imposed by the integrated 
+covariance structure of the model. If we use other aspects of the distribution, 
+we can obtain more constraints. In this subsection, we use Proposition 
+\ref{prop:gPaId} to identify some of the entries in $G$. We then treat these 
+parameters as known in the integrated covariance equation which allows us to 
+obtain more constraints. This is related to previous work on identification of 
+causal effects in linear structural equations models with prior knowledge of 
+some parameters and we can take advantage of known results.
 
 \begin{exmp}
 	
@@ -543,6 +639,9 @@ dynamical observation as compared to only using the . From Proposition
 	$G_{33}$.
 \end{exmp}
 
+[use/refer here to the general framework of finding additional identification 
+using known parameters, see Chen et al.]
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -566,180 +665,10 @@ circumvents this problem (ref also Achab's paper).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{General Formatting Instructions}
-As a general rule: \emph{follow the template}.
-
-\subsection{Authorship}
-Reviewing is double-blind.
-However, you can already fill in your author names and affiliations in the \verb|\author| block in the preamble following the example of the template because the class will remove it as long as the option \textsf{accepted} is not passed to the class.
-Nevertheless, make sure any other information in the paper does not disclose your identity, for example URLs to supplementary material.
-
-\subsection{Sectioning}
-Three numbered sectioning commands are provided: \verb|\section|, \verb|\subsection|, and \verb|\subsubsection|.
-Please respect their order, so do not put a \verb|\subsubsection| directly beneath a \verb|\section|.
-One unnumbered sectioning command is provided, \verb|\paragraph|.
-It can be used directly below any numbered section level.
-Do not use any other sectioning commands.
-
-\subsubsection{Typing the Section Titles}
-The \verb|\section| and \verb|\subsection| titles are uppercased by the class.
-Please type them in title case.
-(This is used in the PDF bookmarks.)
-Please also write the \verb|\subsubsection| titles in title case.
-
-\paragraph{What is title case?}
-\href{https://en.wikipedia.org/wiki/Title_case}{Wikipedia} explains:
-\begin{quote}
-    Title case or headline case is a style of capitalization used for rendering the titles of published works or works of art in English.
-    When using title case, all words are capitalized except for ‘minor’ words (typically articles, short prepositions, and some conjunctions) unless they are the first or last word of the title.
-\end{quote}
-
-\subsection{References, Citations, Footnotes}\label{sec:etc}
-\subsubsection{Cross-Referencing}
-Always use \verb|\label| and \verb|\ref|—or a command with a similar effect—when cross-referencing.
-For example, this subsection is Section~\ref{sec:etc}.
-
-\subsubsection{Citations}
-Citations should include the author's last name and year.
-They should be part of the sentence.
-An example parenthetical citation: “Good introductions to the topic are available \citep{latexcompanion}.”
-An example textual citation: “\citet{einstein} discusses electrodynamics of moving bodies.”
-Do not use a parenthetical citation where a textual one is appropriate.
-An example of what \emph{not} to do: “\citep{einstein} discusses electrodynamics of moving bodies.”
-
-We strongly advise to use reference list software such as Bib\TeX{} and a citation package such as \textsf{natbib}.
-The reference style you use should be compatible with the author-year citations.
-Both the citation style and reference style used should be consistent.
-
-For the original submission, take care not to reveal the authors' identity through the manner in which one's own previous work is cited.
-For example, writing
-“I discussed electrodynamics of moving bodies before \citep{einstein}.” would be inappropriate, as it reveals the author's identity.
-Instead, write “\citet{einstein} discussed electrodynamics of moving bodies.”
-
-\subsubsection{Footnotes}
-You can include footnotes in your text.\footnote{
-    Use footnotes sparingly, as they can be distracting, having readers skip back and forth between the main text and the foot of the page.
-}
-The footnote mark should follow the fragment to which it refers, so a footnote\footnote{
-    A footnote is material put at the foot of a page.
-}
-for a word has a footnote mark attached to that word and a footnote for a phrase or sentence has a footnote mark attached to the closing punctuation.
-
-\section{Math}\label{sec:math}
-The class file does not load any math support package like \textsf{amsmath}\footnote{%
-  See the \textsf{amsmath} documentation at \url{https://ctan.org/pkg/amsmath} for further details.
-}.
-We advise using the \textsf{mathtools}\footnote{%
-  See the \textsf{mathtools} documentation at \url{https://ctan.org/pkg/mathtools} for further details.
-}
-package, which extends \textsf{amsmath} with fixes and even more useful commands.
-Feel free to load other support packages for symbols, theorems, etc.
-
-Use the \textsf{amsmath} environments for displayed equations.
-So, specifically, use the \texttt{equation} environment instead of \verb|$$...$$| and the \texttt{align} environment instead of \texttt{eqnarray}.\footnote{For reasons why you should not use the obsolete \texttt{eqnarray} environment, see Lars Madsen, \textit{Avoid eqnarray!} TUGboat 33(1):21--25, 2012.}
-An \texttt{equation}:
-\begin{equation}\label{eq:example}
-  0 = 1 - 1.
-\end{equation}
-Two \texttt{align}'ed equations:
-\begin{align*} % no numbers with starred version
-  1 + 2 &= 3,\\
-  1 - 2 &= -1.
-\end{align*}
-Equations can also be put inline, of course.
-For example, Equation~\eqref{eq:example}: \(0=1+1\). % $0=1+1$ also works
-(Notice that both inline and displayed math are part of the sentence, so punctuation should be added to displayed math.)
-
-The \textsf{amsmath} and \textsf{mathtools} packages provide a lot of nice functionality, such as many common math operators, e.g., \(\sin\) and \(\max\), and also commands for defining new ones.
-
-\section{Floats}\label{sec:floats}
-Floats, such as figures, tables and algorithms, are moving objects and are supposed to float to the nearest convenient location.
-Please do not force them to go in the middle of a paragraph.
-They must respect the column width.
-
-Two-column floats are possible.
-They appear at the top of the next page, so strategic placement may be necessary.
-For an example, see Figure~\ref{fig:tikz}.
-They may not enter the margins.
-\begin{figure*}
-    \centering
-    \begin{tikzpicture}[xscale=1.5]
-        \coordinate (origin);
-        \draw[->] (origin) -- +(1cm,0) node[below] {$x$};
-        \draw[->] (origin) -- +(0,1cm) node[left] {$y$};
-        \fill[gray] (45:1cm) circle[radius=.2cm];
-    \end{tikzpicture}
-    \caption{A Nice Filled Ellipse with a Pair of Coordinate Axes.}\label{fig:tikz}
-\end{figure*}
-
-All material in floats should be legible and of good quality.
-So avoid very small or large text and pixelated or fuzzy lines.
-
-\subsection{Figures}\label{sec:figures}
-Figures should go in the \texttt{figure} environment and be centered therein.
-The caption should go below the figure.
-Use \verb|\includegraphics| for external graphics files but omit the file extension.
-Supported formats are \textsf{pdf} (preferred for vector drawings and diagrams), \textsf{png} (preferred for screenshots), and \textsf{jpeg} (preferred for photographs).
-Do not use \verb|\epsfig| or \verb|\psfig|.
-If you want to scale the image, it is better to use a fraction of the line width rather than an explicit length.
-For example, see Figure~\ref{fig:toronto}.
-\begin{figure}
-  \centering
-  \includegraphics[width=0.7\linewidth,page=3]{toronto}
-  \caption{A View of a Nice City.}\label{fig:toronto}
-\end{figure}
-
-Do not use \verb|\graphicspath|.
-If the images are contained in a subdirectory, specify this when you include the image, for example \verb|\includegraphics{figures/mypic}|.
-
-\subsection{Tables}\label{sec:tables}
-Tables should go in the \texttt{table} environment and be centered therein.
-The caption should go above the table and be in title caps.
-For an example, see Table~\ref{tab:data}.
-\begin{table}
-    \centering
-    \caption{An Interesting Table.}\label{tab:data}
-    \begin{tabular}{rl}
-      \toprule % from booktabs package
-      \bfseries Dataset & \bfseries Result\\
-      \midrule % from booktabs package
-      Data1 & 0.12345\\
-      Data2 & 0.67890\\
-      Data3 & 0.54321\\
-      Data4 & 0.09876\\
-      \bottomrule % from booktabs package
-    \end{tabular}
-\end{table}
-
-\subsection{Algorithms}\label{sec:algorithms}
-You can load your favorite algorithm package, such as \textsf{algorithm2e}\footnote{See the \textsf{algorithm2e} documentation at \url{https://ctan.org/pkg/algorithm2e}.}.
-Use the environment defined in the package to create a centered float with an algorithm inside.
-
-\section{Back Matter}
-There are a some final, special sections that come at the back of the paper, in the following order:
-\begin{itemize}
-  \item Author Contributions
-  \item Acknowledgements
-  \item References
-\end{itemize}
-They all use an unnumbered \verb|\subsubsection|.
-
-For the first two special environments are provided.
-(These sections are automatically removed for the anonymous submission version of your paper.)
-The third is the ‘References’ section.
-(See below.)
-
-(This ‘Back Matter’ section itself should not be included in your paper.)
-
 \begin{contributions} % will be removed in pdf for initial submission,
                       % so you can already fill it to test with the
                       % ‘accepted’ class option
-    Briefly list author contributions.
-    This is a nice way of making clear who did what and to give proper credit.
 
-    H.~Q.~Bovik conceived the idea and wrote the paper.
-    Coauthor One created the code.
-    Coauthor Two created the figures.
 \end{contributions}
 
 \begin{acknowledgements} % will be removed in pdf for initial submission,
