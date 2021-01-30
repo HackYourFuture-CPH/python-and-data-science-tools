@@ -23,6 +23,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\usepackage{amsfonts}
 \usepackage{amsthm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -110,7 +111,7 @@ cumulative variance matrix, biproduct: HTC-type identification results follow,
 give example of equality constraint using dynamical information (check that 
 there are no equality constraints in this case using only integrated matrix)
 
-add also soft intervention interpretation of the Hawkes processes
+add also injection intervention interpretation of the Hawkes processes
 
 \section{Introduction}\label{sec:intro}
 
@@ -129,12 +130,14 @@ This also naturally leads to new identification results for Hawkes processes,
 and we also give a causal interpretation of the parameters which is closely 
 related to the so-called cluster representation of a linear Hawkes process.
 
+[add that the identifiability is generic]
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Hawkes Processes}
+\label{sec:hawPro}
 
 \begin{defn}[Linear Hawkes process]
 	We say that a point process, $N$, is a \emph{linear Hawkes process} if the 
@@ -168,6 +171,20 @@ We will introduce two statistical concepts that we will use in our results. One
 is seen to be an integrated (and time-independent) measure of covariance and 
 one is seen to be a 
 time-dependent measure of covariance.
+
+The parameters in $G$ and $R$ have straightforward interpretations. From the 
+definition of the Hawkes process, it follows that $G_{\beta\alpha}$ is the 
+expected number of directed descendant events of type $\beta$ from an 
+$\alpha$-event [make figure]. More generally, for $i = 1,2,\ldots$, 
+$(G^i)_{\beta\alpha}$ is the 
+expected number of $\beta$-descendants in the $i$'th generation of an 
+$\alpha$-event. This implies that $R_{\beta\alpha}$ is the expected total 
+number of $\beta$-descendants on an $\alpha$-tree, not counting the 
+$\alpha$-root if $\alpha=\beta$. 
+See also 
+\cite{jovanovic2015}.
+[write also as a formula, 
+equation? ref, and check computation, make also sim]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -213,6 +230,11 @@ representation which, as we will see, lends itself to a straight-forward causal
 interpretation. [this is complicated by the doubly-infinite nature of the 
 process? not started at zero]
 
+Each 
+generation 0 node has an associated `Hawkes tree', i.e., the nodes that are 
+descendants in the generating process (note that this is different from 
+descendants in the causal graph).
+
 
 
 
@@ -221,84 +243,89 @@ process? not started at zero]
 
 \subsection{Causal Interpretation}
 
-In this section, we will define what we mean by a {\it causal} Hawkes process.
-
-[ref] gave a causal interpretation using hard interventions. We instead give an 
-interpretation using what can be thought of as \emph{soft interventions}. Each 
-generation 0 node has an associated 'Hawkes tree', i.e., the nodes that are 
-descendants in the generating process (note that this is different from 
-descendants in the causal graph). We say that [language] this is causal Hawkes 
-process if 
-
-$$
-\bar{N} = 
-$$
-
-$$
-P_\alpha = P_{\bar{\alpha}}
-$$
-
-for all coordinate processes $\alpha \in V$. In words, the intervention events 
+In this section, we will define what we mean by a {\it causal} Hawkes process. 
+\cite{mogensenUAI2020} defined a causal Hawkes process by requiring that the 
+set 
+of functions $\{g_{\beta\alpha}\}$ also describes the influence between 
+coordinate processes in intervened systems where the trajectory of some 
+coordinate processes is determined exogenously. We will instead use the cluster 
+representation to give a causal
+interpretation based on a type of \emph{injection intervention}. That is, the 
+observational state of the system is given by the Hawkes process as defined 
+above. An interventional state is defined by a set of \emph{injections}, 
+$\{(\alpha_i, t_i) \}_{i =1,\ldots, M} $, such that each injection is an 
+element in $V\times \mathbb{R}$. [make figure to illustrate] Each injection is 
+a root in a Hawkes tree and the interventional processes are given as the 
+superposition of all intrinsic and interventional trees. We then say that a 
+linear Hawkes process is {\it 
+causal} if a Hawkes tree rooted at $\alpha$ has the same distribution as an 
+intrinsic Hawkes tree for all coordinate processes $\alpha \in V$. In 
+other words, the intervention events 
 propagate in the same way through the system as the intrinsic events. This 
-corresponds to how interventions could be undertaken in some fields of science, 
-e.g., in neuroscience where in some experiments on can incur a change in the 
+causal assumption is seen to correspond closely to 
+the assumption of \emph{autonomy} or \emph{modularity} which is often used to 
+define causal models 
+\citep{pearl2009, petersElements2017}.
+
+We note that this type of interventions corresponds to how interventions could 
+be undertaken in some fields of 
+science, e.g., in neuroscience where in some experiments on can incur a change 
+in the 
 action potential for some neurons, however not change their inner dynamics nor 
-sever causal parents [ref]. This assumption is seen to correspond closely to 
-the \emph{modularity} assumption which is often underpins the causal 
-interpretation of structural causals models [ref] in that the mechanism which 
-governs the data generation is the same in both observational and 
-interventional settings. In the Hawkes process model this can be translated 
-into the assumption that each Hawkes tree develops in the same way, regardless 
-of whether the root event (the generation 0 event) is interventional or not.
+sever causal parents [ref]. It is also similar to how interventions are often 
+modelled in control theory in which they are external forces (possibly 
+dependent on the past of the process) that change the dynamics of the system 
+without necessarily breaking any connections [ref].
 
 \begin{defn}[Causal effects]
-	We will say that $G_{\beta\alpha}$ is the {\it direct causal effect} from 
-	$\alpha$ on $\beta$ and that $R_{\beta\alpha}$ is the {\it total causal 
+	We will say that $G_{\beta\alpha}$ is the \emph{direct (causal) effect} 
+	from 
+	$\alpha$ on $\beta$ and that $R_{\beta\alpha}$ is the \emph{total (causal) 
 	effect} from $\alpha$ on $\beta$. We will say that $g_{\beta\alpha}$ is the 
 	{\it causal function} from $\alpha$ to $\beta$.
 	\label{def:cauEff}
 \end{defn}
 
-From the above definition and the causal assumption, the interpretation of 
-direct and total causal effects is straight-forward: if we were to inject an 
-interventional event of type $\alpha$ at time $s \in R$, then this 
-would on average lead (directly, first generation) to $G_{\beta\alpha}$ events 
-of type $\beta$ (when considering all $t > s$). The Hawkes tree rooted at the 
-interventional $\alpha$ event would in total have $R_{\beta\alpha}$ events of 
-type $\beta$ (does this also hold for alpha = beta?) [write also as a formula, 
-equation?]
-
-One could of course also think of $g_{\beta\alpha}$ as a causal effect, or 
-describing one.
-
-Under the causal assumption that we make, we see that the above are \ldots
+The interpretation of the entries in $G$ and $R$ (see Section 
+\ref{sec:hawPro}) and the causal assumption justify the above definitions. If 
+we inject an 
+interventional event of type $\alpha$ at time $s \in \mathbb{R}$, this 
+event on average has $G_{\beta\alpha}$ events 
+of type $\beta$ as first-generation (or \emph{direct}) descendants (when 
+considering all $t > s$). The Hawkes tree rooted at the 
+interventional $\alpha$-event on average has a total of $R_{\beta\alpha}$ 
+events of 
+type $\beta$, not counting the injectional event if $\alpha=\beta$. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \paragraph{Graphical representation}
 
 A {\it graph} is a pair $(V,E)$ where $V$ is a finite set of nodes and $E$ is a 
-set edges, each between a pair of (not necessarily distinct) nodes. We will 
-only consider {\it directed graphs}, i.e., graphs such that every node is of 
-the type, $\rightarrow$.
+set edges, each between a pair of (not necessarily distinct) nodes. We will  
+consider {\it directed mixed graphs}, i.e., graphs such that every edge is 
+either \emph{directed}, $\rightarrow$, or \emph{bidirected}, $\leftrightarrow$. 
 
-Given a Hawkes process with coordinate processes indexed by $V = 
-\{1,2,\ldots,n\}$, we construct its graph, $\mathcal{D} = (V,E)$, such that 
+Given a causal Hawkes process with coordinate processes indexed by $V = 
+\{1,2,\ldots,n\}$, we construct its \emph{causal graph}, $\mathcal{D} = (V,E)$, 
+such that 
 $\alpha \rightarrow_\mathcal{D} \beta$ if and only if $g_{\beta\alpha} \neq 0$. 
-We say that $\mathcal{D}$ is the {\it causal graph} of the Hawkes process. Due 
+Due 
 to the assumptions of continuous and nonnegative $g_{\beta\alpha}$, we see 
 that if $g_{\beta\alpha}\neq 0$, then there exist a nontrivial interval such 
 that $g_{\beta\alpha} > 0$ on this interval. [is g assumed to be zero on 
 negative axis?]
 
-As is common [refs], our results give identification results using graphical 
-constraints, i.e., sparsity as encoded by the graph.
+[introduce latent projection]
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Identification}
+
+As is common [refs], our results give identification results using graphical 
+constraints, i.e., sparsity as encoded by the graph.
 
 In this paper, we will discuss the identification of the entries in the 
 matrix $G$ and the functions $g_{\beta\alpha}$. We consider now two Hawkes 
@@ -313,7 +340,8 @@ $\beta$ in $P_i$. We will say that the parameter $G_{\beta\alpha}$ \emph{is
 identified from} 
 $f(\tilde{P})$ if $f(\tilde{P}_1) = f(\tilde{P}_2)$ 
 implies $G_{\beta\alpha}^1 = G_{\beta\alpha}^2$. Similarly, we say 
-$g_{\beta\alpha}$ is identified from $f(P)$ if . [check definition]
+$g_{\beta\alpha}$ is identified from $f(P)$ if . [check definition, see 
+Pearl2009]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -357,7 +385,8 @@ type of equation has been studied in the context of linear structural
 equation models [refs] and we can use available results to argue about 
 identifiability of the parameters in $\tilde{G}$ and $G$. Note that while this 
 casts the Hawkes identification as a set of equations describing the covariance 
-matrix of a linear structural equation model, this is not a reparametrization 
+matrix of a linear structural equation model [with graph the latent projection 
+of $G$?], this is not a reparametrization 
 of the latter as there are constraints on the Hawkes parameters (spectral 
 and nonnegativity of entries in $G$).
 
@@ -456,17 +485,26 @@ give interpretation]
 \begin{exmp}
 	Consider the graph in Figure \ref{fig:cyclicDGs} (left) and assume that 
 	this is the causal graph of a Hawkes process on nodes $V = \{1,2,3,4,5\}$ 
-	such that coordinate process $5$ is unobserved. If we apply, e.g., the 
-	HT-criterion, we see that every $\tilde{G}_{\beta\alpha}$ such that 
-	$\alpha,\beta\in O$ is identified and so is $\Theta$. Therefore is, e.g., 
-	$G_{43}$ identified using the above propositions. On the other hand, 
-	$G_{21}$ is not identified. This is explained by the fact that $G_{22}$ 
+	such that coordinate process $5$ is unobserved. If we apply the half-trek 
+	criterion for identification we find that every $\tilde{G}_{\beta\alpha}$ 
+	such that 
+	$\alpha,\beta\in O$ is identified [ref to Weihs, Journal of Causal 
+	Inference, does it also follow from Foygel results? Chen's?]. It follows 
+	from the 
+	above propositions that $G_{11}, G_{23}$, and $G_{33}$ are identified from 
+	the integrated covariance.
+	
+	On the other hand, one can show by direct computation that $G_{21}, G_{22}, 
+	G_{24}, 
+	G_{43},$ and $G_{4,4}$ are not identified. If we consider $G_{21}$, we can 
+	understand the lack of identication from the fact that $G_{22}$ 
 	cannot 
-	be identified, 
-	intuitively that is because the parent $5$ is not observed (this is shown 
-	by a counterexample). In total, parameters $G_{21}, G_{22}, G_{24}, 
-	G_{43},$ and $G_{4,4}$ are not identified while all other parameters of 
-	$G_{OO}$ are, $O= \{1,2,3,4\}$. 
+	be identified. 
+	Intuitively, this explained is by its unobserved parent process and thus we 
+	cannot, using only the integrated covariance, separate the contributions 
+	from coordinate processes 2 and 5 to the observed covariance. [is this 
+	necessarily true for all parameter 
+	values? need formal proof]. 
 \end{exmp}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -641,6 +679,14 @@ some parameters and we can take advantage of known results.
 
 [use/refer here to the general framework of finding additional identification 
 using known parameters, see Chen et al.]
+
+[generic identifiability still holds? general result for cyclic models?]
+
+\cite{chenIJCAI2016} and \cite{chenICML2017} describe a framework for 
+leveraging prior knowledge of 
+model coefficients in linear structural equation models to obtain stronger 
+identification results in the acyclic case (see also references in 
+\cite{chenICML2017} for earlier applications of similar ideas).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
