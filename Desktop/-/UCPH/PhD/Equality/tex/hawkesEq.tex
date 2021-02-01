@@ -214,11 +214,14 @@ dynamics, they give explanation]
 We can integrate the infinitesimal covariance over time to obtain a type of 
 integrated cumulant matrix, $C$. This matrix satisfies the equation
 
-$$
-C = R \Lambda R^T,
-$$
+\begin{align}
+	C = R \Lambda R^T = (I_n - G)^{-1}\Lambda(I_n - G)^{-T},
+	\label{eq:covarEq}
+\end{align}
 
-see \cite{jovanovic2015}.
+
+see \cite{jovanovic2015}, where $-T$ denotes the operation of transposing and 
+inverting a matrix.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -324,50 +327,79 @@ negative axis?]
 
 \section{Identification}
 
-As is common [refs], our results give identification results using graphical 
-constraints, i.e., sparsity as encoded by the graph.
-
-In this paper, we will discuss the identification of the entries in the 
-matrix $G$ and the functions $g_{\beta\alpha}$. We consider now two Hawkes 
-distributions on $P_1$ and $P_2$ on nodes $V_1$ and $V_2$, respectively. Let 
-$\tilde{P}, \tilde{P}_1, \tilde{P}_2$ be marginal 
-distributions of stationary Hawkes processes on a common observed set of 
-coordinate processes, $O$, let $f$ be a functional of 
-such a marginal distribution on coordinate processes $O$, and let 
+Using constraints on the causal graph, we will discuss the identification of 
+the entries in the 
+matrix $G$ and the functions $g_{\beta\alpha}$. To give a formal definition of 
+identification, consider two stationary Hawkes 
+models, $M_1\in\mathbb{M}$ and $M_2\in\mathbb{M}$, with coordinate processes 
+$V_1$ and $V_2$, 
+respectively, for a class of models $\mathbb{M}$. Let $ \tilde{P}_1$ and $ 
+\tilde{P}_2$ be their marginal 
+distributions over a common observed set of 
+coordinate processes, $O$, let $f$ be a function of 
+such a marginal distribution, and let 
 $\alpha,\beta\in O$. Finally, let $G_{\beta\alpha}^i$ and $g_{\beta\alpha}^i$ 
-denote the integrated direct effect and the directed effect from $\alpha$ to 
-$\beta$ in $P_i$. We will say that the parameter $G_{\beta\alpha}$ \emph{is 
+denote the direct effect and the causal function from $\alpha$ to 
+$\beta$ in $\tilde{P}_i$, respectively. We will say that the parameter 
+$G_{\beta\alpha}$ \emph{is 
 identified from} 
 $f(\tilde{P})$ if $f(\tilde{P}_1) = f(\tilde{P}_2)$ 
 implies $G_{\beta\alpha}^1 = G_{\beta\alpha}^2$. Similarly, we say 
-$g_{\beta\alpha}$ is identified from $f(P)$ if . [check definition, see 
-Pearl2009]
+$g_{\beta\alpha}$ is identified from $f(P)$ if $f(\tilde{P}_1) = 
+f(\tilde{P}_2)$ 
+implies $g_{\beta\alpha}^1 = g_{\beta\alpha}^2$. [check definition, see 
+Pearl2009] Note that while identification is often only discussed from the 
+observed distribution in its entirety, we use $f$ to distinguish simpler 
+statistics which can be sufficient for identification. As we will see some 
+parameters are identified from the integrated covariance matrix in which case 
+the inferential problem is reduced to a finite-dimensional one.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Identifying direct causal effect}
+\subsection{Identification as a Linear Structural Equation Model}
 
-The Hawkes processes are an infinite-dimensional family and this approach also 
-shows that equality constraints are retained even in the finite-dimensional 
-integrated cumulants which makes it easier to use in practical structure 
-learning.
+The relation between the observed quantity, $C$, and the parameters in $G$ in 
+Equation (\ref{eq:covarEq}) is seen to be very similar to the relation between 
+causal parameters and the covariance matrix of a \emph{linear structural 
+equation model} (SEM) and we will leverage this fact in this section. This 
+class of models is well-studied [refs] and there is a number of papers with 
+identification results [refs, and note we only use the cyclic ones - no 
+assumption of acyclicity] . [define a SEM here? note that when we use SEM, 
+there is no assumption of acyclicity. The gaussian assumption is not needed for 
+the covariance equatino for the SEM, see e.g. hyttinen2012, Eq. (3)]
 
-[for this we can use half-trek arguments?]
+\begin{align}
+	G
+	\label{eq:SEM}
+\end{align}
 
-[be cautious: the HTC arguments to not translate perfectly, as parameters in 
-the full model may not correspond to any parameters in marginalized model 
-(e.g., if more directed paths) - how to describe this?]
-
-We will introduce the matrix $\tilde{G}$ by scaling each column of $G$ by its 
+When $G$ is a matrix of directed effects of a Hawkes process, the diagonal 
+elements can take any nonnegative value [should be less than 1, to fulfill 
+constraint on spectral radius?]. On the other, in a SEM the diagonal of $G$ 
+(see Equation (\ref{eq:SEM})) is commonly assumed to be zero. We will introduce 
+the matrix $\tilde{G}$ by scaling each column of $G$ by its 
 diagonal element and placing zeros on the diagonal, i.e.,
 
 $$
-\tilde{g}_{ij} = g_{ij}/(1-g_{ii})  \text{ if } i\neq j, \text{ and } 
-\tilde{g}_{ij} 
+\tilde{G}_{ij} = G_{ij}/(1-G_{ii})  \text{ if } i\neq j, \text{ and } 
+\tilde{G}_{ij} 
 = 0 \text{ if } i= j.
 $$
 
-[this scaling is actually also in the Hyttinen et al. paper] Let $D$ denote a 
+\cite{hyttinen2012} study linear SEMs and use the same approach to derive 
+so-called canonical linear 
+cyclic models from models with self-loops [their causal interpretation?]. We 
+will say that the parameters of $\tilde{G}$ are \emph{normalized directed 
+(causal) effects}. It seen is that a normalized direct effect, 
+$\tilde{G}_{\beta\alpha}$, $\alpha\neq\beta$, is the average number of direct 
+descendants of type 
+$\beta$ from an $\alpha$-event, counting every directed self-triggered event . 
+That is, on the Hawkes tree rooted at $\alpha$, $\tilde{G}_{\beta\alpha}$ is 
+the expected number of $\beta$-events on subtrees the form $\alpha - \beta - 
+\beta - \ldots - 
+\beta$ for any number of $\beta$-events. This is seen directly as 
+[check this interpretation]. 
+Let $D$ denote a 
 diagonal matrix such that the $i$'th diagonal element equals 
 $1 - g_{ii}$. This means that 
 
@@ -375,20 +407,23 @@ $1 - g_{ii}$. This means that
 \Sigma & = (I - G)^{-1}\Lambda (I - G)^{-T}  \\
 & = (D(I - \tilde{G}))^{-1}\Lambda (D(I - \tilde{G}))^{-T} \\
 & = (I - \tilde{G})^{-1}D^{-1} \Lambda D^{-1}(I - 
-\tilde{G})^{-T}
+\tilde{G})^{-T}.
+\label{eq:Gtilde}
 \end{align*}
 
 
-
-where $-T$ denotes the operation of transposing and inverting a matrix. This 
-type of equation has been studied in the context of linear structural 
-equation models [refs] and we can use available results to argue about 
+This reformulation of the equations allows us to use results on identifiability 
+in linear structural 
+equation models to argue about 
 identifiability of the parameters in $\tilde{G}$ and $G$. Note that while this 
 casts the Hawkes identification as a set of equations describing the covariance 
 matrix of a linear structural equation model [with graph the latent projection 
 of $G$?], this is not a reparametrization 
 of the latter as there are constraints on the Hawkes parameters (spectral 
-and nonnegativity of entries in $G$).
+and nonnegativity of entries in $G$ - are the spectral constraints needed or 
+self-imposed?). In this following, we argue that this correspondance between 
+identifiability in SEMs and identifibiality in Hawkes process models using the 
+integrated covariance can also be exploited in the case of partial observation.
 
 
 \subsubsection{Marginalization}
@@ -509,13 +544,13 @@ give interpretation]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Identifying total causal effect}
+\subsection{Identifying Total Causal Effect}
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Identifying causal functions}
+\subsection{Identifying Causal Functions}
 
 It is only natural that we can obtain stronger identification results when we 
 use more aspects of the distribution. [only stationary hawkes, needed for the 
@@ -539,25 +574,48 @@ next result?]
 
 \section{Equality Constraints}
 
-[all headings in camel case, also in all caps, for labeling]
 
 In causal models, it is well-known that the graphical structure imposes 
 constraints that 
-are not described by conditional independence. Local independence (see 
-Definition \ref{def:li}) has been used analogously in stochastic processes and 
-the obvious question is therefore whether there are constraints imposed by the 
-structure that are not described by local independence. This is indeed the case 
-and moreover, one can use the integrated cumulants to find such examples.
+are not described by conditional independence. [refs] treat the general case 
+while [refs] consider equality constraints in linear SEMs [linear SEM or just 
+SEM?]. 
+
+Local independence is an asymmetric notion of independence which can be defined 
+for stochastic processes \citep{schweder1970, aalen1987, didelez2000, 
+didelez2008}.
 
 \begin{defn}[Local independence]
 	\label{def:li}
 \end{defn}
 
-The results in this section are seen to be similar to those in causal models.
+Local independence has been used for structure learning in stochastic process 
+models 
+\citep{meek2014, mogensenUAI2018, thams2019, mogensenUAI2020}, analogously to 
+how conditional independence is used for 
+constraint-based structure learning in classical models \citep{spirtes1993, 
+spirtesSearchChapHandbook}. 
+[define 
+delta-/mu-sep] This is using the fact that for certain classes of stochastic 
+processes, there are known global Markov properties
 
-\subsection{Integrated Covariance}
+An obvious question is therefore whether there are constraints imposed by the 
+ structure that are not described by local independence. This is indeed the 
+ case 
+ and moreover, one can use the integrated cumulants to find such examples as 
+ shown in the next subsection. In the subsection after next, we show that using 
+ dynamical observations from the marginal distribution, we can find additional 
+ constraints.
 
-From rewriting the equation into using $\tilde{G}$ we see that the equality 
+The Hawkes processes are an infinite-dimensional family and this approach also 
+shows that equality constraints are retained even in the finite-dimensional 
+integrated cumulants which makes it easier to use in practical structure 
+learning.
+
+\subsection{Using Integrated Covariance}
+
+From Equation \ref{eq:Gtilde} and the section on marginalization we see that 
+the equality 
 constraints in a linear structural equation model impose the same constraints 
 on the parameters $(\tilde{G}, \Theta)$ and this allows us to find constraints 
 in the Hawkes process. We will show by an example that these constraints may 
@@ -688,6 +746,19 @@ model coefficients in linear structural equation models to obtain stronger
 identification results in the acyclic case (see also references in 
 \cite{chenICML2017} for earlier applications of similar ideas).
 
+
+\section{Notes}
+
+[be cautious: the HTC arguments to not translate perfectly, as parameters in 
+the full model may not correspond to any parameters in marginalized model 
+(e.g., if more directed paths) - how to describe this?]
+
+[all headings in camel case, also in all caps, for labeling]
+
+note that the id results are on generic identification?
+
+maybe reduce the focus on causal interpretations, it is not really needed for 
+the results?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
