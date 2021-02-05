@@ -654,7 +654,7 @@ of identification] [FIX: use diff word for causal func?]
 
 \begin{prop}
 	Let $\mathcal{D} = (O\disjU U, E)$. If $\pa_\mathcal{D}(\beta) \subseteq 
-	O$, then for all $\beta$ the function $g_{\beta\alpha}$ is identified from 
+	O$, then for all $\alpha$ the function $g_{\beta\alpha}$ is identified from 
 	the infinitesimal covariance process of $O$-processes.
 	\label{prop:gPaId}
 \end{prop}
@@ -852,24 +852,26 @@ some parameters and we can take advantage of known results.
 	two ways of identifying $\bar{G}_{43}$. Instead we assume in 
 	this example that we also have access to the 
 	covariance processes. In this case, the causal functions 
-	$g_{11},g_{41},g_{23}$, and $g_{33}$ are identified (Proposition 
-	\ref{prop:gPaId}), and therefore so are $G_{11}, G_{41} , G_{23}$ and 
+	$g_{11},g_{14},g_{32}$, and $g_{33}$ are identified (Proposition 
+	\ref{prop:gPaId}), and therefore so are $G_{11}, G_{14} , G_{32}$ and 
 	$G_{33}$.
 	
-	Leveraging, this information we can again find two ways of identifying 
+	Leveraging this information we can again find two ways of identifying 
 	$\bar{G}_{43}$ and from this we will obtain an equality constraint that 
 	will 
 	discriminate between the two models. This can be done in different ways. We 
 	construct an {\it auxiliary 
-	variable} following \cite{chenIJCAI2016, chenICML2017} and let $G^+$ be a 
+	variable} following \cite{chenIJCAI2016, chenICML2017}. This can be thought 
+	of as a device to leverage known coefficient to obtain additional 
+	identification or constraints. Let $G^+$ be a 
 	$5\times 5$ 
 	matrix such that $G_{OO}^+ = \bar{G}$, $G_{52}^+ = -\bar{G}_{32}, G_{53}^+ 
 	= 1$, and else zero, and we let $\Theta^+$ be a $5\times 5$ matrix such 
 	that $\Theta_{OO}^+ = \Theta$, and $\Theta_{55}^+ = 1$ and zero else. Then 
-	the matrix
+	the matrix $\Sigma^+$,
 	
 	$$
-	\Sigma^+ = (I - G^+)^{-1}\Theta^+(I-G^+)^{-1}
+	\Sigma^+ = (I - G^+)^{-1}\Theta^+(I-G^+)^{-1},
 	$$
 	
 	can be computed from $\bar{\Sigma}$ and it holds that 
@@ -883,8 +885,26 @@ some parameters and we can take advantage of known results.
 	\bar{G}_{32}\bar{\Sigma}_{23})
 	$$
 	
-	which holds in the graph, but does not hold if one adds an edge from 1 to 
-	4, i.e., allows $\bar{G}_{41} \neq 0$. 
+	using that $\bar{G}_{32} = \tilde{G}_{32}$ is known as $\tilde{G}_{32}$ and 
+	$\tilde{G}_{33}$ are known. This constraint is satisfied in the graph, but 
+	does not hold if one adds an edge from 1 to 
+	4, i.e., allows $\bar{G}_{41} \neq 0$. [is this constraint found as in the 
+	prveious example?]
+	To find the constraint: we note that
+	
+	$$
+	\Theta = (I - \bar{G})\bar{\Sigma}(I-\bar{G})^T = \bar{\Sigma} - 
+	\bar{G}\bar{\Sigma} - \bar{\Sigma}\bar{G}^T + \bar{G}\bar{\Sigma}\bar{G}^T.
+	$$
+	
+	By considering the $(3,4)$-entry of the above matrix equation, we that
+	
+	$$
+	\bar{G}_{43} = (\bar{\Sigma}_{34} - 
+	\bar{G}_{32}\bar{\Sigma}_{24})/(\bar{\Sigma}_{33} - 
+	\bar{G}_{32}\bar{\Sigma}_{23})
+	$$
+	
 	[fix: add computations, Chen's results are for acyclic models only, should 
 	check the computations]
 \end{exmp}
