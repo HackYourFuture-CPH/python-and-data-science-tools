@@ -140,8 +140,6 @@ methods
 that can recover structural information based on a marginal distribution of 
 observed processes. 
 
-Hawkes processes have been widely used recently in machine learning 
-\cite{zhou2013, zhou2013b,luo2015,etesami2016,tan2018,xu2018,trouleau2019} . 
 In this paper, we show that in the case of linear Hawkes processes one 
 additionally 
 use equality 
@@ -171,18 +169,30 @@ related to the so-called cluster representation of a linear Hawkes process.
 \section{Hawkes Processes}
 \label{sec:hawPro}
 
-See \cite{laubHawkes2015} and \cite{linigerThesis} and \cite{daleyVere} for 
+Hawkes processes have received much attention in machine learning in recent 
+years as a tractable model of mutually exciting streams of events 
+\citep{zhou2013, zhou2013b,luo2015,etesami2016,tan2018,xu2018,trouleau2019}. 
+The following is a brief introduction to this model class,
+see \cite{laubHawkes2015}, \cite{linigerThesis}, and \cite{daleyVere} for 
 additional background on Hawkes processes and point processes in general.
 
-[introduce prob space]
-We consider an $n$-dimensional point process, $N_t = 
-(N_t^1,N_t^2,\ldots,N_t^n)^T$ and let $V= \{1,2\ldots, n\}$. For each 
+We consider a filtered probability space $(\Omega, \mathcal{F}, 
+(\mathcal{F}_t), P)$ and an $n$-dimensional point process, $X_t = 
+(X_t^1,X_t^2,\ldots,X_t^n)^T$ and let $V= \{1,2\ldots, n\}$. $\mathcal{F}_t$ is 
+a filtration, that is, a nondecreasing family of $\sigma$-algebras which for 
+each time points, $t\in \mathbb{R}$, represents the available information at 
+that time. For each 
 $\alpha\in 
 V$, we say that $N^\alpha$ is a \emph{coordinate process}. Each coordinate 
 process is described by a series of \emph{events}, or \emph{points}, that occur 
 at time points indexed by $\mathbb{R}$. For $\alpha \in V$, this is formalized 
-by random variables, $T_1^\alpha, T_2^\alpha, \ldots$, such that $N_t^\alpha - 
-N_s^\alpha = \sum_i \mathds{1}_{s \leq T_i^\alpha \leq t}$. We assume that no 
+by random variables, $\{T_i^\alpha\}_{i\in\mathbb{Z}}$, such 
+that $T_i < T_{i+1}^\alpha$ almost surely. For $s<t$, we let the difference 
+$N_t^\alpha - 
+N_s^\alpha$ denote the number of points (\emph{events}) in the $\alpha$-process 
+in the interval $(s,t]$, that is,  $N_t^\alpha - 
+N_s^\alpha= \sum_i \mathds{1}_{s \leq T_i^\alpha \leq t}$. We 
+assume that no 
 two events occur simultaneously. The probability of an event in process 
 $\alpha$ in the immediate 
 future is described by \emph{intensity processes}, $\lambda_t^\alpha$, that 
@@ -191,8 +201,12 @@ satisfy
 $$
 \lambda_t^{\alpha} = \lim_{h \downarrow 0} \dfrac{1}{h} P(N_{t + h}^\alpha  - 
 N_t^\alpha = 1
-\mid \mathcal{F}_t)
+\mid \mathcal{F}_t).
 $$
+
+The intensity, $\lambda^\alpha$, therefore describes how likely an 
+$\alpha$-event is in the immediate future $(t, t+h)$, for small $h$, given the 
+past of the entire process until time $t$.
 
 \begin{defn}[Linear Hawkes process]
 	We say that a point process, $N$, is a \emph{linear Hawkes process} if for 
@@ -225,19 +239,21 @@ stationary process \citep{jovanovic2015, bacry2016}.
 We define $n\times n$ matrix $R=(I_n - \Phi)^{-1}$ where $I_n$ is the 
 $n\times n$ identity matrix. This is well-defined due to the assumption on 
 the spectral radius of $\Phi$ and furthermore $R = \sum_{i=0}^\infty \Phi^i$. 
+For a matrix, $M$, with rows indexed by $I$ and columns indexed by $J$, we let 
+$M_{\bar{I}\bar{J}}$ denote the submatrix indexed by $\bar{I}\subseteq I$ and 
+$\bar{J}\subseteq J$. 
 
 
 We let $dN_t$ denote $N_{t+dt} - N_t$ where $dt$ is the differential of $t$. 
-For a $n$-dimensional stationary point process, we define the intensity vector 
-(mean vector?), following [Hawkes JRSS-B, 1971]
+Following \cite{hawkesJRSSB1971}, for each $\alpha\in V$ we define
 
 $$
-\Lambda_t^\alpha = E(dN_t^\alpha)/dt
+\Lambda^\alpha = E(dN_t^\alpha)/dt = E(\lambda_t^\alpha)
 $$
 
 \noindent which is independent of $t$ due to stationarity. We let $\Lambda$ 
-denote the $n\times n$ diagonal matrix of means and let $\Lambda^\alpha$ denote 
-the $\alpha,\alpha$ element of this matrix.
+denote the $n\times n$ diagonal matrix such that $\Lambda_{\alpha\alpha} = 
+\Lambda^\alpha$.
 
 
 \begin{figure}
@@ -263,10 +279,13 @@ the $\alpha,\alpha$ element of this matrix.
 				histories from the top plot (for simplicity only displayed 
 				events 
 				count in the intensities). Bottom: same event plot showing the 
-				cluster structure of the process. Numbers indicate generation 
-				of the event and line segments indicate ancestry. Note that 
-				only the events, 
-				not the clusters, are observed.)}
+				clusters the observed process. Vertical placement indicates 
+				which coordinate process the events occurs in. Numbers indicate 
+				generation 
+				of the event and line segments indicate ancestry. For instance, 
+				the 1-2-3-4 cluster occurs from a generation 0-event of the 
+				$1$-type which produces an event of the $2$-type and so forth.}
+			\label{fig:haw}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -308,27 +327,36 @@ inverting a matrix.
 In Definition \ref{def:hawProc}, Hawkes processes are introduced by specifying 
 the intensity processes. One can also define them by using a so-called cluster 
 representation which, as we will see, lends itself to a straight-forward causal 
-interpretation. [this is complicated by the doubly-infinite nature of the 
-process? not started at zero] [fix: explain this well]
+interpretation.
 
-Each 
-generation 0 node has an associated `Hawkes tree', i.e., the nodes that are 
-descendants in the generating process (note that this is different from 
-descendants in the causal graph).
+For each $\alpha\in V$, \emph{generation 0}-events occur as points a 
+homogeneous Poisson process with rate $\mu_\alpha$. Each generation 0-event 
+creates a \emph{Hawkes tree}, that is, a cluster of events (the clusters are 
+independent). The clusters are generated recursively. Each event of type 
+$\alpha$ at time $s$ in a cluster have child events of type $\beta$ according 
+to an inhomogeneous Poisson process with rate $\phi_{\beta\alpha}(t-s)$ for $t 
+> s$, and these processes are all independent. This exemplified in Figure 
+\ref{fig:haw} (bottom) in which four 
+generation 0-events are shown, each of them starting a cluster. Note that 
+$\phi_{\beta\alpha} = 0$ means that there will be no $\beta$-children from an 
+$\alpha$-event, though there could be descendants further down a cluster if 
+there exists $\gamma$ such that $\phi_{\gamma\alpha} \neq 0$ and 
+$\phi_{\beta\gamma} \neq 0$. The observed Hawkes process is then the 
+superposition of the events in all clusters. One should note that when 
+observing a Hawkes process, we only assume access to 
+$(\alpha_i, t_i)$, that is, a set of event times and types, not the clusters.
 
 The parameters in $\Phi$ and $R$ have straightforward interpretations. From the 
-definition of the Hawkes process, it follows that $\Phi_{\beta\alpha}$ is the 
+cluster process definition of the Hawkes process, it follows that 
+$\Phi_{\beta\alpha}$ is the 
 expected number of directed descendant events of type $\beta$ from an 
-$\alpha$-event [make figure]. More generally, for $i = 1,2,\ldots$, 
+$\alpha$-event. More generally, for $i = 1,2,\ldots$, 
 $(\Phi^i)_{\beta\alpha}$ is the 
 expected number of $\beta$-descendants in the $i$'th generation of an 
 $\alpha$-event. This implies that $R_{\beta\alpha}$ is the expected total 
 number of $\beta$-descendants on an $\alpha$-tree, not counting the 
-$\alpha$-root if $\alpha=\beta$. 
-See also 
-\cite{jovanovic2015}.
-[write also as a formula, 
-equation? ref, and check computation, make also sim]
+$\alpha$-root if $\alpha=\beta$
+\citep{jovanovic2015}.
 
 
 
@@ -362,15 +390,17 @@ the assumption of \emph{autonomy} or \emph{modularity} which is often used to
 define causal models 
 \citep{pearl2009, petersElements2017}.
 
-We note that this type of interventions corresponds to how interventions could 
-be undertaken in some fields of 
-science, e.g., in neuroscience where in some experiments on can incur a change 
-in the 
-action potential for some neurons, however not change their inner dynamics nor 
-sever causal parents [ref]. It is also similar to how interventions are often 
-modelled in control theory in which they are external forces (possibly 
+We note that this type of interventions is a simplistic version of 
+interventions that are undertaken in some fields of 
+science, e.g., in neuroscience where experimenters may intervene on neurons by 
+means of extracellular electrical stimulation. This, however, is not expected 
+to break their intrinsic dynamics nor 
+sever causal mechanisms \citep{meffin2012, komarov2019}. It is also similar to 
+how interventions are 
+often 
+modelled in linear control theory in which they are external forces (possibly 
 dependent on the past of the process) that change the dynamics of the system 
-without necessarily breaking any connections [ref].
+without necessarily breaking any connections \citep{aastrom2008, zabczyk2020}.
 
 \begin{defn}[Causal effects]
 	We will say that $\Phi_{\beta\alpha}$ is the \emph{direct (causal) effect} 
@@ -398,7 +428,8 @@ type $\beta$, not counting the injectional event if $\alpha=\beta$.
 
 A {\it graph} is a pair $(V,E)$ where $V$ is a finite set of nodes and $E$ is a 
 set edges, each between a pair of (not necessarily distinct) nodes. We will  
-consider {\it directed mixed graphs}, i.e., graphs such that every edge is 
+consider {\it directed mixed graphs} (DMGs), i.e., graphs such that every edge 
+is 
 either \emph{directed}, $\rightarrow$, or \emph{bidirected}, $\leftrightarrow$. 
 We use $\sim$ to denote a generic edge of either type. If the edge 
 $\alpha\rightarrow\beta$ is in the graph $\mathcal{G}$, we say that $\alpha$ is 
@@ -425,7 +456,12 @@ $$
 
 such that for each $i = 1,\ldots,m$, the edge $\sim_i$ is between 
 $\gamma_{i-1}$ and $\gamma_i$. A {\it path} is a walk such that no node occurs 
-more than once. We say that a walk $\alpha \sim \gamma_1 \sim \ldots \sim 
+more than once. We say that a path from $\alpha$ to $\beta$ is \emph{directed} 
+if every edge is directed and points towards $\beta$, and a \emph{directed 
+cycle} is a directed path from $\alpha$ to $\beta$ composed with the edge 
+$\beta\rightarrow\alpha$. We say that a DMG is \emph{acyclic} if it contains no 
+\emph{directed cycles}. We say that a walk $\alpha \sim \gamma_1 \sim \ldots 
+\sim 
 \gamma_k \sim \beta$ is \emph{unobserved} if $\gamma_i \in U$ for all $i = 
 1,\ldots, k$. 
 
@@ -490,19 +526,26 @@ The relation between the observed quantity, $C$, and the parameters in $\Phi$
 in 
 Equation (\ref{eq:covarEq}) is seen to be very similar to the relation between 
 causal parameters and the covariance matrix of a \emph{linear structural 
-equation model} (SEM) and we will leverage this fact in this section. This 
-class of models is well-studied [refs] and there is a number of papers with 
-identification results [refs] 
+equation model} (SEM) and we will leverage this fact in this section. There is 
+a number of papers with 
+identification results in this model class \citep{brito2002, tian2007, 
+tian2009, 
+foygelHalftrek2012, 
+chenNIPS2016, drton2016, 
+weihs2018}, though some results only apply to \emph{acyclic} linear SEMs (see a 
+definition of acyclicity below). \cite{bollen1989} provides an introduction to 
+the model class.
 
 $X = (X_1,\ldots,X_n)^T$ is a vector of random variables and $\varepsilon = 
-(\varepsilon_1,\ldots,\varepsilon_n)^T$ is a vector of zero-mean noise terms.
+(\varepsilon_1,\ldots,\varepsilon_n)^T$ is a vector of zero-mean noise terms,
 
 \begin{align}
 	X = BX + \varepsilon
 	\label{eq:SEM}
 \end{align}
 
-We let $\Sigma_\varepsilon$ denote the covariance of $\varepsilon$. The 
+such that the matrix $B$ has zeros on the diagonal. We let $\Sigma_\varepsilon$ 
+denote the covariance of $\varepsilon$. The 
 covariance matrix of $X$ is then [condition on spectral?]
 
 \begin{align}
@@ -511,24 +554,33 @@ C_X = (I_n - B)^{-1}\Sigma_\varepsilon (I_n - B)^{-T},
 \end{align}
 
 see \cite{hyttinen2012}. Often one will assume that some entries of $B$ and 
-$\Sigma_\varepsilon$ are zero which can be encoded by a DMG such that if 
+$\Sigma_\varepsilon$ are zero which can be encoded by a DMG (also known as a 
+\emph{mixed graph}) such that if 
 $\alpha \rightarrow \beta$ is not in the DMG, then $B_{\beta\alpha} = 0$ and if 
 $\alpha\rightarrow\beta$ is not in the DMG, then 
 $(\Sigma_\varepsilon)_{\beta\alpha} = (\Sigma_\varepsilon)_{\alpha\beta} = 0$. 
 The 
-error terms are sometimes assume to be Gaussian [fix: ref], but this is not 
-needed for our purpose [fix: ?]. We note that acyclicity is sometimes assumed, 
-i.e., that there exists an ordering of the variables $X_1,\ldots, X_n$ such 
-that $i \prec j$ implies that $B_{ji} = 0$ [fix: check def]. We are not making 
+error terms are often assumed to be Gaussian. We note that acyclicity is 
+sometimes assumed, 
+i.e., that the DMG corresponding to the model is 
+acyclic. 
+We are not making 
 this assumption and we later are therefore restricted to identification results 
 on general linear SEMs.
+
+We should note that in the linear SEM literature, some authors parametrize the 
+model using a 
+tranposition of $B$, $X = B^TX + \varepsilon$, though the notation we use 
+aligns better with the common 
+notation 
+in Hawkes process literature.
 
 One notes immediately that the similarity between Equations (\ref{eq:covarEq}) 
 and (\ref{eq:covSEM}) in that the observable left-hand side of the equations in 
 both cases impose the same restrictions on the model parameters, and we use 
 this similarity to translate results to the Hawkes models. There are two 
 questions that should be addressed. First, most often the diagonal of $B$ in 
-the linear SEMM is assumed to be zero, and we will handle this by re-writing 
+the linear SEM is assumed to be zero, and we will handle this by re-writing 
 Equation (\ref{eq:covarEq}) slightly (\ref{sssec:normEff}). Second, $\Lambda$ 
 is diagonal in Equation (\ref{eq:covarEq}) whereas there is no such restriction 
 a priori on $\Sigma_\varepsilon$ and we will see that this discrepancy 
@@ -589,11 +641,6 @@ matrix of a linear SEM, the Hawkes parameters are required to be nonnegative
 following, we argue that this correspondance between 
 identifiability in SEMs and identifibiality in Hawkes process models using the 
 integrated covariance can also be exploited in the case of partial observation.
-
-We should note that in the linear SEM literature it is common to use a 
-tranposition of $\bar{\Phi}$ whereas our notation aligns with the common 
-notation 
-in Hawkes process literature. [FIX: check]
 
 
 \subsubsection{Marginalization}
