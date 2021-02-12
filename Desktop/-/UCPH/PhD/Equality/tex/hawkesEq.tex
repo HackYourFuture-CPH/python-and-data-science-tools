@@ -455,7 +455,8 @@ $$
 $$
 
 such that for each $i = 1,\ldots,m$, the edge $\sim_i$ is between 
-$\gamma_{i-1}$ and $\gamma_i$. A {\it path} is a walk such that no node occurs 
+$\gamma_{i-1}$ and $\gamma_i$. We say that $\alpha$ and $\beta$ are 
+\emph{endpoint nodes}. A {\it path} is a walk such that no node occurs 
 more than once. We say that a path from $\alpha$ to $\beta$ is \emph{directed} 
 if every edge is directed and points towards $\beta$, and a \emph{directed 
 cycle} is a directed path from $\alpha$ to $\beta$ composed with the edge 
@@ -463,26 +464,30 @@ $\beta\rightarrow\alpha$. We say that a DMG is \emph{acyclic} if it contains no
 \emph{directed cycles}. We say that a walk $\alpha \sim \gamma_1 \sim \ldots 
 \sim 
 \gamma_k \sim \beta$ is \emph{unobserved} if $\gamma_i \in U$ for all $i = 
-1,\ldots, k$. 
+1,\ldots, k$ and $k \geq 1$. 
 
 \begin{defn}[Latent projection, \cite{vermaEquiAndSynthesis,richardson2017}]
 	\label{def:latProj}
 	Let $\mathcal{G} = (V,E)$ be a DMG. Its latent projection on nodes $O$ is 
 	the DMG $\bar{\mathcal{G}} = (O,F)$ such that for $\alpha,\beta\in O$ we 
 	have $\alpha\rightarrow\beta$ in $\bar{\mathcal{G}}$ if there is an 
-	unobserved path between $\alpha$ and $\beta$ with no colliders such that 
-	there is a tail at $\alpha$ and a head at $\beta$. We have 
-	$\alpha\leftrightarrow\beta$ in $\bar{\mathcal{G}}$ if there is an 
-	unobserved path between $\alpha$ and $\beta$ with no colliders and heads at 
-	both $\alpha$ and $\beta$.
+	directed walk from $\alpha$ to $\beta$ such that every non-endpoint node is 
+	in $V\setminus O$. We have 
+	$\alpha\leftrightarrow\beta$ in $\bar{\mathcal{G}}$ if there is a walk 
+	between $\alpha$ and $\beta$ with heads at 
+	both $\alpha$ and $\beta$ such that every non-endpoint node is a 
+	noncollider and is in 
+	$V\setminus O$.
 \end{defn}
 
-Note that the set of $\gamma_i$-nodes can be empty in the above definition 
-which means that if $\alpha\rightarrow\beta$ is in $\mathcal{G}$, then it is 
-also in its latent projection.
-
-[fix: check defn of latent projection - walk/path?]
-
+Note that for a walk in the above definition the set of non-endpoint nodes can 
+be empty and therefore if $\alpha\rightarrow\beta$ is in $\mathcal{G}$, then it 
+is 
+also in its latent projection. We also note that the definition uses walks to 
+allow for cycles as done by \cite{mogensen2018}. In DAG-based models, this is 
+not needed 
+and therefore the analogous definition is often stated using paths 
+\citep{richardson2017}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -504,15 +509,16 @@ such a marginal distribution, and let
 $\alpha,\beta\in O$. Finally, let $\Phi_{\beta\alpha}^i$ and 
 $g_{\beta\alpha}^i$ 
 denote the direct effect and the link function from $\alpha$ to 
-$\beta$ in $\tilde{P}_i$, respectively. We will say that the parameter 
+$\beta$ in $M_i$, respectively. We will say that the parameter 
 $\Phi_{\beta\alpha}$ \emph{is 
 identified from} 
-$f(\tilde{P})$ if $f(\tilde{P}_1) = f(\tilde{P}_2)$ 
+$f(\tilde{P})$ in the class $\mathbb{M}$ if $f(\tilde{P}_1) = f(\tilde{P}_2)$ 
 implies $\Phi_{\beta\alpha}^1 = \Phi_{\beta\alpha}^2$. Similarly, we say 
-$g_{\beta\alpha}$ is identified from $f(P)$ if $f(\tilde{P}_1) = 
+$g_{\beta\alpha}$ is identified from $f(P)$ in the class $\mathbb{M}$ if 
+$f(\tilde{P}_1) = 
 f(\tilde{P}_2)$ 
-implies $g_{\beta\alpha}^1 = g_{\beta\alpha}^2$. [check definition, see 
-Pearl2009] Note that while identification is often only discussed from the 
+implies $g_{\beta\alpha}^1 = g_{\beta\alpha}^2$. Note that while identification 
+is often only discussed from the 
 observed distribution in its entirety, we use $f$ to distinguish simpler 
 statistics which can be sufficient for identification. As we will see some 
 parameters are identified from the integrated covariance matrix in which case 
@@ -545,8 +551,9 @@ $X = (X_1,\ldots,X_n)^T$ is a vector of random variables and $\varepsilon =
 \end{align}
 
 such that the matrix $B$ has zeros on the diagonal. We let $\Sigma_\varepsilon$ 
-denote the covariance of $\varepsilon$. The 
-covariance matrix of $X$ is then [condition on spectral?]
+denote the covariance of $\varepsilon$. We assume that the spectral radius of 
+$B$ is less than one, and the
+covariance matrix of $X$ is then
 
 \begin{align}
 C_X = (I_n - B)^{-1}\Sigma_\varepsilon (I_n - B)^{-T},
@@ -615,8 +622,7 @@ the $\beta$-process.
 That is, on the Hawkes tree rooted at $\alpha$, $\tilde{\Phi}_{\beta\alpha}$ is 
 the expected number of $\beta$-events on subtrees the form $\alpha - \beta - 
 \beta - \ldots - 
-\beta$ for any number of $\beta$-events
-[fix: check this interpretation]. 
+\beta$ for any number of $\beta$-events. 
 Let $D$ denote a 
 diagonal matrix such that the $i$'th diagonal element equals 
 $1 - \Phi_{ii}$. This means that 
@@ -636,8 +642,8 @@ equation models to argue about
 identifiability of the parameters in $\tilde{\Phi}$ and $\Phi$. Note that while 
 this 
 casts the Hawkes identification as a set of equations describing the covariance 
-matrix of a linear SEM, the Hawkes parameters are required to be nonnegative 
-[fix: are the spectral constraints the same between hawkes and SEM?]. In this 
+matrix of a linear SEM, the Hawkes parameters are required to be nonnegative. 
+In this 
 following, we argue that this correspondance between 
 identifiability in SEMs and identifibiality in Hawkes process models using the 
 integrated covariance can also be exploited in the case of partial observation.
@@ -713,7 +719,12 @@ under marginalization this is not the case for the Hawkes models.
 	\Phi_{\alpha\alpha})^2$.
 \end{proof}
 
-[is the second part of the condition implied by the first?]
+If all parents of $\alpha$ are observed and $\bar{\Phi}_{\alpha\gamma}$ is 
+identified for 
+ every 
+ $\gamma\in V$, then $\Theta_{\alpha\alpha}$ is identified from $\bar{C}$.
+This follows from the matrix equation in (\ref{eq:expandTheta}) by considering 
+the $(\alpha,\alpha)$-equation.
 
 The idea is now 
 that one can use any available identification result from the (cyclic) linear 
@@ -750,8 +761,7 @@ interpretation of the normalized parameters in $\tilde{\Phi}$.
 	identification criterion of \cite{weihs2018}, we find that every 
 	$\tilde{\Phi}_{\beta\alpha}$ 
 	such that 
-	$\alpha,\beta\in O$ is identified [fix: does it also follow from Foygel 
-	results? Chen's]. It follows 
+	$\alpha,\beta\in O$ is identified. It follows 
 	from the 
 	above propositions that $\Phi_{11}, \Phi_{23}$, and $\Phi_{33}$ are 
 	identified from 
@@ -917,20 +927,16 @@ use more aspects of the distribution. Following
 \end{align}
 
 
-
-[fix: explain symbols], and we define
+where $\delta$ is a Dirac delta function and $\varepsilon_{\beta\alpha} = 
+\mathds{1}_{(\beta=\alpha)}$, and we define
 
 $$
 g(t) = v^T(t)\Lambda^{-1}
 $$
 
-[see Hawkes JRSS-B, 1971 - compare this to bacry and muzy]
-[see  Bacry and Muzy: Hawkes model for price and trades high-frequency 
-dynamics, they give explanation]
-
-
-[only stationary hawkes, needed for the 
-next result?] \cite{hawkesJRSSB1971} stated the following $n\times n$ equality 
+We let $\Phi(t)$ denote the matrix of functions such that $\Phi_{\beta\alpha} = 
+\phi_{\beta\alpha}$. \cite{hawkesJRSSB1971} stated the following $n\times n$ 
+equality 
 which 
 relates the infinitesimal covariance to the link functions.
 
@@ -939,7 +945,11 @@ relates the infinitesimal covariance to the link functions.
 	\label{eq:covCauFunc}
 \end{align}
 
-where $\star$ means [fix]. \cite{bacry2016} prove that if we consider $\Phi$ 
+where $\star$ means that $(\Phi(t) \star g(t))_{\beta\alpha} = \sum_{\gamma \in 
+V} 
+\int_{-\infty}^{\infty} \phi_{\beta\alpha}(t - s) g(s) \md s$ [fix: check 
+this]. \cite{bacry2016} 
+prove that if we consider $\Phi$ 
 the 
 unknown in the above equation, there is a unique solution [FIX under some 
 conditions?]. [fix check all of 
@@ -978,9 +988,7 @@ are not described by conditional independence some of which are known as
 \emph{equality constraints}. \cite{richardson2017} treat the general (acyclic) 
 case 
 while \cite{chen2014, chenNIPS2016} consider equality constraints in linear 
-SEMs [fix: linear SEM or 
-just 
-SEM?]. In DAG models equality constraints are testable implications that may 
+SEMs. In DAG models equality constraints are testable implications that may 
 bring strictly more information about the underlying structure than using 
 conditional independence alone. We will see that the analogous statement holds 
 for the Hawkes process models, though the relevant notion of independence is 
@@ -1241,11 +1249,13 @@ some parameters and we can take advantage of known results.
 	C_{14}^+/C_{13}^+$
 	To find the constraint: we note that
 	
-	$$
-	\Theta = (I - \bar{\Phi})\bar{C}(I-\bar{\Phi})^T = \bar{C} - 
-	\bar{\Phi}\bar{C} - \bar{C}\bar{\Phi}^T + 
-	\bar{\Phi}\bar{C}\bar{\Phi}^T.
-	$$
+	\begin{align}
+		\Theta = (I - \bar{\Phi})\bar{C}(I-\bar{\Phi})^T = \bar{C} - 
+		\bar{\Phi}\bar{C} - \bar{C}\bar{\Phi}^T + 
+		\bar{\Phi}\bar{C}\bar{\Phi}^T.
+		\label{eq:expandTheta}
+	\end{align}
+
 	
 	By considering the $(3,4)$-entry of the above matrix equation, we that
 	
