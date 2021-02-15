@@ -97,35 +97,32 @@ Processes}
 
 \begin{abstract}
 Conditional independence is often used as a testable 
-implication of causal models based on random variables. In addition, equality 
+implication of causal models of random variables. In addition, equality 
 constraints have been proposed to distinguish between data-generating 
 mechanisms. We show that one 
 can also find equality constraints in the class of linear Hawkes process, 
-extending this theory to stochastic processes. We 
+extending this theory to continuous-time stochastic processes. We 
 show that Hawkes process models in a certain sense satisfy the equality 
 constraints 
-of a cyclic linear structural equation model, and we also show that one may 
-find additional constraints. This 
-allows more refined constraint-based structure learning in this class of 
+of a linear structural equation model, and we also show that one may 
+find additional constraints. These results
+allow more refined constraint-based structure learning in this class of 
 processes.
 \end{abstract}
-
-Main focus on equality constraints: follows from parametric form of integrated 
-cumulative variance matrix, biproduct: HTC-type identification results follow, 
-give example of equality constraint using dynamical information (check that 
-there are no equality constraints in this case using only integrated matrix)
 
 
 \section{Introduction}\label{sec:intro}
 
 In causal inference, the question of what can be learnt about the underlying 
-structure from observational data is a classical one [ref]. While most work 
+structure from observational data is a classical one 
+\citep{spirtes1993,pearl2009}. While most work 
 studies models of random variables and without an explicit notion of time, this 
 question has also been 
 studied for stochastic process models. For a multivariate stochastic 
-processes, $X_t = (X_t^1, X_t^2, \ldots, X_t^n)$, this is often formalized by 
-assuming that the dynamical development of each coordinate process, $X_t^i$, 
-depends only on a subset of the other coordinate processes which can be 
+process, $X_t = (X_t^1, X_t^2, \ldots, X_t^n)$, this is often formalized by 
+assuming that the dynamical development of each coordinate process, $X_t^i$,   
+depends directly only on a subset of the other coordinate processes which can 
+be 
 represented by a directed graph which is the \emph{structure} that methods 
 should aim to learn. As examples of this, \cite{eichlerHawkes2017, xu2016} learn
 graphs describing the structure of multivariate linear Hawkes processes from 
@@ -137,28 +134,23 @@ coordinate
 process is observed. \cite{meek2014, mogensenUAI2018, mogensenUAI2020} consider 
 structure learning based on tests of so-called local independence and provide 
 methods 
-that can recover structural information based on a marginal distribution of 
-observed processes. 
+that can recover structural information based on a marginal distribution only. 
 
-In this paper, we show that in the case of linear Hawkes processes one 
-additionally 
+In this paper, we show that one can 
 use equality 
-constraints which allows one do distinguish between graphical structures that 
-are indistinguishable using tests of local independence only. This development 
+constraints in linear Hawkes processes to distinguish between graphical 
+structures that 
+are indistinguishable using tests of local independence only which enables more 
+refined structure learning algorithms. This development 
 is analogous to structural causal models in which equality constraints have 
 been used for structure learning as and addition to conditional independence 
-constraints [ref].
+constraints 
+\citep{robins1986,vermaEquiAndSynthesis,robins1999,tian2002,shpitser2014,richardson2017}.
 
-The constraints that we describe fall into two types, one of which uses only 
-integrated or time-independent statistics. This is an advantage when using 
-these constraints for actually testing as the estimation of this statistic is 
-parametric whereas a general Hawkes process model is nonparametric, or 
-alternatively, we can say that is parameter space is described by functional 
-spaces and therefore of infinite dimension. [fix: this is too vague?]
-
-The development in this paper also naturally leads to new identification 
+Arguing for the existence of equality constraints also leads us to new 
+identification 
 results for Hawkes processes, 
-and we also give a causal interpretation of the parameters which is closely 
+and we give a causal interpretation of the parameters which is closely 
 related to the so-called cluster representation of a linear Hawkes process.
 
 
@@ -178,25 +170,25 @@ additional background on Hawkes processes and point processes in general.
 
 We consider a filtered probability space $(\Omega, \mathcal{F}, 
 (\mathcal{F}_t), P)$ and an $n$-dimensional point process, $X_t = 
-(X_t^1,X_t^2,\ldots,X_t^n)^T$ and let $V= \{1,2\ldots, n\}$. $\mathcal{F}_t$ is 
+(X_t^1,X_t^2,\ldots,X_t^n)^T$, and let $V= \{1,2\ldots, n\}$. $\mathcal{F}_t$ 
+is 
 a filtration, that is, a nondecreasing family of $\sigma$-algebras which for 
-each time points, $t\in \mathbb{R}$, represents the available information at 
+each time point, $t\in \mathbb{R}$, represents the available information at 
 that time. For each 
 $\alpha\in 
-V$, we say that $N^\alpha$ is a \emph{coordinate process}. Each coordinate 
+V$, we say that $X^\alpha$ is a \emph{coordinate process}. Each coordinate 
 process is described by a series of \emph{events}, or \emph{points}, that occur 
 at time points indexed by $\mathbb{R}$. For $\alpha \in V$, this is formalized 
 by random variables, $\{T_i^\alpha\}_{i\in\mathbb{Z}}$, such 
-that $T_i < T_{i+1}^\alpha$ almost surely. For $s<t$, we let the difference 
+that $T_i^\alpha < T_{i+1}^\alpha$ almost surely. For $s<t$, we let the  
 $N_t^\alpha - 
-N_s^\alpha$ denote the number of points (\emph{events}) in the $\alpha$-process 
+N_s^\alpha$ denote the number of points (events) in the $\alpha$-process 
 in the interval $(s,t]$, that is,  $N_t^\alpha - 
 N_s^\alpha= \sum_i \mathds{1}_{s \leq T_i^\alpha \leq t}$. We 
 assume that no 
-two events occur simultaneously. The probability of an event in process 
-$\alpha$ in the immediate 
-future is described by \emph{intensity processes}, $\lambda_t^\alpha$, that 
-satisfy
+two events occur simultaneously. For 
+$\alpha\in V$ the \emph{intensity process}, $\lambda_t^\alpha$, 
+satisfies
 
 $$
 \lambda_t^{\alpha} = \lim_{h \downarrow 0} \dfrac{1}{h} P(N_{t + h}^\alpha  - 
@@ -206,10 +198,10 @@ $$
 
 The intensity, $\lambda^\alpha$, therefore describes how likely an 
 $\alpha$-event is in the immediate future $(t, t+h)$, for small $h$, given the 
-past of the entire process until time $t$.
+past until time $t$.
 
 \begin{defn}[Linear Hawkes process]
-	We say that a point process, $N$, is a \emph{linear Hawkes process} if for 
+	We say that a point process, $X$, is a \emph{linear Hawkes process} if for 
 	all $\beta\in V$ and $t\in \mathbb{R}$ the 
 	intensity is of the form
 	
@@ -224,27 +216,26 @@ past of the entire process until time $t$.
 	\label{def:hawProc}
 \end{defn}
 
-We will often refer to a linear Hawkes process by just saying Hawkes process. 
+We will often write \emph{Hawkes process} instead of \emph{linear Hawkes 
+process}. 
 We assume throughout for all 
 $\alpha$ and $\beta$ that $\phi_{\beta\alpha}$ is a continuous 
-function the support of which is contained in $(0, \infty)$. 
-
-We define the $n\times n$ matrix $\Phi$ such that $\Phi_{\beta\alpha} = 
+function the support of which is contained in $(0, \infty)$. We define the 
+$n\times n$ matrix $\Phi$ such that $\Phi_{\beta\alpha} = 
 \int_{-\infty}^\infty 
 \phi_{\beta\alpha}(s) \ds$. We assume that the spectral radius of $\Phi$ 
 (largest 
 absolute value of its eigenvalues) is less than 1 which implies that we can 
 assume the Hawkes process to have stationary increments and $\lambda_t$ to be a 
 stationary process \citep{jovanovic2015, bacry2016}.
-We define $n\times n$ matrix $R=(I_n - \Phi)^{-1}$ where $I_n$ is the 
-$n\times n$ identity matrix. This is well-defined due to the assumption on 
+We define the $n\times n$ matrix $R=(I_n - \Phi)^{-1}$ where $I_n$ is the 
+$n\times n$ identity matrix. $R$ is well-defined due to the assumption on 
 the spectral radius of $\Phi$ and furthermore $R = \sum_{i=0}^\infty \Phi^i$. 
 For a matrix, $M$, with rows indexed by $I$ and columns indexed by $J$, we let 
 $M_{\bar{I}\bar{J}}$ denote the submatrix indexed by $\bar{I}\subseteq I$ and 
-$\bar{J}\subseteq J$. 
-
-
-We let $dN_t$ denote $N_{t+dt} - N_t$ where $dt$ is the differential of $t$. 
+$\bar{J}\subseteq J$. We let $dN_t^\alpha$ denote $N_{t+dt}^\alpha - 
+N_t^\alpha$ where $dt$ is the 
+differential of $t$. 
 Following \cite{hawkesJRSSB1971}, for each $\alpha\in V$ we define
 
 $$
@@ -270,7 +261,8 @@ denote the $n\times n$ diagonal matrix such that $\Lambda_{\alpha\alpha} =
 					\includegraphics[scale=.45]{treesPlot}
 				\end{subfigure}
 				\caption{Top: Example of observation from 5-dimensional Hawkes 
-				process ($V = \{1,2,3,4,5\}$. Colors indicate coordinate 
+				process ($V = \{1,2,3,4,5\}$. Colors (and vertical placement) 
+				indicate coordinate 
 				process. For each point 
 				(circle in the plot) time of occurrence is known as well as 
 				which coordinate process the event occurs in. Middle: intensity 
@@ -278,13 +270,19 @@ denote the $n\times n$ diagonal matrix such that $\Lambda_{\alpha\alpha} =
 				event 
 				histories from the top plot (for simplicity only displayed 
 				events 
-				count in the intensities). Bottom: same event plot showing the 
-				clusters the observed process. Vertical placement indicates 
-				which coordinate process the events occurs in. Numbers indicate 
+				count in the intensities). The intensities are stochastic 
+				processes and from the stochastic integral in Definition 
+				\ref{def:hawProc} one can see that an $\alpha$-event increases 
+				the $\beta$-intensity if $\phi_{\beta\alpha} \neq 0$. 
+				Bottom: same event plot showing the 
+				clusters of the observed process. Vertical placement indicates 
+				which coordinate process the events occurred in. Numbers 
+				indicate 
 				generation 
 				of the event and line segments indicate ancestry. For instance, 
-				the 1-2-3-4 cluster occurs from a generation 0-event of the 
-				$1$-type which produces an event of the $2$-type and so forth.}
+				the 1-2-3-4 cluster was produced from a generation 0-event of 
+				the 
+				$1$-type which produced an event of the $2$-type and so forth.}
 			\label{fig:haw}
 \end{figure}
 
@@ -298,17 +296,17 @@ is seen to be an integrated (and time-independent) measure of covariance
 (below) and 
 one is seen to be a 
 time-dependent measure of covariance (see Subsection \ref{ssec:idCauFunc}). We 
-define an $n\times n$ matrix, $C$,
+define an $n\times n$ matrix, $C$, such that for $\alpha,\beta\in V$,
 
 \begin{align}
-	C^{\beta\alpha} dt = \int_{-\infty}^{\infty} E(dN_t^\beta 
-	dN_{t+\tau}^\alpha) - E(dN_t^\beta )(dN_{t+\tau}^\alpha) d\tau
+	C_{\beta\alpha} dt = \int_{-\infty}^{\infty} E(dN_t^\beta 
+	dN_{t+\tau}^\alpha) - E(dN_t^\beta )(dN_{t+\tau}^\alpha) d\tau,
 \end{align}
 
 which is seen to contain the \emph{integrated covariances} of each pair of 
 coordinate processes. The following matrix equation holds 
 \citep{jovanovic2015,	 
-achab2017}
+achab2017}.
 
 
 \begin{align}
@@ -317,7 +315,7 @@ achab2017}
 \end{align}
 
 
-see \cite{jovanovic2015}, where $-T$ denotes the operation of transposing and 
+where $-T$ denotes transposing and 
 inverting a matrix.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -333,13 +331,16 @@ For each $\alpha\in V$, \emph{generation 0}-events occur as points a
 homogeneous Poisson process with rate $\mu_\alpha$. Each generation 0-event 
 creates a \emph{Hawkes tree}, that is, a cluster of events (the clusters are 
 independent). The clusters are generated recursively. Each event of type 
-$\alpha$ at time $s$ in a cluster have child events of type $\beta$ according 
+$\alpha$ at time $s$ in a cluster have \emph{child} events of type $\beta$ 
+according 
 to an inhomogeneous Poisson process with rate $\phi_{\beta\alpha}(t-s)$ for $t 
 > s$, and these processes are all independent. This exemplified in Figure 
 \ref{fig:haw} (bottom) in which four 
-generation 0-events are shown, each of them starting a cluster. Note that 
+generation 0-events are shown, each of them starting a cluster. Parent-child 
+relations are shown using line segments. Note that 
 $\phi_{\beta\alpha} = 0$ means that there will be no $\beta$-children from an 
-$\alpha$-event, though there could be descendants further down a cluster if 
+$\alpha$-event, though there could be $\beta$-descendants further down from the 
+$\alpha$-event if 
 there exists $\gamma$ such that $\phi_{\gamma\alpha} \neq 0$ and 
 $\phi_{\beta\gamma} \neq 0$. The observed Hawkes process is then the 
 superposition of the events in all clusters. One should note that when 
@@ -349,13 +350,13 @@ $(\alpha_i, t_i)$, that is, a set of event times and types, not the clusters.
 The parameters in $\Phi$ and $R$ have straightforward interpretations. From the 
 cluster process definition of the Hawkes process, it follows that 
 $\Phi_{\beta\alpha}$ is the 
-expected number of directed descendant events of type $\beta$ from an 
-$\alpha$-event. More generally, for $i = 1,2,\ldots$, 
+expected number of child events of type $\beta$ from an 
+$\alpha$-event. More generally, for $i = 0,1,2,\ldots$, 
 $(\Phi^i)_{\beta\alpha}$ is the 
-expected number of $\beta$-descendants in the $i$'th generation of an 
+expected number of $\beta$-descendants in the $i$'th generation of a Hawkes 
+tree rooted at an 
 $\alpha$-event. This implies that $R_{\beta\alpha}$ is the expected total 
-number of $\beta$-descendants on an $\alpha$-tree, not counting the 
-$\alpha$-root if $\alpha=\beta$
+number of $\beta$-descendants on such a tree
 \citep{jovanovic2015}.
 
 
@@ -369,20 +370,22 @@ $\alpha$-root if $\alpha=\beta$
 In this section, we will define what we mean by a {\it causal} Hawkes process. 
 \cite{mogensenUAI2020} defined a causal Hawkes process by requiring that the 
 set 
-of functions $\{g_{\beta\alpha}\}$ also describes the influence between 
-coordinate processes in intervened systems where the trajectory of some 
+of functions $\{\phi_{\beta\alpha}\}$ also describes how events enter the 
+intensities in intervened systems where the trajectory of some 
 coordinate processes is determined exogenously. We will instead use the cluster 
 representation to give a causal
 interpretation based on a type of \emph{injection intervention}. That is, the 
 observational state of the system is given by the Hawkes process as defined 
 above. An interventional state is defined by a set of \emph{injections}, 
 $\{(\alpha_i, t_i) \}_{i =1,\ldots, M} $, such that each injection is an 
-element in $V\times \mathbb{R}$. [make figure to illustrate] Each injection is 
+element in $V\times \mathbb{R}$. Each injection is 
 a root in a Hawkes tree and the interventional processes are given as the 
 superposition of all intrinsic and interventional trees. We then say that a 
 linear Hawkes process is {\it 
-causal} if a Hawkes tree rooted at $\alpha$ has the same distribution as an 
-intrinsic Hawkes tree for all coordinate processes $\alpha \in V$. In 
+causal} if a Hawkes tree rooted at an injection event has the same distribution 
+as an 
+intrinsic, or non-injection, Hawkes tree for all coordinate processes $\alpha 
+\in V$. In 
 other words, the intervention events 
 propagate in the same way through the system as the intrinsic events. This 
 causal assumption is seen to correspond closely to 
@@ -406,13 +409,14 @@ without necessarily breaking any connections \citep{aastrom2008, zabczyk2020}.
 	We will say that $\Phi_{\beta\alpha}$ is the \emph{direct (causal) effect} 
 	from 
 	$\alpha$ on $\beta$ and that $R_{\beta\alpha}$ is the \emph{total (causal) 
-	effect} from $\alpha$ on $\beta$. We will say that $g_{\beta\alpha}$ is the 
-	{\it link function} from $\alpha$ to $\beta$.
+	effect} from $\alpha$ on $\beta$. We will say that $\phi_{\beta\alpha}$ is 
+	the 
+	{\it (causal) link function} from $\alpha$ to $\beta$.
 	\label{def:cauEff}
 \end{defn}
 
-The interpretation of the entries in $\Phi$ and $R$ (see Section 
-\ref{sec:hawPro}) and the causal assumption justify the above definitions. If 
+The interpretation of the entries in $\Phi$ and $R$ and the causal assumption 
+justify the above definitions. If 
 we inject an 
 interventional event of type $\alpha$ at time $s \in \mathbb{R}$, this 
 event on average has $\Phi_{\beta\alpha}$ events 
@@ -420,7 +424,7 @@ of type $\beta$ as first-generation (or \emph{direct}) descendants (when
 considering all $t > s$). The Hawkes tree rooted at the 
 interventional $\alpha$-event on average has a total of $R_{\beta\alpha}$ 
 events of 
-type $\beta$, not counting the injectional event if $\alpha=\beta$. 
+type $\beta$, counting the injectional event if $\alpha=\beta$. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -440,14 +444,16 @@ of $\beta$ in the graph $\mathcal{G}$.
 Given a causal Hawkes process with coordinate processes indexed by $V = 
 \{1,2,\ldots,n\}$, we construct its \emph{causal graph}, $\mathcal{D} = (V,E)$, 
 such that 
-$\alpha \rightarrow_\mathcal{D} \beta$ if and only if $g_{\beta\alpha} \neq 0$. 
+$\alpha \rightarrow_\mathcal{D} \beta$ if and only if $\phi_{\beta\alpha} \neq 
+0$. 
 Due 
-to the assumptions of continuous and nonnegative $g_{\beta\alpha}$, we see 
-that if $g_{\beta\alpha}\neq 0$, then there exist a nontrivial interval such 
-that $g_{\beta\alpha} > 0$ on this interval.
+to the assumptions of continuous and nonnegative $\phi_{\beta\alpha}$, we see 
+that if $\alpha\rightarrow\beta$ in the causal graph, then there exist a 
+nontrivial interval such 
+that $\phi_{\beta\alpha} > 0$ on this interval.
 
 A {\it walk between $\alpha$ and $\beta$} is an ordered, alternating sequence 
-of nodes and edges
+of nodes, $\gamma_i$, and edges, $\sim_j$,
 
 $$
 \alpha = \gamma_0 \sim_1 \gamma_1 \sim_2 \ldots \gamma_{m-1} \sim_m \gamma_{m} 
@@ -466,28 +472,7 @@ $\beta\rightarrow\alpha$. We say that a DMG is \emph{acyclic} if it contains no
 \gamma_k \sim \beta$ is \emph{unobserved} if $\gamma_i \in U$ for all $i = 
 1,\ldots, k$ and $k \geq 1$. 
 
-\begin{defn}[Latent projection, \cite{vermaEquiAndSynthesis,richardson2017}]
-	\label{def:latProj}
-	Let $\mathcal{G} = (V,E)$ be a DMG. Its latent projection on nodes $O$ is 
-	the DMG $\bar{\mathcal{G}} = (O,F)$ such that for $\alpha,\beta\in O$ we 
-	have $\alpha\rightarrow\beta$ in $\bar{\mathcal{G}}$ if there is an 
-	directed walk from $\alpha$ to $\beta$ such that every non-endpoint node is 
-	in $V\setminus O$. We have 
-	$\alpha\leftrightarrow\beta$ in $\bar{\mathcal{G}}$ if there is a walk 
-	between $\alpha$ and $\beta$ with heads at 
-	both $\alpha$ and $\beta$ such that every non-endpoint node is a 
-	noncollider and is in 
-	$V\setminus O$.
-\end{defn}
 
-Note that for a walk in the above definition the set of non-endpoint nodes can 
-be empty and therefore if $\alpha\rightarrow\beta$ is in $\mathcal{G}$, then it 
-is 
-also in its latent projection. We also note that the definition uses walks to 
-allow for cycles as done by \cite{mogensen2018}. In DAG-based models, this is 
-not needed 
-and therefore the analogous definition is often stated using paths 
-\citep{richardson2017}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -496,10 +481,11 @@ and therefore the analogous definition is often stated using paths
 
 Using constraints on the causal graph, we will discuss the identification of 
 the entries in the 
-matrix $\Phi$ and the functions $g_{\beta\alpha}$. To give a formal definition 
+matrix $\Phi$ and the functions $\phi_{\beta\alpha}$. To give a formal 
+definition 
 of 
 identification, consider two stationary Hawkes 
-models, $M_1\in\mathbb{M}$ and $M_2\in\mathbb{M}$, with coordinate processes 
+processes, $M_1\in\mathbb{M}$ and $M_2\in\mathbb{M}$, with coordinate processes 
 $V_1$ and $V_2$, 
 respectively, for a class of models $\mathbb{M}$. Let $ \tilde{P}_1$ and $ 
 \tilde{P}_2$ be their marginal 
@@ -507,17 +493,18 @@ distributions over a common observed set of
 coordinate processes, $O$, let $f$ be a function of 
 such a marginal distribution, and let 
 $\alpha,\beta\in O$. Finally, let $\Phi_{\beta\alpha}^i$ and 
-$g_{\beta\alpha}^i$ 
+$\phi_{\beta\alpha}^i$ 
 denote the direct effect and the link function from $\alpha$ to 
 $\beta$ in $M_i$, respectively. We will say that the parameter 
 $\Phi_{\beta\alpha}$ \emph{is 
 identified from} 
 $f(\tilde{P})$ in the class $\mathbb{M}$ if $f(\tilde{P}_1) = f(\tilde{P}_2)$ 
 implies $\Phi_{\beta\alpha}^1 = \Phi_{\beta\alpha}^2$. Similarly, we say 
-$g_{\beta\alpha}$ is identified from $f(P)$ in the class $\mathbb{M}$ if 
+$\phi_{\beta\alpha}$ is identified from $f(P)$ in the class $\mathbb{M}$ if 
 $f(\tilde{P}_1) = 
 f(\tilde{P}_2)$ 
-implies $g_{\beta\alpha}^1 = g_{\beta\alpha}^2$. Note that while identification 
+implies $\phi_{\beta\alpha}^1 = \phi_{\beta\alpha}^2$. Note that while 
+identification 
 is often only discussed from the 
 observed distribution in its entirety, we use $f$ to distinguish simpler 
 statistics which can be sufficient for identification. As we will see some 
@@ -532,7 +519,8 @@ The relation between the observed quantity, $C$, and the parameters in $\Phi$
 in 
 Equation (\ref{eq:covarEq}) is seen to be very similar to the relation between 
 causal parameters and the covariance matrix of a \emph{linear structural 
-equation model} (SEM) and we will leverage this fact in this section. There is 
+equation model} (linear SEM) and we will leverage this fact in this section. 
+There is 
 a number of papers with 
 identification results in this model class \citep{brito2002, tian2007, 
 tian2009, 
@@ -540,9 +528,11 @@ foygelHalftrek2012,
 chenNIPS2016, drton2016, 
 weihs2018}, though some results only apply to \emph{acyclic} linear SEMs (see a 
 definition of acyclicity below). \cite{bollen1989} provides an introduction to 
-the model class.
-
-$X = (X_1,\ldots,X_n)^T$ is a vector of random variables and $\varepsilon = 
+the model class. We give a short introduction here to describe the connection 
+to 
+Hawkes processes. Let $X = (X_1,\ldots,X_n)^T$ be a vector of random variables 
+and 
+$\varepsilon = 
 (\varepsilon_1,\ldots,\varepsilon_n)^T$ is a vector of zero-mean noise terms,
 
 \begin{align}
@@ -563,17 +553,16 @@ C_X = (I_n - B)^{-1}\Sigma_\varepsilon (I_n - B)^{-T},
 see \cite{hyttinen2012}. Often one will assume that some entries of $B$ and 
 $\Sigma_\varepsilon$ are zero which can be encoded by a DMG (also known as a 
 \emph{mixed graph}) such that if 
-$\alpha \rightarrow \beta$ is not in the DMG, then $B_{\beta\alpha} = 0$ and if 
+$\alpha \rightarrow \beta$ is not in the DMG, then $B_{\beta\alpha} = 0$ and 
+if, 
 $\alpha\rightarrow\beta$ is not in the DMG, then 
 $(\Sigma_\varepsilon)_{\beta\alpha} = (\Sigma_\varepsilon)_{\alpha\beta} = 0$. 
 The 
 error terms are often assumed to be Gaussian. We note that acyclicity is 
 sometimes assumed, 
 i.e., that the DMG corresponding to the model is 
-acyclic. 
-We are not making 
-this assumption and we later are therefore restricted to identification results 
-on general linear SEMs.
+acyclic, though we are not making 
+this assumption.
 
 We should note that in the linear SEM literature, some authors parametrize the 
 model using a 
@@ -582,12 +571,13 @@ aligns better with the common
 notation 
 in Hawkes process literature.
 
-One notes immediately that the similarity between Equations (\ref{eq:covarEq}) 
+One see immediately the similarity between Equations (\ref{eq:covarEq}) 
 and (\ref{eq:covSEM}) in that the observable left-hand side of the equations in 
 both cases impose the same restrictions on the model parameters, and we use 
 this similarity to translate results to the Hawkes models. There are two 
-questions that should be addressed. First, most often the diagonal of $B$ in 
-the linear SEM is assumed to be zero, and we will handle this by re-writing 
+questions that should be addressed. First, the diagonal of $B$ in 
+the linear SEM is often assumed to be zero, and we will handle this by 
+re-writing 
 Equation (\ref{eq:covarEq}) slightly (\ref{sssec:normEff}). Second, $\Lambda$ 
 is diagonal in Equation (\ref{eq:covarEq}) whereas there is no such restriction 
 a priori on $\Sigma_\varepsilon$ and we will see that this discrepancy 
@@ -598,15 +588,17 @@ corresponds to marginalization of the systems (\ref{sssec:marg}).
 \label{sssec:normEff}
 
 When $\Phi$ is a matrix of direct effects of a Hawkes process, the diagonal 
-elements are not necessarily zero. On the other, in a SEM the diagonal of $B$ 
-(see Equation (\ref{eq:SEM})) is commonly assumed to be zero. We will introduce 
+elements are not necessarily zero. On the other hand, in a linear SEM the 
+diagonal of $B$ 
+(Equation (\ref{eq:SEM})) is commonly assumed to be zero. We introduce 
 the matrix $\tilde{\Phi}$ by scaling each column of $\Phi$ by its 
 diagonal element and placing zeros on the diagonal, i.e.,
 
 $$
-\tilde{\Phi}_{ij} = \Phi_{ij}/(1-\Phi_{ii})  \text{ if } i\neq j, \text{ and } 
-\tilde{\Phi}_{ij} 
-= 0 \text{ if } i= j.
+\tilde{\Phi}_{\beta\alpha} = \Phi_{\beta\alpha}/(1-\Phi_{\beta\beta})  \text{ 
+if } \beta\neq \alpha, \text{ and } 
+\tilde{\Phi}_{\beta\alpha} 
+= 0 \text{ if } \beta= \alpha.
 $$
 
 \cite{hyttinen2012} study linear SEMs and use the same approach to derive 
@@ -620,12 +612,12 @@ descendants of type
 $\beta$ from an $\alpha$-event, counting every direct self-triggered event in 
 the $\beta$-process. 
 That is, on the Hawkes tree rooted at $\alpha$, $\tilde{\Phi}_{\beta\alpha}$ is 
-the expected number of $\beta$-events on subtrees the form $\alpha - \beta - 
+the expected number of $\beta$-events on subtrees of the form $\alpha - \beta - 
 \beta - \ldots - 
 \beta$ for any number of $\beta$-events. 
 Let $D$ denote a 
-diagonal matrix such that the $i$'th diagonal element equals 
-$1 - \Phi_{ii}$. This means that 
+diagonal matrix such that the $\alpha$'th diagonal element equals 
+$1 - \Phi_{\alpha\alpha}$. Then
 
 \begin{align*}
 C & = (I - \Phi)^{-1}\Lambda (I - \Phi)^{-T}  \\
@@ -644,13 +636,12 @@ this
 casts the Hawkes identification as a set of equations describing the covariance 
 matrix of a linear SEM, the Hawkes parameters are required to be nonnegative. 
 In this 
-following, we argue that this correspondance between 
-identifiability in SEMs and identifibiality in Hawkes process models using the 
-integrated covariance can also be exploited in the case of partial observation.
+following, we argue that this correspondence can also be exploited in the case 
+of partial observation.
 
 
 \subsubsection{Marginalization}
-\label{sssec:marg}
+\label{sssec:marg} 
 
 We will mostly be interested in systems that are only partially observed in 
 which case only a proper submatrix of $C$ in Equation (\ref{eq:covarEq}) is 
@@ -673,20 +664,19 @@ where
 \tilde{\Phi})^{-T}]_{OO}(I_k-\bar{\Phi})^T, \\
 \end{align*}
 
-see \cite{hyttinen2012}. Using Schur complements, we can write, let 
+see \cite{hyttinen2012}. Let 
 $\tilde{\Lambda} 
-= D^{-1}\Lambda D^{-1}$,
+= D^{-1}\Lambda D^{-1}$. Using Schur complements, we can write
 
 \begin{align*}
 	\Theta =  \tilde{\Lambda}_{OO} + & \tilde{\Phi}_{OU}((I_n - 
 	\tilde{\Phi})^{-1})_{UU}\tilde{\Lambda}_{UU} \times  \\ & ((I_n - 
 	\tilde{\Phi})^{-T})_{UU}
-	\tilde{\Phi}_{OU}^T
+	\tilde{\Phi}_{OU}^T.
 \end{align*}
 
 The above computations are of course the same as in the case of a linear 
-structural equation model, however, one should note that while those are closed 
-under marginalization this is not the case for the Hawkes models.
+structural equation model.
 
 \begin{prop}
 	Let $\alpha,\beta \in O$, $\alpha\neq \beta$. The parameter 
@@ -723,24 +713,8 @@ If all parents of $\alpha$ are observed and $\bar{\Phi}_{\alpha\gamma}$ is
 identified for 
  every 
  $\gamma\in V$, then $\Theta_{\alpha\alpha}$ is identified from $\bar{C}$.
-This follows from the matrix equation in (\ref{eq:expandTheta}) by considering 
-the $(\alpha,\alpha)$-equation.
-
-The idea is now 
-that one can use any available identification result from the (cyclic) linear 
-structural equation toolbox to show identification of the entries in 
-$\tilde{\Phi}$ as those provided by, e.g., \cite{foygelHalftrek2012, 
-chenNIPS2016, 
-weihs2018}. 
-These are often 
-formulated in terms of graphical 
-conditions, and we note that the 
-marginalized set of equations correspond to a linear structural 
-equation model described by the latent projection of the causal graph 
-(Definition \ref{def:latProj}). We also note that one typically has to 
-distinguish between \emph{global} and \emph{generic} identification of 
-parameters.
-
+This follows from the $(\alpha,\alpha)$-equation in the matrix equation in 
+(\ref{eq:expandTheta}).
 
 It is immediate that $\Phi_{\beta\alpha}$ is identified if 
 $\tilde{\Phi}_{\beta\alpha}$ and $\Phi_{\alpha\alpha}$ are identified. Above 
@@ -748,11 +722,52 @@ the
 conditions ensure that the parameters of the marginal system equals that of the 
 original system and therefore identification in the marginal system implies 
 identification in the normalized system. One could of course also consider 
-identification of parameters that do not occur in the original example and 
-these and also interpret these, e.g., parameters in $\bar{\Phi}$ that 
+identification of parameters that do not occur in the original example and also 
+interpret these, e.g., parameters in $\bar{\Phi}$ that 
 correspond to aggregating effects along multiple unobserved paths, similarly to 
 the 
 interpretation of the normalized parameters in $\tilde{\Phi}$.
+
+
+The idea is now 
+that one can use any available identification result from the (cyclic) linear 
+structural equation toolbox to show identification of the entries in 
+$\tilde{\Phi}$ such as those provided by, e.g., \cite{foygelHalftrek2012, 
+chenNIPS2016, 
+weihs2018}. 
+These are often 
+formulated in terms of graphical 
+conditions, and we note that the 
+marginalized set of equations correspond to a linear structural 
+equation model described by the latent projection of the Hawkes causal graph 
+(Definition \ref{def:latProj}). We also note that one typically has to 
+distinguish between \emph{global} and \emph{generic} identification of 
+parameters.
+
+
+\begin{defn}[Latent projection, \cite{vermaEquiAndSynthesis,richardson2017}]
+	\label{def:latProj}
+	Let $\mathcal{G} = (V,E)$ be a DMG. Its latent projection on nodes $O$ is 
+	the DMG $\bar{\mathcal{G}} = (O,F)$ such that for $\alpha,\beta\in O$ we 
+	have $\alpha\rightarrow\beta$ in $\bar{\mathcal{G}}$ if there is an 
+	directed walk from $\alpha$ to $\beta$ such that every non-endpoint node is 
+	in $V\setminus O$. We have 
+	$\alpha\leftrightarrow\beta$ in $\bar{\mathcal{G}}$ if there is a walk 
+	between $\alpha$ and $\beta$ with heads at 
+	both $\alpha$ and $\beta$ such that every non-endpoint node is a 
+	noncollider and is in 
+	$V\setminus O$.
+\end{defn}
+
+Note that for a walk in the above definition the set of non-endpoint nodes can 
+be empty and therefore if $\alpha\rightarrow\beta$ is in $\mathcal{G}$, then it 
+is 
+also in its latent projection whenever $\alpha,\beta\in O$. We also note that 
+the definition uses walks to 
+allow for cycles as done by \cite{mogensen2018}. In DAG-based models, this is 
+not needed 
+and therefore the analogous definition is often stated using paths 
+\citep{richardson2017}.
 
 \begin{exmp}
 	Consider the graph in Figure \ref{fig:smallCycle} (left) and assume that 
@@ -761,7 +776,10 @@ interpretation of the normalized parameters in $\tilde{\Phi}$.
 	identification criterion of \cite{weihs2018}, we find that every 
 	$\tilde{\Phi}_{\beta\alpha}$ 
 	such that 
-	$\alpha,\beta\in O$ is identified. It follows 
+	$\alpha,\beta\in O$ is identified from $\bar{C}$ (note that 
+	$\bar{\Phi}_{\beta\alpha} = 
+	\tilde{\Phi}_{\beta\alpha}$ for $\alpha,\beta\in O$ in this example). It 
+	follows 
 	from the 
 	above propositions that $\Phi_{11}, \Phi_{23}$, and $\Phi_{33}$ are 
 	identified from 
@@ -916,64 +934,69 @@ interpretation of the normalized parameters in $\tilde{\Phi}$.
 
 It is only natural that we can obtain stronger identification results when we 
 use more aspects of the distribution. Following 
-\cite{bacry2016}, we define
+\cite{bacry2016}, we define the (non-singular part of) the \emph{infinitesimal 
+covariance},
 
 \begin{align}
 	v_{\beta\alpha}(t' - t) = E(dN_t^\beta dN_{t'}^\alpha) & - 
 	\Lambda^\beta\Lambda^\alpha dt dt' \nonumber \\ & - \Lambda^\beta 
-	\varepsilon_{\beta\alpha} 
-	\delta(t'-t) dt
+	\varepsilon_{\beta\alpha}
+	\delta(t'-t) dt,
 	\label{eq:infv}
 \end{align}
 
 
 where $\delta$ is a Dirac delta function and $\varepsilon_{\beta\alpha} = 
-\mathds{1}_{(\beta=\alpha)}$, and we define
+\mathds{1}_{(\beta=\alpha)}$, and
 
 $$
-g(t) = v^T(t)\Lambda^{-1}
+g(t) = v^T(t)\Lambda^{-1}.
 $$
 
-We let $\Phi(t)$ denote the matrix of functions such that $\Phi_{\beta\alpha} = 
-\phi_{\beta\alpha}$. \cite{hawkesJRSSB1971} stated the following $n\times n$ 
+We let $\Phi(t)$ denote the matrix of functions such that 
+$\Phi(t)_{\beta\alpha} = 
+\phi_{\beta\alpha}(t)$. \cite{hawkesJRSSB1971} stated the following $n\times n$ 
 equality 
 which 
-relates the infinitesimal covariance to the link functions.
+relates the infinitesimal covariance to the link functions,
 
 \begin{align}
-	g(t) = \Phi(t) + \Phi(t) \star g(t)
+	g(t) = \Phi(t) + \Phi(t) \star g(t),
 	\label{eq:covCauFunc}
 \end{align}
 
 where $\star$ means that $(\Phi(t) \star g(t))_{\beta\alpha} = \sum_{\gamma \in 
 V} 
-\int_{-\infty}^{\infty} \phi_{\beta\alpha}(t - s) g(s) \md s$ [fix: check 
-this]. \cite{bacry2016} 
-prove that if we consider $\Phi$ 
+\int_{-\infty}^{\infty} \phi_{\beta\gamma}(t - s) g_{\gamma\alpha}(s) \md s$. 
+\cite{bacry2016} 
+prove that if we consider $\Phi(t)$ 
 the 
-unknown in the above equation, there is a unique solution [FIX under some 
-conditions?]. [fix check all of 
-this] 
+unknown in the above equation, there is a unique solution (such that 
+$\phi_{\beta\alpha}$ is in $L^1$ and its support is in $(0,\infty)$ for all 
+$\alpha,\beta\in V$).
 
 \begin{prop}
 	Let $\mathcal{D} = (O\disjU U, E)$. If $\pa_\mathcal{D}(\beta) \subseteq 
-	O$, then for all $\alpha$ the function $g_{\beta\alpha}$ is identified from 
-	the infinitesimal covariance process of $O$-processes.
+	O$, then for all $\alpha$ the function $\phi_{\beta\alpha}$ is identified 
+	from 
+	the infinitesimal covariance process of the $O$-processes and 
+	$\Lambda_{OO}$.
 	\label{prop:gPaId}
 \end{prop}
 
 \begin{proof}
-	In Equation \ref{eq:covCauFunc}, we note that $g_{\beta\alpha}$ only 
+	In Equation \ref{eq:covCauFunc}, we note that $\phi_{\beta\alpha}$ only 
 	appears in the $\beta$-row of the equations. Every parent of $\beta$ is 
 	observed and therefore this row only depends on observed quantities. If 
-	there were two solutions the equations in the $\beta$-row such that 
-	$g_{\beta\alpha}$ differed between the two solutions, then there would also 
+	there were two solutions to the equations in the $\beta$-row such that 
+	$\phi_{\beta\alpha}$ differed between the two solutions, then there would 
+	also 
 	be two solutions to Equation (\ref{eq:covCauFunc}) which is a contradiction.
 \end{proof}
 
 Under the conditions of Proposition \ref{prop:gPaId}, it also follows 
 immediately that $\Phi_{\beta\alpha}$ is identified from the observed 
-infinitesimal covariance process and we will use this in Section 
+infinitesimal covariance process and $\Lambda_{OO}$ we will use this in Section 
 \ref{ssec:eqInfCov} to obtain further constraints.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -982,16 +1005,17 @@ infinitesimal covariance process and we will use this in Section
 \section{Equality Constraints}
 
 
-It is well-known that partially observed DAG models satisfy 
+It is well-known that partially observed DAG-models satisfy 
 constraints that 
 are not described by conditional independence some of which are known as 
 \emph{equality constraints}. \cite{richardson2017} treat the general (acyclic) 
 case 
 while \cite{chen2014, chenNIPS2016} consider equality constraints in linear 
-SEMs. In DAG models equality constraints are testable implications that may 
+SEMs. In DAG-models equality constraints are testable implications that may 
 bring strictly more information about the underlying structure than using 
 conditional independence alone. We will see that the analogous statement holds 
-for the Hawkes process models, though the relevant notion of independence is 
+for the Hawkes process models, though the relevant notion of independence to 
+compare with is 
 that of \emph{local independence}. Local independence is an asymmetric notion 
 of independence which can be defined 
 for stochastic processes \citep{schweder1970, aalen1987, didelez2000, 
@@ -1000,11 +1024,12 @@ it can be extended to other classes of stochastic processes
 \citep{aalen1987,didelez2006,mogensenUAI2018,mogensen2018}.
 
 \begin{defn}[Local independence]
-	Let $N = (N_1,\ldots,N_n)^T$ be a multivariate point process with intensity 
+	Let $X = (X^1,\ldots,X^n)^T$ be a multivariate point process with intensity 
 	processes $\lambda$ and let $V=\{1,\ldots,n\}$. Let $A,B,C,D \subseteq V$. 
-	Let $\mathcal{F}_t^D$ denote the natural filtration of $N^D$, i.e., the 
-	filtration generated by the coordinate processes in $D$. We say that $N^B$ 
-	is \emph{locally independent of $A$ given $C$} if for all $\beta\in B$ and 
+	Let $\mathcal{F}_t^D$ denote the natural filtration of $X^D$, i.e., the 
+	filtration generated by the coordinate processes in $D$. We say that $X^B$ 
+	is \emph{locally independent of $X^A$ given $X^C$} if for all $\beta\in B$ 
+	and 
 	for all $t\in \mathbb{R}$,
 	
 	$$
@@ -1020,21 +1045,22 @@ models
 \citep{meek2014, mogensenUAI2018, thams2019, mogensenUAI2020}, analogously to 
 how conditional independence is used for 
 constraint-based structure learning in classical models \citep{spirtes1993, 
-spirtesSearchChapHandbook}. 
-[define 
-delta-/mu-sep] Structure learning based on local independence typically assumes 
-\emph{faithfulness}, that is, that $N^B$ is locally independent of $N^A$ given 
-$N^C$ if and only if $B$ is $\mu$-separated from $A$ given $C$ in the DMG 
+spirtesSearchChapHandbook}. Structure learning based on local independence 
+typically assumes 
+\emph{faithfulness}, that is, that $X^B$ is locally independent of $X^A$ given 
+$X^C$ if and only if $B$ is $\mu$-separated from $A$ given $C$ in the DMG 
+representing the model
 ($\mu$-separation, or $\delta$-separation, is a concept analogous to $m$-, or 
 $d$-separation \citep{didelez2000, didelez2008, mogensen2018}). An obvious 
 question is therefore whether there are constraints imposed by the 
- structure that are not described by local independence. This is indeed the 
+ structure that are not described by local independence, or $\mu$-separation. 
+ This is indeed the 
  case 
  and such constraints can be used to distinguish between graphical structures 
  that imply the same set of local independences. In the next subsection, we 
  show that one can use the integrated mean and covariance to find such 
  constraints. In the subsection after next, we show that when using
- dynamical observation from the marginal distribution, we can find additional 
+ dynamical observation of the marginal distribution, we can find additional 
  constraints.
 
 
@@ -1220,7 +1246,8 @@ some parameters and we can take advantage of known results.
 	we assume in 
 	this example that we also have access to the 
 	covariance processes. In this case, the link functions 
-	$g_{11},g_{14},g_{32}$, and $g_{33}$ are identified (Proposition 
+	$\phi_{11},\phi_{14},\phi_{32}$, and $\phi_{33}$ are identified 
+	(Proposition 
 	\ref{prop:gPaId}), and therefore so are $\Phi_{11}, \Phi_{14} , \Phi_{32}$ 
 	and 
 	$\Phi_{33}$.  Leveraging this information we can again find two ways of 
@@ -1302,7 +1329,8 @@ the results?]
 
 \section{Conclusion}
 
-A Hawkes process is defined using the set of $g_{\beta\alpha}$-functions along 
+A Hawkes process is defined using the set of $\phi_{\beta\alpha}$-functions 
+along 
 with the $\mu_\alpha$-constants for $\alpha,\beta$ in the finite set $V$. The 
 constraints that are shown to exist in this paper are not the only constraints 
 imposed by the distribution of the Hawkes process [do I actually know this?] On 
