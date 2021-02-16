@@ -770,7 +770,143 @@ and therefore the analogous definition is often stated using paths
 \citep{richardson2017}.
 
 \begin{exmp}
-	Consider the graph in Figure \ref{fig:smallCycle} (left) and assume that 
+			\begin{figure*}
+				%\begin{tabular}{cc}
+				\begin{subfigure}{0.3\linewidth}
+					\centering
+					\begin{tikzpicture}[scale=0.7]
+					\tikzset{vertex/.style = {shape=circle,draw,minimum 
+					size=1.5em, 
+							inner 
+							sep = 0pt}}
+					\tikzset{edge/.style = {->,> = latex', thick}}
+					\tikzset{edgebi/.style = {<->,> = latex', thick}}
+					\tikzset{every loop/.style={min distance=8mm, looseness=5}}
+					\tikzset{vertexFac/.style = {shape=rectangle,draw,minimum 
+							size=1.5em, 
+							inner sep = 0pt}}
+					
+					% vertices
+					%\draw [line width=35pt,opacity=0.1, blue,line 
+					%cap=round,rounded
+					%corners] (0,0.5) -- (0,2) -- (-1.5,1.5) -- (0,0.5);
+					\node[vertex] (a) at  (-4,0) {$1$};
+					\node[vertex] (b) at  (-2,0) {$2$};
+					\node[vertex] (c) at  (0,0) {$3$};
+					\node[vertex] (d) at  (2,0) {$4$};
+					\node[vertex] (e) at  (0,1.25) {$5$};
+					
+					\node at (-3.5,1.75) {\Large \textbf{A}};
+					
+					%edges
+					
+					\draw[edge] (a) to (b);
+					\draw[edge] (b) to (c);
+					\draw[edge] (c) to (d);
+					\draw[edge, bend left = 30] (d) to (b);
+					\draw[edge] (e) to (d);
+					\draw[edge] (e) to (b);
+					\draw[edge, bend right = 35, opacity = 0] (a) to (d);
+					
+					\end{tikzpicture}
+				\end{subfigure}\hspace{.05\linewidth}%
+				\begin{subfigure}{0.3\linewidth}
+					\centering
+					\begin{tikzpicture}[scale=0.7]
+					\tikzset{vertex/.style = {shape=circle,draw,minimum 
+					size=1.5em, 
+							inner 
+							sep = 0pt}}
+					\tikzset{edge/.style = {->,> = latex', thick}}
+					\tikzset{edgebi/.style = {<->,> = latex', thick}}
+					\tikzset{every loop/.style={min distance=8mm, looseness=5}}
+					\tikzset{vertexFac/.style = {shape=rectangle,draw,minimum 
+							size=1.5em, 
+							inner sep = 0pt}}
+					
+					% vertices
+					%\draw [line width=35pt,opacity=0.1, blue,line 
+					%cap=round,rounded
+					%corners] (0,0.5) -- (0,2) -- (-1.5,1.5) -- (0,0.5);
+					\node[vertex] (a) at  (-4,0) {$1$};
+					\node[vertex] (b) at  (-2,0) {$2$};
+					\node[vertex] (c) at  (0,0) {$3$};
+					\node[vertex] (d) at  (2,0) {$4$};
+					\node[vertex, opacity = 0] (e) at  (0,1.25) {};
+					
+					\node at (-3.5,1.75) {\Large \textbf{B}};
+					
+					%edges
+					
+					\draw[edge] (a) to (b);
+					\draw[edge] (b) to (c);
+					\draw[edge] (c) to (d);
+					\draw[edge, bend left = 20] (d) to (b);
+					%\draw[edge] (e) to (d);
+					%\draw[edge] (e) to (b);
+					\draw[edge, bend right = 35, opacity = 0] (a) to (d);
+					\draw[edge, bend left = 35, <->] (b) to (d);
+					
+					\end{tikzpicture}
+				\end{subfigure}\hspace{.05\linewidth}%
+				\begin{subfigure}{0.3\linewidth}
+					\centering
+					\begin{tikzpicture}[scale=0.7]
+					\tikzset{vertex/.style = {shape=circle,draw,minimum 
+					size=1.5em, 
+							inner 
+							sep = 0pt}}
+					\tikzset{edge/.style = {->,> = latex', thick}}
+					\tikzset{edgebi/.style = {<->,> = latex', thick}}
+					\tikzset{every loop/.style={min distance=8mm, looseness=5}}
+					\tikzset{vertexFac/.style = {shape=rectangle,draw,minimum 
+							size=1.5em, 
+							inner sep = 0pt}}
+					
+					% vertices
+					%\draw [line width=35pt,opacity=0.1, blue,line 
+					%cap=round,rounded
+					%corners] (0,0.5) -- (0,2) -- (-1.5,1.5) -- (0,0.5);
+					\node[vertex] (a) at  (-4,0) {$1$};
+					\node[vertex] (b) at  (-2,0) {$2$};
+					\node[vertex] (c) at  (0,0) {$3$};
+					\node[vertex] (d) at  (2,0) {$4$};
+					\node[vertex, opacity = 0] (e) at  (0,1.25) {};
+					
+					\node at (-3.5,1.75) {\Large \textbf{C}};
+					
+					%edges
+					
+					\draw[edge] (a) to (b);
+					\draw[edge] (b) to (c);
+					\draw[edge] (c) to (d);
+					\draw[edge, bend left = 20] (d) to (b);
+					%\draw[edge] (e) to (d);
+					%\draw[edge] (e) to (b);
+					\draw[edge, bend right = 35] (a) to (d);
+					\draw[edge, bend left = 35, <->] (b) to (d);
+					
+					\end{tikzpicture}
+				\end{subfigure}
+				%\end{tabular}
+				\caption{\label{fig:smallCycle} \textbf{A}: Directed graph such 
+					that 
+					each node represents a coordinate process and an edge 
+					$\alpha 
+					\rightarrow \beta$ implies that $\Phi_{\beta\alpha}\neq 0$. 
+					\textbf{B}: Latent projection of the graph \textbf{A} on 
+					nodes $O = 
+					\{1,2,3,4\}$. \textbf{C}: Graphs \textbf{B} and \textbf{C} 
+					are 
+					Markov 
+					equivalent (entail the same $\mu$-separations), yet are 
+					distinguishable using an equality constraint on the 
+					observable 
+					matrix $\bar{C} = C_{OO}$. Loops 
+					(self-edges) are omitted from 
+					graphs \textbf{A}, \textbf{B}, and \textbf{C}.}
+			\end{figure*}
+	Consider the graph in Figure \ref{fig:smallCycle}\textbf{A} and assume that 
 	this is the causal graph of a Hawkes process on nodes $V = \{1,2,3,4,5\}$ 
 	such that coordinate process $5$ is unobserved. If we apply the 
 	identification criterion of \cite{weihs2018}, we find that every 
@@ -797,133 +933,6 @@ and therefore the analogous definition is often stated using paths
 	implies that we 
 	cannot, using only the integrated covariance, separate the contributions 
 	from coordinate processes 2 and 5 to the observed covariance. 
-	
-		\begin{figure*}
-			%\begin{tabular}{cc}
-			\begin{subfigure}{0.3\linewidth}
-				\centering
-				\begin{tikzpicture}[scale=0.7]
-				\tikzset{vertex/.style = {shape=circle,draw,minimum size=1.5em, 
-						inner 
-						sep = 0pt}}
-				\tikzset{edge/.style = {->,> = latex', thick}}
-				\tikzset{edgebi/.style = {<->,> = latex', thick}}
-				\tikzset{every loop/.style={min distance=8mm, looseness=5}}
-				\tikzset{vertexFac/.style = {shape=rectangle,draw,minimum 
-						size=1.5em, 
-						inner sep = 0pt}}
-				
-				% vertices
-				%\draw [line width=35pt,opacity=0.1, blue,line cap=round,rounded
-				%corners] (0,0.5) -- (0,2) -- (-1.5,1.5) -- (0,0.5);
-				\node[vertex] (a) at  (-4,0) {$1$};
-				\node[vertex] (b) at  (-2,0) {$2$};
-				\node[vertex] (c) at  (0,0) {$3$};
-				\node[vertex] (d) at  (2,0) {$4$};
-				\node[vertex] (e) at  (0,1.25) {$5$};
-				
-				 \node at (-3.5,1.75) {\Large \textbf{A}};
-				
-				%edges
-				
-				\draw[edge] (a) to (b);
-				\draw[edge] (b) to (c);
-				\draw[edge] (c) to (d);
-				\draw[edge, bend left = 30] (d) to (b);
-				\draw[edge] (e) to (d);
-				\draw[edge] (e) to (b);
-				\draw[edge, bend right = 35, opacity = 0] (a) to (d);
-								
-				\end{tikzpicture}
-			\end{subfigure}\hspace{.05\linewidth}%
-			\begin{subfigure}{0.3\linewidth}
-				\centering
-				\begin{tikzpicture}[scale=0.7]
-				\tikzset{vertex/.style = {shape=circle,draw,minimum size=1.5em, 
-						inner 
-						sep = 0pt}}
-				\tikzset{edge/.style = {->,> = latex', thick}}
-				\tikzset{edgebi/.style = {<->,> = latex', thick}}
-				\tikzset{every loop/.style={min distance=8mm, looseness=5}}
-				\tikzset{vertexFac/.style = {shape=rectangle,draw,minimum 
-						size=1.5em, 
-						inner sep = 0pt}}
-				
-				% vertices
-				%\draw [line width=35pt,opacity=0.1, blue,line cap=round,rounded
-				%corners] (0,0.5) -- (0,2) -- (-1.5,1.5) -- (0,0.5);
-				\node[vertex] (a) at  (-4,0) {$1$};
-				\node[vertex] (b) at  (-2,0) {$2$};
-				\node[vertex] (c) at  (0,0) {$3$};
-				\node[vertex] (d) at  (2,0) {$4$};
-				\node[vertex, opacity = 0] (e) at  (0,1.25) {};
-				
-				 \node at (-3.5,1.75) {\Large \textbf{B}};
-				
-				%edges
-				
-				\draw[edge] (a) to (b);
-				\draw[edge] (b) to (c);
-				\draw[edge] (c) to (d);
-				\draw[edge, bend left = 20] (d) to (b);
-				%\draw[edge] (e) to (d);
-				%\draw[edge] (e) to (b);
-				\draw[edge, bend right = 35, opacity = 0] (a) to (d);
-				\draw[edge, bend left = 35, <->] (b) to (d);
-				
-				\end{tikzpicture}
-			\end{subfigure}\hspace{.05\linewidth}%
-			\begin{subfigure}{0.3\linewidth}
-				\centering
-				\begin{tikzpicture}[scale=0.7]
-				\tikzset{vertex/.style = {shape=circle,draw,minimum size=1.5em, 
-						inner 
-						sep = 0pt}}
-				\tikzset{edge/.style = {->,> = latex', thick}}
-				\tikzset{edgebi/.style = {<->,> = latex', thick}}
-				\tikzset{every loop/.style={min distance=8mm, looseness=5}}
-				\tikzset{vertexFac/.style = {shape=rectangle,draw,minimum 
-						size=1.5em, 
-						inner sep = 0pt}}
-				
-				% vertices
-				%\draw [line width=35pt,opacity=0.1, blue,line cap=round,rounded
-				%corners] (0,0.5) -- (0,2) -- (-1.5,1.5) -- (0,0.5);
-				\node[vertex] (a) at  (-4,0) {$1$};
-				\node[vertex] (b) at  (-2,0) {$2$};
-				\node[vertex] (c) at  (0,0) {$3$};
-				\node[vertex] (d) at  (2,0) {$4$};
-				\node[vertex, opacity = 0] (e) at  (0,1.25) {};
-				
-				 \node at (-3.5,1.75) {\Large \textbf{C}};
-				
-				%edges
-				
-				\draw[edge] (a) to (b);
-				\draw[edge] (b) to (c);
-				\draw[edge] (c) to (d);
-				\draw[edge, bend left = 20] (d) to (b);
-				%\draw[edge] (e) to (d);
-				%\draw[edge] (e) to (b);
-				\draw[edge, bend right = 35] (a) to (d);
-				\draw[edge, bend left = 35, <->] (b) to (d);
-								
-				\end{tikzpicture}
-			\end{subfigure}
-			%\end{tabular}
-			\caption{\label{fig:smallCycle} \textbf{A}: Directed graph such 
-			that 
-			each node represents a coordinate process and an edge $\alpha 
-			\rightarrow \beta$ implies that $\Phi_{\beta\alpha}\neq 0$. 
-			\textbf{B}: Latent projection of the graph \textbf{A} on nodes $O = 
-			\{1,2,3,4\}$. \textbf{C}: Graphs \textbf{B} and \textbf{C} are 
-			Markov 
-			equivalent (entail the same $\mu$-separations), yet are 
-			distinguishable using an equality constraint on the observable 
-			matrix $\bar{C} = C_{OO}$. Loops 
-			(self-edges) are omitted from 
-			graphs \textbf{A}, \textbf{B}, and \textbf{C}.}
-		\end{figure*}
 \end{exmp}
 
 
@@ -1048,10 +1057,14 @@ constraint-based structure learning in classical models \citep{spirtes1993,
 spirtesSearchChapHandbook}. Structure learning based on local independence 
 typically assumes 
 \emph{faithfulness}, that is, that $X^B$ is locally independent of $X^A$ given 
-$X^C$ if and only if $B$ is $\mu$-separated from $A$ given $C$ in the DMG 
+$X^C$ if and only if $B$ is $\mu$-separated from $A$ given $C$ in 
+$\mathcal{G}$, the DMG 
 representing the model
 ($\mu$-separation, or $\delta$-separation, is a concept analogous to $m$-, or 
-$d$-separation \citep{didelez2000, didelez2008, mogensen2018}). An obvious 
+$d$-separation \citep{didelez2000, didelez2008, mogensen2018}). The 
+\emph{Markov equivalence class} of $\mathcal{G}$ is the set of DMGs that encode 
+exactly the same set of $\mu$-separations, 
+hence local independences. An obvious 
 question is therefore whether there are constraints imposed by the 
  structure that are not described by local independence, or $\mu$-separation. 
  This is indeed the 
@@ -1064,7 +1077,6 @@ question is therefore whether there are constraints imposed by the
  constraints.
 
 
-
 \subsection{Using Integrated Covariance}
 
 From Equation \ref{eq:Gtilde} and the section on marginalization we see that 
@@ -1073,7 +1085,7 @@ constraint in a linear structural equation model implied by the graphical
 structure imposes the same constraint
 on the parameters $(\tilde{\Phi}, \Theta)$ and this allows us to find 
 constraints 
-in the Hawkes process. We will show by an example that these constraints may 
+in the Hawkes model. We will show by an example that these constraints may 
 provide information about the underlying structure that is not contained the 
 Markov equivalence class.
 
@@ -1092,67 +1104,51 @@ Markov equivalence class.
 	therefore this algebraic constraint is also satisfied by the Hawkes model 
 	corresponding to the graph (note that $\bar{\Phi}_{32} = 
 	\tilde{\Phi}_{32}$, and that the constraint corresponds to
-	two ways of identifying $\bar{\Phi}_{43}$) 
-	[fix: try out with larger graphs marginalized 
-	into this one as well]. The graphs \textbf{B} and \textbf{C} in Figure 
+	two ways of identifying $\bar{\Phi}_{43}$). The graphs \textbf{B} and 
+	\textbf{C} in Figure 
 	\ref{fig:smallCycle} (right) 
 	imply the same set of local independences
-	by the global Markov property, however the above constraint is satisfied in 
+	when using $\mu$-separation. However, the above constraint is satisfied in 
 	\textbf{B} only and therefore this constraint allows us to 
 	discriminate between the two models.
 \end{exmp}
 
-
-\subsection{Using Infinitesimal Covariance}
-\label{ssec:eqInfCov}
-
-The above subsection describes constraints that are imposed by the integrated 
-covariance structure of the model. If we use other aspects of the distribution, 
-we can obtain more constraints. In this subsection, we use Proposition 
-\ref{prop:gPaId} to identify some of the entries in $G$. We then treat these 
-parameters as known in the integrated covariance equation which allows us to 
-obtain more constraints. This is related to previous work on identification of 
-causal effects in linear structural equations models with prior knowledge of 
-some parameters and we can take advantage of known results.
-
-\begin{exmp}
-	
 	\begin{figure*}
 		%\begin{tabular}{cc}
 		\begin{subfigure}{0.3\linewidth}
 			\centering
 			\begin{tikzpicture}[scale=0.7]
 			\tikzset{vertex/.style = {shape=circle,draw,minimum size=1.5em, 
-			inner 
+					inner 
 					sep = 0pt}}
 			\tikzset{edge/.style = {->,> = latex', thick}}
 			\tikzset{edgebi/.style = {<->,> = latex', thick}}
 			\tikzset{every loop/.style={min distance=8mm, looseness=5}}
 			\tikzset{vertexFac/.style = {shape=rectangle,draw,minimum 
-			size=1.5em, 
+					size=1.5em, 
 					inner sep = 0pt}}
 			
-		% vertices
-		%\draw [line width=35pt,opacity=0.1, blue,line cap=round,rounded
-		%corners] (0,0.5) -- (0,2) -- (-1.5,1.5) -- (0,0.5);
-		\node[vertex] (a) at  (-4,0) {$1$};
-		\node[vertex] (b) at  (-2,0) {$2$};
-		\node[vertex] (c) at  (0,0) {$3$};
-		\node[vertex] (d) at  (2,0) {$4$};
-		\node[vertex, opacity = 0] (f) at  (-1,-1.5) {};
-		
-		\node at (-3.5,1.25) {\Large \textbf{A}};
-		
-		%edges
-		
-		\draw[edge] (a) to (b);
-		\draw[edge] (b) to (c);
-		\draw[edge] (c) to (d);
-		\draw[edge, bend left = 20] (d) to (a);
-	
-		
-		\draw[edge, bend left = 35, <->] (b) to (d);			
-
+			% vertices
+			%\draw [line width=35pt,opacity=0.1, blue,line cap=round,rounded
+			%corners] (0,0.5) -- (0,2) -- (-1.5,1.5) -- (0,0.5);
+			\node[vertex] (a) at  (-4,0) {$1$};
+			\node[vertex] (b) at  (-2,0) {$2$};
+			\node[vertex] (c) at  (0,0) {$3$};
+			\node[vertex] (d) at  (2,0) {$4$};
+			\node[vertex, opacity = 0] (f) at  (-1,-1.5) {};
+			
+			\node at (-3.5,1.25) {\Large \textbf{A}};
+			
+			%edges
+			
+			\draw[edge] (a) to (b);
+			\draw[edge] (b) to (c);
+			\draw[edge] (c) to (d);
+			\draw[edge, bend left = 20] (d) to (a);
+			
+			
+			\draw[edge, bend left = 35, <->] (b) to (d);			
+			
 			
 			
 			\end{tikzpicture}
@@ -1216,7 +1212,7 @@ some parameters and we can take advantage of known results.
 			\node[vertex] (c) at  (0,0) {$3$};
 			\node[vertex] (d) at  (2,0) {$4$};
 			\node[vertex] (f) at  (-1,-1.5) {$3^*$};
-
+			
 			\node at (-3.5,1.25) {\Large \textbf{C}};
 			
 			%edges
@@ -1233,13 +1229,38 @@ some parameters and we can take advantage of known results.
 			\end{tikzpicture}
 		\end{subfigure}
 		%\end{tabular}
-		\caption{\label{fig:bigCycle} The result we use do not identify any 
-		constraint that 
-		distinguishes between graphs [fix: how to formulate this?] \textbf{A} 
-		\textbf{A} Loops (self-edges) 
-		are omitted from this 
-		vizualiation.}
+		\caption{\label{fig:bigCycle} Graphs \textbf{A} and \textbf{B} are 
+			Markov equivalent, that is, entail the same local independences 
+			(under 
+			the assumption of faithfulness). They can be distinguished using an 
+			equality constraint arising from using dynamical information as 
+			well 
+			(see Example \ref{exmp:eqBigCycle}). Graph \textbf{C} illustrates 
+			the 
+			use of an \emph{auxiliary variable}, see Example 
+			\ref{exmp:eqBigCycle}.
+			Loops (self-edges) 
+			are omitted from this 
+			vizualiation.}
 	\end{figure*}
+
+
+\subsection{Using Infinitesimal Covariance}
+\label{ssec:eqInfCov}
+
+The above subsection describes constraints that are imposed by the graphical 
+structure on the integrated 
+covariance. If we use other aspects of 
+the distribution, 
+we can obtain more constraints. In this subsection, we use Proposition 
+\ref{prop:gPaId} to identify some of the entries in $\Phi$. We then treat these 
+parameters as known in the integrated covariance equation which allows us to 
+obtain more constraints. This is related to previous work on identification of 
+causal effects in linear structural equations models with prior knowledge of 
+some parameters \citep{chenIJCAI2016,chenICML2017}.
+
+\begin{exmp}
+	
 	
 	We consider graph \textbf{A} in Figure \ref{fig:bigCycle}. The constraint 
 	from Example \ref{exmp:eqSmallCycle} does not hold in this graph. Instead 
@@ -1259,12 +1280,16 @@ some parameters and we can take advantage of known results.
 	construct an {\it auxiliary 
 	variable} following \cite{chenIJCAI2016, chenICML2017}. This can be thought 
 	of as a technique to leverage known coefficients to obtain additional 
-	identification or constraints for a given model. Let $G^+$ be a 
+	identification or constraints for a given model. Let $O=\{1,2,3,4\}$ and 
+	let $\Phi^+$ be a 
 	$5\times 5$ 
 	matrix such that $\Phi_{OO}^+ = \bar{\Phi}$, $\Phi_{52}^+ = 
 	-\bar{\Phi}_{32}, \Phi_{53}^+ 
 	= 1$, and else zero, and we let $\Theta^+$ be a $5\times 5$ matrix such 
-	that $\Theta_{OO}^+ = \Theta$, and $\Theta_{55}^+ = 1$ and zero else. Then 
+	that $\Theta_{OO}^+ = \Theta$, and $\Theta_{55}^+ = 1$ and zero else. This 
+	construction corresponds to a linear SEM where we added an \emph{auxiliary 
+	variable}, $3^*$, to the original model, see \ref{fig:bigCycle}\textbf{C}. 
+	Then 
 	the matrix $C^+$,
 	
 	$$
@@ -1272,9 +1297,9 @@ some parameters and we can take advantage of known results.
 	$$
 	
 	can be computed from $\bar{C}$ and it holds that 
-	$C^+=\bar{C}_{OO}$. It then holds that $\bar{\Phi}_{43} = 
-	C_{14}^+/C_{13}^+$
-	To find the constraint: we note that
+	$C^+=\bar{C}_{OO}$. By direct computation, we see that $\bar{\Phi}_{43} = 
+	C_{14}^+/C_{13}^+$. To obtain a constraint, we find a second method of 
+	identification of $\bar{\Phi}_{43}$ by noting that
 	
 	\begin{align}
 		\Theta = (I - \bar{\Phi})\bar{C}(I-\bar{\Phi})^T = \bar{C} - 
@@ -1284,20 +1309,16 @@ some parameters and we can take advantage of known results.
 	\end{align}
 
 	
-	By considering the $(3,4)$-entry of the above matrix equation, we that
+	By considering the $(3,4)$-entry of the above matrix equation,
 	
 	$$
 	\bar{\Phi}_{43} = (\bar{C}_{34} - 
 	\bar{\Phi}_{32}\bar{C}_{24})/(\bar{C}_{33} - 
-	\bar{\Phi}_{32}\bar{C}_{23})
+	\bar{\Phi}_{32}\bar{C}_{23}).
 	$$
 	
-	[fix: add computations, Chen's results are for acyclic models only, should 
-	check the computations]
-	
-	
  Again, we obtained two ways of identifying 
- this parameter, that is, a constraint
+ the parameter $\bar{\Phi}_{43}$, that is, a constraint
  
  $$
  C_{14}^+/C_{13}^+ = (\bar{C}_{34} - 
@@ -1307,45 +1328,41 @@ some parameters and we can take advantage of known results.
  
  using that $\bar{\Phi}_{32} = \tilde{\Phi}_{32}$ is known as 
  $\tilde{\Phi}_{32}$ and 
- $\tilde{\Phi}_{33}$ are known. This constraint is satisfied in the graph, 
- but 
- does not hold if one adds an edge from 1 to 
- 4, i.e., allows $\bar{\Phi}_{41} \neq 0$. [is this constraint found as in 
- the 
- prveious example?]
+ $\tilde{\Phi}_{33}$ are known. This constraint is satisfied in the graph in 
+ Figure
+ \ref{fig:bigCycle}\textbf{A}, 
+ but not in the graph in \ref{fig:bigCycle}\textbf{B}, and allows us to 
+ distinguish between 
+ the two.
+ 
+ \label{exmp:eqBigCycle}
 \end{exmp}
 
-
-\section{Notes}
-
-[fix: note that the id results are on generic identification?]
-
-[fix: maybe reduce the focus on causal interpretations, it is not really needed 
-for 
-the results?]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Conclusion}
 
+We obtained identification results and equality constraints for Hawkes process 
+models through the similarity between integrated Hawkes covariance and observed 
+covariance of a linear structural equation model. We also argued that more 
+constraints can be found by considering infinitesimal covariance. These 
+equality constraints will be useful for structure learning as they can 
+supplement constraint-based learning based on tests of local independence.
+
 A Hawkes process is defined using the set of $\phi_{\beta\alpha}$-functions 
 along 
-with the $\mu_\alpha$-constants for $\alpha,\beta$ in the finite set $V$. The 
-constraints that are shown to exist in this paper are not the only constraints 
-imposed by the distribution of the Hawkes process [do I actually know this?] On 
-the other hand, they seem to offer also a dimension reduction in that we 
+with the $\mu_\alpha$-constants for $\alpha,\beta$ in the finite set $V$ and a 
+Hawkes process model is in that sense nonparametric.  Constraints that arise 
+from the integrated covariance offer also a dimension reduction in that we 
 actually test these constraints using a finite parameter space instead of a 
-function space. This should make them more suitable to employ in data analysis, 
-seeing estimation of $g$ is a challenging problem even in the case of full 
-observation [cite recent work] and partial observation only adds to the 
-complexity of this task [cite nicolajs thesis]. This approach partially 
-circumvents this problem (ref also Achab's paper).
+function space. This should make them more suitable to employ in data analysis 
+as estimation of the link functions, $\{\phi_{\beta\alpha} \}$, is a 
+challenging problem even in the case of full 
+observation and partial observation only adds to the 
+complexity of this task.
 
-The Hawkes processes are an infinite-dimensional family and this approach also 
-shows that equality constraints are retained even in the finite-dimensional 
-integrated cumulants which makes it easier to use in practical structure 
-learning.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1370,7 +1387,9 @@ learning.
 \section{Marginalization}
 \label{sec:marg}
 
-Consider an invertible block matrix 
+In this section and for a matrix $A$, $A_{\bar{I}\bar{J}}^{-1}$ should be read 
+as $(A^{-1})_{\bar{I}\bar{J}}$ and $A_{\bar{I}\bar{J}}^{-T}$ as 
+$(A^{-T})_{\bar{I}\bar{J}}$. Consider an invertible block matrix 
 
 $$
 M=
@@ -1391,45 +1410,47 @@ M^{-1}=
 \end{pmatrix}.
 $$
 
-Therefore, $$((I - \tilde{\Phi})^{-1})_{OO} = ((I - \tilde{\Phi})/(I - 
+Therefore, $$(I - \tilde{\Phi})_{OO}^{-1} = ((I - \tilde{\Phi})/(I - 
 \tilde{\Phi})_{UU})^{-1} = (I- \bar{\Phi})^{-1}$$ by definition of 
 $\bar{\Phi}$. 
 Furthermore, 
 
 $$
-((I-\tilde{\Phi})^{-1})_{OU} = 
+(I-\tilde{\Phi})_{OU}^{-1} = 
 -(I-\bar{\Phi})^{-1}(I-\tilde{\Phi})_{OU}(I-\tilde{\Phi})((I-\tilde{\Phi})_{UU})^{-1}
 $$
 
-From the above, it follows that
+Let $I = I_n$ and $A_{\bar{I}\bar{I}} = A_{\bar{I}}$. From the above, it 
+follows 
+that
 
 \begin{align*}
-\Theta & = (I_k - \bar{\Phi})[((I_n - 
-\tilde{\Phi})^{-1})_{OO}\tilde{\Lambda}_{OO}((I_n - \tilde{\Phi})^{-T})_{OO} \\ 
-& + 
-((I_n 
+\Theta & = (I_k - \bar{\Phi})[(I_n - 
+\tilde{\Phi})_{O}^{-1}\tilde{\Lambda}_{O}(I - \tilde{\Phi})_{O}^{-T} + \\ 
+&  
+(I 
 - 
-\tilde{\Phi})^{-1})_{OU}\tilde{\Lambda}_{UU}((I_n - 
-\tilde{\Phi})^{-T})_{UO}](I_k - 
+\tilde{\Phi}_{OU}^{-1})\tilde{\Lambda}_{U}(I - 
+\tilde{\Phi})_{UO}^{-T}](I_k - 
 \bar{\Phi})^T \\
-& = \tilde{\Lambda}_{OO} + (I_k - \bar{\Phi})((I_n 
+& = \tilde{\Lambda}_{O} + (I_k - \bar{\Phi})(I 
 - 
-\tilde{\Phi})^{-1})_{OU}\tilde{\Lambda}_{UU}((I_n - 
-\tilde{\Phi})^{-T})_{UO}(I_k - 
+\tilde{\Phi})_{OU}^{-1}\tilde{\Lambda}_{U}((I - 
+\tilde{\Phi})_{UO}^{-T}(I_k - 
 \bar{\Phi})^T \\
-& = \tilde{\Lambda}_{OO} \\ & + (I_n - \tilde{\Phi})_{OU}((I_n - 
-\tilde{\Phi})^{-1})_{UU}\tilde{\Lambda}_{UU}((I_n - 
-\tilde{\Phi})^{-T})_{UU}(I_n - 
-\tilde{\Phi})_{UU}^{-T}(I_n - 
+& = \tilde{\Lambda}_{O} + \\ & (I - \tilde{\Phi})_{OU}(I - 
+\tilde{\Phi})_{U}^{-1}\tilde{\Lambda}_{U}((I - 
+\tilde{\Phi})_{U}^{-T}(I - 
+\tilde{\Phi})_{U}^{-T}(I - 
 \tilde{\Phi})_{OU}^T \\
-& = \tilde{\Lambda}_{OO} \\ & + \tilde{\Phi}_{OU}((I_n - 
-\tilde{\Phi})^{-1})_{UU}\tilde{\Lambda}_{UU}((I_n - 
-\tilde{\Phi})^{-T})_{UU}(I_n - 
-\tilde{\Phi})_{UU}^{-T} 
+& = \tilde{\Lambda}_{O} + \tilde{\Phi}_{OU}(I - 
+\tilde{\Phi})_{U}^{-1}\tilde{\Lambda}_{U}((I - 
+\tilde{\Phi})^{-T})_{U}(I - 
+\tilde{\Phi})_{U}^{-T} 
 \tilde{\Phi}_{OU}^T \\
-= \tilde{\Lambda}_{OO} + & \tilde{\Phi}_{OU}((I_n - 
-\tilde{\Phi})^{-1})_{UU}\tilde{\Lambda}_{UU} \times  \\ & ((I_n - 
-\tilde{\Phi})^{-T})_{UU}
+& = \tilde{\Lambda}_{O} + \tilde{\Phi}_{OU}(I - 
+\tilde{\Phi})_{U}^{-1}\tilde{\Lambda}_{U} (I - 
+\tilde{\Phi})_{U}^{-T}
 \tilde{\Phi}_{OU}^T.
 \end{align*}
 
