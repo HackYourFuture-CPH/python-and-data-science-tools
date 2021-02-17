@@ -163,7 +163,7 @@ related to the so-called cluster representation of a linear Hawkes process.
 
 Hawkes processes have received much attention in machine learning in recent 
 years as a tractable model of mutually exciting streams of events 
-\citep{zhou2013, zhou2013b,luo2015,etesami2016,tan2018,xu2018,trouleau2019}. 
+\citep{zhou2013b,luo2015,etesami2016,tan2018,xu2018,trouleau2019}. 
 The following is a brief introduction to this model class,
 see \cite{laubHawkes2015}, \cite{linigerThesis}, and \cite{daleyVere} for 
 additional background on Hawkes processes and point processes in general.
@@ -473,60 +473,24 @@ $\beta\rightarrow\alpha$. We say that a DMG is \emph{acyclic} if it contains no
 1,\ldots, k$ and $k \geq 1$. 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Identification}
-
-Using constraints on the causal graph, we will discuss the identification of 
-the entries in the 
-matrix $\Phi$ and the functions $\phi_{\beta\alpha}$. To give a formal 
-definition 
-of 
-identification, consider two stationary Hawkes 
-processes, $M_1\in\mathbb{M}$ and $M_2\in\mathbb{M}$, with coordinate processes 
-$V_1$ and $V_2$, 
-respectively, for a class of models $\mathbb{M}$. Let $ \tilde{P}_1$ and $ 
-\tilde{P}_2$ be their marginal 
-distributions over a common observed set of 
-coordinate processes, $O$, let $f$ be a function of 
-such a marginal distribution, and let 
-$\alpha,\beta\in O$. Finally, let $\Phi_{\beta\alpha}^i$ and 
-$\phi_{\beta\alpha}^i$ 
-denote the direct effect and the link function from $\alpha$ to 
-$\beta$ in $M_i$, respectively. We will say that the parameter 
-$\Phi_{\beta\alpha}$ \emph{is 
-identified from} 
-$f(\tilde{P})$ in the class $\mathbb{M}$ if $f(\tilde{P}_1) = f(\tilde{P}_2)$ 
-implies $\Phi_{\beta\alpha}^1 = \Phi_{\beta\alpha}^2$. Similarly, we say 
-$\phi_{\beta\alpha}$ is identified from $f(P)$ in the class $\mathbb{M}$ if 
-$f(\tilde{P}_1) = 
-f(\tilde{P}_2)$ 
-implies $\phi_{\beta\alpha}^1 = \phi_{\beta\alpha}^2$. Note that while 
-identification 
-is often only discussed from the 
-observed distribution in its entirety, we use $f$ to distinguish simpler 
-statistics which can be sufficient for identification. As we will see some 
-parameters are identified from the integrated covariance matrix in which case 
-the inferential problem is reduced to a finite-dimensional one.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Identification as a Linear Structural Equation Model}
+\section{Representation as a Linear SEM}
 
 The relation between the observed quantity, $C$, and the parameters in $\Phi$ 
 in 
 Equation (\ref{eq:covarEq}) is seen to be very similar to the relation between 
 causal parameters and the covariance matrix of a \emph{linear structural 
-equation model} (linear SEM) and we will leverage this fact in this section. 
+	equation model} (linear SEM) and we will leverage this fact. 
 There is 
 a number of papers with 
 identification results in this model class \citep{brito2002, tian2007, 
-tian2009, 
-foygelHalftrek2012, 
-chenNIPS2016, drton2016, 
-weihs2018}, though some results only apply to \emph{acyclic} linear SEMs (see a 
+	tian2009, 
+	foygelHalftrek2012, 
+	chenNIPS2016, drton2016, 
+	weihs2018}, though some results only apply to \emph{acyclic} linear SEMs 
+	(see a 
 definition of acyclicity below). \cite{bollen1989} provides an introduction to 
 the model class. We give a short introduction here to describe the connection 
 to 
@@ -536,8 +500,8 @@ $\varepsilon =
 (\varepsilon_1,\ldots,\varepsilon_n)^T$ is a vector of zero-mean noise terms,
 
 \begin{align}
-	X = BX + \varepsilon
-	\label{eq:SEM}
+X = BX + \varepsilon
+\label{eq:SEM}
 \end{align}
 
 such that the matrix $B$ has zeros on the diagonal. We let $\Sigma_\varepsilon$ 
@@ -584,63 +548,10 @@ a priori on $\Sigma_\varepsilon$ and we will see that this discrepancy
 corresponds to marginalization of the systems (\ref{sssec:marg}).
 
 
-\subsubsection{Normalized Effects}
-\label{sssec:normEff}
 
-When $\Phi$ is a matrix of direct effects of a Hawkes process, the diagonal 
-elements are not necessarily zero. On the other hand, in a linear SEM the 
-diagonal of $B$ 
-(Equation (\ref{eq:SEM})) is commonly assumed to be zero. We introduce 
-the matrix $\tilde{\Phi}$ by scaling each column of $\Phi$ by its 
-diagonal element and placing zeros on the diagonal, i.e.,
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-$$
-\tilde{\Phi}_{\beta\alpha} = \Phi_{\beta\alpha}/(1-\Phi_{\beta\beta})  \text{ 
-if } \beta\neq \alpha, \text{ and } 
-\tilde{\Phi}_{\beta\alpha} 
-= 0 \text{ if } \beta= \alpha.
-$$
-
-\cite{hyttinen2012} study linear SEMs and use the same approach to derive 
-so-called canonical linear 
-cyclic models from models with self-loops. We 
-will say that the parameters of $\tilde{\Phi}$ are \emph{normalized direct
-(causal) effects}. It seen is that a normalized direct effect, 
-$\tilde{\Phi}_{\beta\alpha}$, $\alpha\neq\beta$, is the average number of 
-direct 
-descendants of type 
-$\beta$ from an $\alpha$-event, counting every direct self-triggered event in 
-the $\beta$-process. 
-That is, on the Hawkes tree rooted at $\alpha$, $\tilde{\Phi}_{\beta\alpha}$ is 
-the expected number of $\beta$-events on subtrees of the form $\alpha - \beta - 
-\beta - \ldots - 
-\beta$ for any number of $\beta$-events. 
-Let $D$ denote a 
-diagonal matrix such that the $\alpha$'th diagonal element equals 
-$1 - \Phi_{\alpha\alpha}$. Then
-
-\begin{align*}
-C & = (I - \Phi)^{-1}\Lambda (I - \Phi)^{-T}  \\
-& = (D(I - \tilde{\Phi}))^{-1}\Lambda (D(I - \tilde{\Phi}))^{-T} \\
-& = (I - \tilde{\Phi})^{-1}D^{-1} \Lambda D^{-1}(I - 
-\tilde{\Phi})^{-T}.
-\label{eq:Gtilde}
-\end{align*}
-
-
-This reformulation of the equations allows us to use results on identifiability 
-in linear structural 
-equation models to argue about 
-identifiability of the parameters in $\tilde{\Phi}$ and $\Phi$. Note that while 
-this 
-casts the Hawkes identification as a set of equations describing the covariance 
-matrix of a linear SEM, the Hawkes parameters are required to be nonnegative. 
-In this 
-following, we argue that this correspondence can also be exploited in the case 
-of partial observation.
-
-
-\subsubsection{Marginalization}
+\subsection{Marginalization}
 \label{sssec:marg} 
 
 We will mostly be interested in systems that are only partially observed in 
@@ -658,92 +569,31 @@ that
 where 
 
 \begin{align*}
-\bar{\Phi} & = \tilde{\Phi}_{OO} +  \tilde{\Phi}_{OU}(I_l - 
-\tilde{\Phi}_{UU})^{-1}\tilde{\Phi}_{UO} \\
-\Theta & = (I_k-\bar{\Phi})[(I_n - \tilde{\Phi})^{-1}\tilde{\Lambda}(I - 
-\tilde{\Phi})^{-T}]_{OO}(I_k-\bar{\Phi})^T, \\
+\bar{\Phi} & = {\Phi}_{OO} +  {\Phi}_{OU}(I_l - 
+{\Phi}_{UU})^{-1}{\Phi}_{UO} \\
+\Theta & = (I_k-\bar{\Phi})[(I_n - {\Phi})^{-1}{\Lambda}(I - 
+{\Phi})^{-T}]_{OO}(I_k-\bar{\Phi})^T. \\
 \end{align*}
 
-see \cite{hyttinen2012}. Let 
+The assumption that $\Phi$ has spectral radius less than one does not imply 
+that $\bar{Phi}$ does as well, though $I - \bar{\Phi}$ is guaranteed to be 
+invertible \cite{hyttinen2012}. Let 
 $\tilde{\Lambda} 
-= D^{-1}\Lambda D^{-1}$. Using Schur complements, we can write
+= D^{-1}\Lambda D^{-1}$. Using Schur complements, we can write (see the 
+appendix)
 
 \begin{align*}
-	\Theta =  \tilde{\Lambda}_{OO} + & \tilde{\Phi}_{OU}((I_n - 
-	\tilde{\Phi})^{-1})_{UU}\tilde{\Lambda}_{UU} \times  \\ & ((I_n - 
-	\tilde{\Phi})^{-T})_{UU}
-	\tilde{\Phi}_{OU}^T.
+\Theta =  {\Lambda}_{OO} + & {\Phi}_{OU}((I_n - 
+{\Phi})^{-1})_{UU}{\Lambda}_{UU} \times  \\ & ((I_n - 
+{\Phi})^{-T})_{UU}
+{\Phi}_{OU}^T.
 \end{align*}
 
-The above computations are of course the same as in the case of a linear 
-structural equation model.
-
-\begin{prop}
-	Let $\alpha,\beta \in O$, $\alpha\neq \beta$. The parameter 
-	$\tilde{\Phi}_{\beta\alpha}$ is 
-	identified 
-	from the observed integrated covariance if there 
-	are no unobserved directed paths from 
-	$\alpha$ to $\beta$ and $\bar{\Phi}_{\beta\alpha}$ is identified from 
-	$\bar{C}$.
-\end{prop}
-
-\begin{proof}
-	Note that $\tilde{\Phi}_{\beta\alpha} = \bar{\Phi}_{\beta\alpha}$ as there 
-	are no 
-	unobserved directed paths from $\alpha$ to $\beta$.
-\end{proof}
-
-\begin{prop}
-	Let $\alpha\in O$. The parameter $\Phi_{\alpha\alpha}$ is identified from 
-	the 
-	integrated mean and covariance if all 
-	parents of $\alpha$ are observed and $\Theta_{\alpha\alpha}$ is identified 
-	from 
-	$\bar{C}$.
-\end{prop}
-
-\begin{proof}
-	If all parents of $\alpha$ are observed, then $\Theta_{\alpha\alpha} = 
-	\tilde{\Lambda}_{\alpha\alpha} = \Lambda_{\alpha\alpha}/(1 - 
-	\Phi_{\alpha\alpha})^2$.
-\end{proof}
-
-If all parents of $\alpha$ are observed and $\bar{\Phi}_{\alpha\gamma}$ is 
-identified for 
- every 
- $\gamma\in V$, then $\Theta_{\alpha\alpha}$ is identified from $\bar{C}$.
-This follows from the $(\alpha,\alpha)$-equation in the matrix equation in 
-(\ref{eq:expandTheta}).
-
-It is immediate that $\Phi_{\beta\alpha}$ is identified if 
-$\tilde{\Phi}_{\beta\alpha}$ and $\Phi_{\alpha\alpha}$ are identified. Above 
-the 
-conditions ensure that the parameters of the marginal system equals that of the 
-original system and therefore identification in the marginal system implies 
-identification in the normalized system. One could of course also consider 
-identification of parameters that do not occur in the original example and also 
-interpret these, e.g., parameters in $\bar{\Phi}$ that 
-correspond to aggregating effects along multiple unobserved paths, similarly to 
-the 
-interpretation of the normalized parameters in $\tilde{\Phi}$.
-
-
-The idea is now 
-that one can use any available identification result from the (cyclic) linear 
-structural equation toolbox to show identification of the entries in 
-$\tilde{\Phi}$ such as those provided by, e.g., \cite{foygelHalftrek2012, 
-chenNIPS2016, 
-weihs2018}. 
-These are often 
-formulated in terms of graphical 
-conditions, and we note that the 
-marginalized set of equations correspond to a linear structural 
-equation model described by the latent projection of the Hawkes causal graph 
-(Definition \ref{def:latProj}). We also note that one typically has to 
-distinguish between \emph{global} and \emph{generic} identification of 
-parameters.
-
+$\Theta$ is clearly positive semidefinite, and positive definite if 
+$\Lambda$ is. The above computations are of course the same as in the case of a 
+linear 
+structural equation model. We will use \emph{latent projections} to find 
+graphical representations of partially observed Hawkes processes.
 
 \begin{defn}[Latent projection, \cite{vermaEquiAndSynthesis,richardson2017}]
 	\label{def:latProj}
@@ -764,10 +614,201 @@ be empty and therefore if $\alpha\rightarrow\beta$ is in $\mathcal{G}$, then it
 is 
 also in its latent projection whenever $\alpha,\beta\in O$. We also note that 
 the definition uses walks to 
-allow for cycles as done by \cite{mogensen2018}. In DAG-based models, this is 
+allow for cycles \citep{mogensen2018}. In DAG-based models, this is 
 not needed 
-and therefore the analogous definition is often stated using paths 
+and the definition is often stated using paths 
 \citep{richardson2017}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Normalized Effects}
+\label{sssec:normEff}
+
+When $\Phi$ is a matrix of direct effects of a Hawkes process (or marginalized 
+effects, $\bar{\Phi}$), the diagonal 
+elements are not necessarily zero. On the other hand, in a linear SEM the 
+diagonal of $B$ 
+(Equation (\ref{eq:SEM})) is commonly assumed to be zero. We introduce 
+the matrix $\tilde{\Phi}$ by scaling each column of $\bar{\Phi}$ by its 
+diagonal element and placing zeros on the diagonal,
+
+$$
+\tilde{\Phi}_{\beta\alpha} = 
+\bar{\Phi}_{\beta\alpha}/(1-\bar{\Phi}_{\beta\beta})  \text{ 
+	if } \beta\neq \alpha, \text{ and } 
+\tilde{\Phi}_{\beta\alpha} 
+= 0 \text{ if } \beta= \alpha,
+$$
+
+where $I-\tilde{\Phi}$ is invertible \cite{hyttinen2012}. \cite{hyttinen2012} 
+study linear SEMs and use the same approach to derive 
+so-called canonical linear 
+cyclic models from models with self-loops. We think of the above operation as a 
+type of normalization, and if this is done in the full model (no 
+marginalization), we 
+will say that the normalized parameters, that is, 
+${\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta}) $,
+are \emph{normalized direct
+	(causal) effects}. It seen is that a normalized direct effect, 
+${\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta}) $, $\alpha\neq\beta$, is the 
+average number of 
+direct 
+descendants of type 
+$\beta$ from an $\alpha$-event, counting every direct self-triggered event in 
+the $\beta$-process. 
+That is, on the Hawkes tree rooted at $\alpha$, 
+${\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta}) $ is 
+the expected number of $\beta$-events on subtrees of the form $\alpha - \beta - 
+\beta - \ldots - 
+\beta$ for any number of $\beta$-events. 
+Let $D$ denote a 
+diagonal matrix such that the $\alpha$'th diagonal element equals 
+$1 - \bar{\Phi}_{\alpha\alpha}$. Then
+
+
+\begin{align}
+\bar{C} & = (I - \bar{\Phi})^{-1}\Theta(I - \bar{\Phi})^{-T} \nonumber  \\
+& = (D(I - \tilde{\Phi}))^{-1}\Theta (D(I - \tilde{\Phi}))^{-T} \nonumber \\
+& = (I - \tilde{\Phi})^{-1}D^{-1}\Theta D^{-1}(I - 
+\tilde{\Phi})^{-T}.
+\label{eq:Gtilde}
+\end{align}
+
+If we consider a Hawkes process and its causal graph, $\mathcal{D} = (V,E)$, we 
+see that the latent projection of $\mathcal{D}$, $\mathcal{G} = (O,F)$, 
+$O\subseteq V$, represents the observed covariance, $\bar{C} = C_{OO}$ in the 
+following way. If $\alpha\rightarrow\beta$ is not in $\mathcal{G}$, then 
+$\bar{\Phi}_{\beta\alpha}=0$. If $\alpha\leftrightarrow\beta$ is not in 
+$\mathcal{G}$, then $\Theta_{\beta\alpha} = \Theta_{\alpha\beta} = 0$. Omitting 
+self-loops, this corresponds to the graphical representation of a linear SEM. 
+This means that the observable integrated covariances after rewriting are 
+parametrized exactly like a linear SEM and we will use this to obtain 
+identification results (Section \ref{sec:id}) and equality constraints (Section 
+\ref{sec:eq}).
+
+Note that while 
+this 
+casts the Hawkes integrated covariance as a set of equations describing the 
+covariance 
+matrix of a linear SEM, the Hawkes parameters are required to be nonnegative. 
+	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Identification}
+\label{sec:id}
+
+Using constraints on the causal graph, we will discuss the identification of 
+the entries in the 
+matrix $\Phi$ and the functions $\phi_{\beta\alpha}$. To give a formal 
+definition 
+of 
+identification, consider two stationary Hawkes 
+processes, $M_1\in\mathbb{M}$ and $M_2\in\mathbb{M}$, with coordinate processes 
+$V_1$ and $V_2$, 
+respectively, for a class of models $\mathbb{M}$. Let $ \tilde{P}_1$ and $ 
+\tilde{P}_2$ be their marginal 
+distributions over a common observed set of 
+coordinate processes, $O$, let $f$ be a function of 
+such a marginal distribution, and let 
+$\alpha,\beta\in O$. Finally, let $\Gamma_{\beta\alpha}^i$ be a parameter and 
+$\phi_{\beta\alpha}^i$ the link function from $\alpha$ to 
+$\beta$ in $M_i$, respectively ($\Gamma_{\beta\alpha} = \Phi_{\beta\alpha}, 
+\Gamma_{\beta\alpha}=\tilde{\Phi}_{\beta\alpha},$ or $\Gamma_{\beta\alpha} = 
+\Phi_{\beta\alpha}/(1-\Phi_{\beta\beta})$, e.g.). We will say that the 
+parameter 
+$A$ \emph{is 
+identified from} 
+$f(\tilde{P})$ in the class $\mathbb{M}$ if $f(\tilde{P}_1) = f(\tilde{P}_2)$ 
+implies $\Gamma_{\beta\alpha}^1 = 
+\Gamma_{\beta\alpha}^2$. Similarly, we say 
+$\phi_{\beta\alpha}$ is identified from $f(P)$ in the class $\mathbb{M}$ if 
+$f(\tilde{P}_1) = 
+f(\tilde{P}_2)$ 
+implies $\phi_{\beta\alpha}^1 = \phi_{\beta\alpha}^2$. Note that while 
+identification 
+is often only discussed from the 
+observed distribution in its entirety, we use $f$ to distinguish simpler 
+statistics which can be sufficient for identification. As we will see some 
+parameters are identified from the integrated covariance matrix in which case 
+the inferential problem is reduced to a finite-dimensional one.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Identification as a Linear SEM}
+
+The idea is now 
+that one can use any available identification result from the (cyclic) linear 
+structural equation toolbox to show identification of the entries in 
+$\tilde{\Phi}$ such as those provided by, e.g., \cite{foygelHalftrek2012, 
+	chenNIPS2016, 
+	weihs2018}. 
+These are often 
+formulated in terms of graphical 
+conditions, and we note that the 
+marginalized set of equations correspond to a linear structural 
+equation model described by the latent projection of the Hawkes causal graph 
+(Definition \ref{def:latProj}). We also note that one typically has to 
+distinguish between \emph{global} and \emph{generic} identification of 
+parameters.
+
+\begin{prop}
+	Let $\alpha,\beta \in O$, $\alpha\neq \beta$. The parameter 
+	${\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta}) $ is 
+	identified 
+	from the observed integrated covariance if there 
+	are no unobserved directed paths from 
+	$\alpha$ to $\beta$ and $\tilde{\Phi}_{\beta\alpha}$ is identified from 
+	$\bar{C}$.
+\end{prop}
+
+\begin{proof}
+	Note that ${\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta}) = 
+	\tilde{\Phi}_{\beta\alpha}$ as there 
+	are no 
+	unobserved directed paths from $\alpha$ to $\beta$.
+\end{proof}
+
+\begin{prop}
+	Let $\alpha\in O$. The parameter $\Phi_{\alpha\alpha}$ is identified from 
+	the 
+	integrated mean and covariance if all 
+	parents of $\alpha$ are observed and $\Theta_{\alpha\alpha}$ is identified 
+	from 
+	$\bar{C}$.
+\end{prop}
+
+\begin{proof}
+	If all parents of $\alpha$ are observed, then $\Theta_{\alpha\alpha} = 
+	\tilde{\Lambda}_{\alpha\alpha} = \Lambda_{\alpha\alpha}/(1 - 
+	\bar{\Phi}_{\alpha\alpha})^2 = \Lambda_{\alpha\alpha}/(1 - 
+	\Phi_{\alpha\alpha})^2$.
+\end{proof}
+
+If the spectral radius of $\tilde{\Phi}$ is less than one, all parents of 
+$\alpha$ are observed and $\tilde{\Phi}_{\alpha\gamma}$ is 
+identified for 
+ every 
+ $\gamma\in V$, then $\Theta_{\alpha\alpha}$ is identified from $\bar{C}$.
+This follows from the $(\alpha,\alpha)$-equation in the matrix equation in 
+(\ref{eq:expandTheta}).
+
+It is immediate that $\Phi_{\beta\alpha}$ is identified if 
+${\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta})$ and $\Phi_{\alpha\alpha}$ are 
+identified. Above 
+the 
+conditions ensure that the parameters of the marginal system equals that of the 
+original system and therefore identification in the marginal system implies 
+identification in the normalized system. One could of course also consider 
+identification of parameters that do not occur in the original example and also 
+interpret these, e.g., parameters in $\tilde{\Phi}$ that 
+correspond to aggregating effects along multiple unobserved paths, similarly to 
+the 
+interpretation of the normalized parameters, 
+${\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta})$.
+
 
 \begin{exmp}
 			\begin{figure*}
@@ -906,6 +947,7 @@ and therefore the analogous definition is often stated using paths
 					(self-edges) are omitted from 
 					graphs \textbf{A}, \textbf{B}, and \textbf{C}.}
 			\end{figure*}
+			
 	Consider the graph in Figure \ref{fig:smallCycle}\textbf{A} and assume that 
 	this is the causal graph of a Hawkes process on nodes $V = \{1,2,3,4,5\}$ 
 	such that coordinate process $5$ is unobserved. If we apply the 
@@ -913,8 +955,8 @@ and therefore the analogous definition is often stated using paths
 	$\tilde{\Phi}_{\beta\alpha}$ 
 	such that 
 	$\alpha,\beta\in O$ is identified from $\bar{C}$ (note that 
-	$\bar{\Phi}_{\beta\alpha} = 
-	\tilde{\Phi}_{\beta\alpha}$ for $\alpha,\beta\in O$ in this example). It 
+	$\tilde{\Phi}_{\beta\alpha}={\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta})$ 
+	for $\alpha,\beta\in O$ in this example). It 
 	follows 
 	from the 
 	above propositions that $\Phi_{11}, \Phi_{23}$, and $\Phi_{33}$ are 
@@ -954,7 +996,6 @@ covariance},
 	\label{eq:infv}
 \end{align}
 
-
 where $\delta$ is a Dirac delta function and $\varepsilon_{\beta\alpha} = 
 \mathds{1}_{(\beta=\alpha)}$, and
 
@@ -964,10 +1005,8 @@ $$
 
 We let $\Phi(t)$ denote the matrix of functions such that 
 $\Phi(t)_{\beta\alpha} = 
-\phi_{\beta\alpha}(t)$. \cite{hawkesJRSSB1971} stated the following $n\times n$ 
-equality 
-which 
-relates the infinitesimal covariance to the link functions,
+\phi_{\beta\alpha}(t)$. \cite{hawkesJRSSB1971} gave the following $n\times n$ 
+equality,
 
 \begin{align}
 	g(t) = \Phi(t) + \Phi(t) \star g(t),
@@ -1012,7 +1051,7 @@ infinitesimal covariance process and $\Lambda_{OO}$ we will use this in Section
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Equality Constraints}
-
+\label{sec:eq}
 
 It is well-known that partially observed DAG-models satisfy 
 constraints that 
@@ -1097,14 +1136,15 @@ Markov equivalence class.
 	see that the graphical structure imposes the constraint 
 	
 	$$\bar{C}_{14}/\bar{C}_{13} = (\bar{C}_{34} - 
-	\bar{\Phi}_{32}\bar{C}_{24})/(\bar{C}_{33} - 
-	\bar{\Phi}_{32}\bar{C}_{23}),$$ 
+	\tilde{\Phi}_{32}\bar{C}_{24})/(\bar{C}_{33} - 
+	\tilde{\Phi}_{32}\bar{C}_{23}),$$ 
 	
 	and 
 	therefore this algebraic constraint is also satisfied by the Hawkes model 
-	corresponding to the graph (note that $\bar{\Phi}_{32} = 
-	\tilde{\Phi}_{32}$, and that the constraint corresponds to
-	two ways of identifying $\bar{\Phi}_{43}$). The graphs \textbf{B} and 
+	corresponding to the graph (note that $\tilde{\Phi}_{32} = 
+	\Phi_{32}/(1-\Phi_{33})$, and that the constraint 
+	corresponds to
+	two ways of identifying $\tilde{\Phi}_{43}$). The graphs \textbf{B} and 
 	\textbf{C} in Figure 
 	\ref{fig:smallCycle} (right) 
 	imply the same set of local independences
@@ -1231,8 +1271,7 @@ Markov equivalence class.
 		%\end{tabular}
 		\caption{\label{fig:bigCycle} Graphs \textbf{A} and \textbf{B} are 
 			Markov equivalent, that is, entail the same local independences 
-			(under 
-			the assumption of faithfulness). They can be distinguished using an 
+			(assuming faithfulness). They can be distinguished using an 
 			equality constraint arising from using dynamical information as 
 			well 
 			(see Example \ref{exmp:eqBigCycle}). Graph \textbf{C} illustrates 
@@ -1273,7 +1312,8 @@ some parameters \citep{chenIJCAI2016,chenICML2017}.
 	and 
 	$\Phi_{33}$.  Leveraging this information we can again find two ways of 
 	identifying 
-	$\bar{\Phi}_{43}$ and from this we will obtain an equality constraint that 
+	$\tilde{\Phi}_{43}$ and from this we will obtain an equality constraint 
+	that 
 	will 
 	discriminate between graphs \textbf{A} and \text{B} in 
 	Figure \ref{fig:bigCycle}. This can be done in different ways. We 
@@ -1283,8 +1323,8 @@ some parameters \citep{chenIJCAI2016,chenICML2017}.
 	identification or constraints for a given model. Let $O=\{1,2,3,4\}$ and 
 	let $\Phi^+$ be a 
 	$5\times 5$ 
-	matrix such that $\Phi_{OO}^+ = \bar{\Phi}$, $\Phi_{52}^+ = 
-	-\bar{\Phi}_{32}, \Phi_{53}^+ 
+	matrix such that $\Phi_{OO}^+ = \tilde{\Phi}$, $\Phi_{52}^+ = 
+	-\tilde{\Phi}_{32}, \Phi_{53}^+ 
 	= 1$, and else zero, and we let $\Theta^+$ be a $5\times 5$ matrix such 
 	that $\Theta_{OO}^+ = \Theta$, and $\Theta_{55}^+ = 1$ and zero else. This 
 	construction corresponds to a linear SEM where we added an \emph{auxiliary 
@@ -1297,41 +1337,42 @@ some parameters \citep{chenIJCAI2016,chenICML2017}.
 	$$
 	
 	can be computed from $\bar{C}$ and it holds that 
-	$C^+=\bar{C}_{OO}$. By direct computation, we see that $\bar{\Phi}_{43} = 
+	$C^+=\bar{C}_{OO}$. By direct computation, we see that $\tilde{\Phi}_{43} = 
 	C_{14}^+/C_{13}^+$. To obtain a constraint, we find a second method of 
-	identification of $\bar{\Phi}_{43}$ by noting that
+	identification of $\tilde{\Phi}_{43}$ by noting that
 	
 	\begin{align}
-		\Theta = (I - \bar{\Phi})\bar{C}(I-\bar{\Phi})^T = \bar{C} - 
-		\bar{\Phi}\bar{C} - \bar{C}\bar{\Phi}^T + 
-		\bar{\Phi}\bar{C}\bar{\Phi}^T.
+		\Theta = (I - \tilde{\Phi})\bar{C}(I-\tilde{\Phi})^T = \bar{C} - 
+		\tilde{\Phi}\bar{C} - \bar{C}\tilde{\Phi}^T + 
+		\tilde{\Phi}\bar{C}\tilde{\Phi}^T,
 		\label{eq:expandTheta}
 	\end{align}
 
 	
-	By considering the $(3,4)$-entry of the above matrix equation,
+	assuming that $\tilde{\Phi}$ is weakly stable. By considering the 
+	$(3,4)$-entry of the above matrix equation,
 	
 	$$
-	\bar{\Phi}_{43} = (\bar{C}_{34} - 
-	\bar{\Phi}_{32}\bar{C}_{24})/(\bar{C}_{33} - 
-	\bar{\Phi}_{32}\bar{C}_{23}).
+	\tilde{\Phi}_{43} = (\bar{C}_{34} - 
+	\tilde{\Phi}_{32}\bar{C}_{24})/(\bar{C}_{33} - 
+	\tilde{\Phi}_{32}\bar{C}_{23}).
 	$$
 	
  Again, we obtained two ways of identifying 
- the parameter $\bar{\Phi}_{43}$, that is, a constraint
+ the parameter $\tilde{\Phi}_{43}$, that is, a constraint
  
  $$
  C_{14}^+/C_{13}^+ = (\bar{C}_{34} - 
- \bar{\Phi}_{32}\bar{C}_{24})/(\bar{C}_{33} - 
- \bar{\Phi}_{32}\bar{C}_{23})
+ \tilde{\Phi}_{32}\bar{C}_{24})/(\bar{C}_{33} - 
+ \tilde{\Phi}_{32}\bar{C}_{23})
  $$
  
- using that $\bar{\Phi}_{32} = \tilde{\Phi}_{32}$ is known as 
- $\tilde{\Phi}_{32}$ and 
- $\tilde{\Phi}_{33}$ are known. This constraint is satisfied in the graph in 
+ using that $\tilde{\Phi}_{32} = {\Phi}_{32}/(1-\Phi_{33})$ is known as 
+ ${\Phi}_{32}$ and 
+ ${\Phi}_{33}$ are known. This constraint is satisfied in 
  Figure
  \ref{fig:bigCycle}\textbf{A}, 
- but not in the graph in \ref{fig:bigCycle}\textbf{B}, and allows us to 
+ but not in \ref{fig:bigCycle}\textbf{B}, and it allows us to 
  distinguish between 
  the two.
  
@@ -1387,9 +1428,10 @@ complexity of this task.
 \section{Marginalization}
 \label{sec:marg}
 
-In this section and for a matrix $A$, $A_{\bar{I}\bar{J}}^{-1}$ should be read 
-as $(A^{-1})_{\bar{I}\bar{J}}$ and $A_{\bar{I}\bar{J}}^{-T}$ as 
-$(A^{-T})_{\bar{I}\bar{J}}$. Consider an invertible block matrix 
+In this section and for a matrix $A$, we define $A_{\bar{I}\bar{J}}^{-1} = 
+(A^{-1})_{\bar{I}\bar{J}}$ and 
+$A_{\bar{I}\bar{J}}^{-T}=(A^{-T})_{\bar{I}\bar{J}}$. Consider an invertible 
+block matrix 
 
 $$
 M=
@@ -1410,48 +1452,48 @@ M^{-1}=
 \end{pmatrix}.
 $$
 
-Therefore, $$(I - \tilde{\Phi})_{OO}^{-1} = ((I - \tilde{\Phi})/(I - 
-\tilde{\Phi})_{UU})^{-1} = (I- \bar{\Phi})^{-1}$$ by definition of 
+Therefore, $$(I - {\Phi})_{OO}^{-1} = ((I - {\Phi})/(I - 
+{\Phi})_{UU})^{-1} = (I- \bar{\Phi})^{-1}$$ by definition of 
 $\bar{\Phi}$. 
 Furthermore, 
 
 $$
-(I-\tilde{\Phi})_{OU}^{-1} = 
--(I-\bar{\Phi})^{-1}(I-\tilde{\Phi})_{OU}(I-\tilde{\Phi})((I-\tilde{\Phi})_{UU})^{-1}
+(I-{\Phi})_{OU}^{-1} = 
+-(I-\bar{\Phi})^{-1}(I-{\Phi})_{OU}(I-{\Phi})((I-{\Phi})_{UU})^{-1}
 $$
 
-Let $I = I_n$ and $A_{\bar{I}\bar{I}} = A_{\bar{I}}$. From the above, it 
+Let $I = I_n$ and $A_{\bar{I}}=A_{\bar{I}\bar{I}}$. From the above, it 
 follows 
 that
 
 \begin{align*}
 \Theta & = (I_k - \bar{\Phi})[(I_n - 
-\tilde{\Phi})_{O}^{-1}\tilde{\Lambda}_{O}(I - \tilde{\Phi})_{O}^{-T} + \\ 
+{\Phi})_{O}^{-1}{\Lambda}_{O}(I - {\Phi})_{O}^{-T} + \\ 
 &  
 (I 
 - 
-\tilde{\Phi}_{OU}^{-1})\tilde{\Lambda}_{U}(I - 
-\tilde{\Phi})_{UO}^{-T}](I_k - 
+{\Phi}_{OU}^{-1}){\Lambda}_{U}(I - 
+{\Phi})_{UO}^{-T}](I_k - 
 \bar{\Phi})^T \\
-& = \tilde{\Lambda}_{O} + (I_k - \bar{\Phi})(I 
+& = {\Lambda}_{O} + (I_k - \bar{\Phi})(I 
 - 
-\tilde{\Phi})_{OU}^{-1}\tilde{\Lambda}_{U}((I - 
-\tilde{\Phi})_{UO}^{-T}(I_k - 
+{\Phi})_{OU}^{-1}{\Lambda}_{U}((I - 
+{\Phi})_{UO}^{-T}(I_k - 
 \bar{\Phi})^T \\
-& = \tilde{\Lambda}_{O} + \\ & (I - \tilde{\Phi})_{OU}(I - 
-\tilde{\Phi})_{U}^{-1}\tilde{\Lambda}_{U}((I - 
-\tilde{\Phi})_{U}^{-T}(I - 
-\tilde{\Phi})_{U}^{-T}(I - 
-\tilde{\Phi})_{OU}^T \\
-& = \tilde{\Lambda}_{O} + \tilde{\Phi}_{OU}(I - 
-\tilde{\Phi})_{U}^{-1}\tilde{\Lambda}_{U}((I - 
-\tilde{\Phi})^{-T})_{U}(I - 
-\tilde{\Phi})_{U}^{-T} 
-\tilde{\Phi}_{OU}^T \\
-& = \tilde{\Lambda}_{O} + \tilde{\Phi}_{OU}(I - 
-\tilde{\Phi})_{U}^{-1}\tilde{\Lambda}_{U} (I - 
-\tilde{\Phi})_{U}^{-T}
-\tilde{\Phi}_{OU}^T.
+& = {\Lambda}_{O} + \\ & (I - {\Phi})_{OU}(I - 
+{\Phi})_{U}^{-1}{\Lambda}_{U}((I - 
+{\Phi})_{U}^{-T}(I - 
+{\Phi})_{U}^{-T}(I - 
+{\Phi})_{OU}^T \\
+& = {\Lambda}_{O} + {\Phi}_{OU}(I - 
+{\Phi})_{U}^{-1}{\Lambda}_{U}((I - 
+{\Phi})^{-T})_{U}(I - 
+{\Phi})_{U}^{-T} 
+{\Phi}_{OU}^T \\
+& = {\Lambda}_{O} + {\Phi}_{OU}(I - 
+{\Phi})_{U}^{-1}{\Lambda}_{U} (I - 
+{\Phi})_{U}^{-T}
+{\Phi}_{OU}^T.
 \end{align*}
 
 
