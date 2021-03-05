@@ -629,18 +629,18 @@ effects, $\bar{\Phi}$), the diagonal
 elements are not necessarily zero. On the other hand, in a linear SEM the 
 diagonal of $B$ 
 (Equation (\ref{eq:SEM})) is commonly assumed to be zero. We introduce 
-the matrix $\tilde{\Phi}$ by scaling each column of $\bar{\Phi}$ by its 
+the matrix $\Gamma$ by scaling each column of $\bar{\Phi}$ by its 
 diagonal element and placing zeros on the diagonal,
 
 $$
-\tilde{\Phi}_{\beta\alpha} = 
+\Gamma_{\beta\alpha} = 
 \bar{\Phi}_{\beta\alpha}/(1-\bar{\Phi}_{\beta\beta})  \text{ 
 	if } \beta\neq \alpha, \text{ and } 
-\tilde{\Phi}_{\beta\alpha} 
+\Gamma_{\beta\alpha} 
 = 0 \text{ if } \beta= \alpha,
 $$
 
-where $I-\tilde{\Phi}$ is invertible \cite{hyttinen2012}. \cite{hyttinen2012} 
+where $I-\Gamma$ is invertible \cite{hyttinen2012}. \cite{hyttinen2012} 
 study linear SEMs and use the same approach to derive 
 so-called canonical linear 
 cyclic models from models with self-loops. We think of the above operation as a 
@@ -668,9 +668,9 @@ $1 - \bar{\Phi}_{\alpha\alpha}$. Then
 
 \begin{align}
 \bar{C} & = (I - \bar{\Phi})^{-1}\Theta(I - \bar{\Phi})^{-T} \nonumber  \\
-& = (D(I - \tilde{\Phi}))^{-1}\Theta (D(I - \tilde{\Phi}))^{-T} \nonumber \\
-& = (I - \tilde{\Phi})^{-1}D^{-1}\Theta D^{-1}(I - 
-\tilde{\Phi})^{-T}.
+& = (D(I - \Gamma))^{-1}\Theta (D(I - \Gamma))^{-T} \nonumber \\
+& = (I - \Gamma)^{-1}D^{-1}\Theta D^{-1}(I - 
+\Gamma)^{-T}.
 \label{eq:Gtilde}
 \end{align}
 
@@ -686,7 +686,7 @@ parametrized exactly like a linear SEM and we will use this to obtain
 identification results (Section \ref{sec:id}) and equality constraints (Section 
 \ref{sec:eq}).
 
-Note that while 
+While 
 this 
 casts the Hawkes integrated covariance as a set of equations describing the 
 covariance 
@@ -712,17 +712,17 @@ respectively, for a class of models $\mathbb{M}$. Let $ \tilde{P}_1$ and $
 distributions over a common observed set of 
 coordinate processes, $O$, let $f$ be a function of 
 such a marginal distribution, and let 
-$\alpha,\beta\in O$. Finally, let $\Gamma_{\beta\alpha}^i$ be a parameter and 
+$\alpha,\beta\in O$. Finally, let $\Pi_{\beta\alpha}^i$ be a parameter and 
 $\phi_{\beta\alpha}^i$ the link function from $\alpha$ to 
-$\beta$ in $M_i$, respectively ($\Gamma_{\beta\alpha} = \Phi_{\beta\alpha}, 
-\Gamma_{\beta\alpha}=\tilde{\Phi}_{\beta\alpha},$ or $\Gamma_{\beta\alpha} = 
+$\beta$ in $M_i$, respectively ($\Pi_{\beta\alpha} = \Phi_{\beta\alpha}, 
+\Pi_{\beta\alpha}=\Gamma_{\beta\alpha},$ or $\Pi_{\beta\alpha} = 
 \Phi_{\beta\alpha}/(1-\Phi_{\beta\beta})$, e.g.). We will say that the 
 parameter 
 $A$ \emph{is 
 identified from} 
 $f(\tilde{P})$ in the class $\mathbb{M}$ if $f(\tilde{P}_1) = f(\tilde{P}_2)$ 
-implies $\Gamma_{\beta\alpha}^1 = 
-\Gamma_{\beta\alpha}^2$. Similarly, we say 
+implies $\Pi_{\beta\alpha}^1 = 
+\Pi_{\beta\alpha}^2$. Similarly, we say 
 $\phi_{\beta\alpha}$ is identified from $f(P)$ in the class $\mathbb{M}$ if 
 $f(\tilde{P}_1) = 
 f(\tilde{P}_2)$ 
@@ -742,7 +742,7 @@ the inferential problem is reduced to a finite-dimensional one.
 The idea is now 
 that one can use any available identification result from the (cyclic) linear 
 structural equation toolbox to show identification of the entries in 
-$\tilde{\Phi}$ such as those provided by, e.g., \cite{foygelHalftrek2012, 
+$\Gamma$ such as those provided by, e.g., \cite{foygelHalftrek2012, 
 	chenNIPS2016, 
 	weihs2018}. 
 These are often 
@@ -760,13 +760,13 @@ parameters.
 	identified 
 	from the observed integrated covariance if there 
 	are no unobserved directed paths from 
-	$\alpha$ to $\beta$ and $\tilde{\Phi}_{\beta\alpha}$ is identified from 
+	$\alpha$ to $\beta$ and $\Gamma_{\beta\alpha}$ is identified from 
 	$\bar{C}$.
 \end{prop}
 
 \begin{proof}
 	Note that ${\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta}) = 
-	\tilde{\Phi}_{\beta\alpha}$ as there 
+	\Gamma_{\beta\alpha}$ as there 
 	are no 
 	unobserved directed paths from $\alpha$ to $\beta$.
 \end{proof}
@@ -787,8 +787,8 @@ parameters.
 	\Phi_{\alpha\alpha})^2$.
 \end{proof}
 
-If the spectral radius of $\tilde{\Phi}$ is less than one, all parents of 
-$\alpha$ are observed and $\tilde{\Phi}_{\alpha\gamma}$ is 
+If the spectral radius of $\Gamma$ is less than one, all parents of 
+$\alpha$ are observed and $\Gamma_{\alpha\gamma}$ is 
 identified for 
  every 
  $\gamma\in V$, then $\Theta_{\alpha\alpha}$ is identified from $\bar{C}$.
@@ -803,7 +803,7 @@ conditions ensure that the parameters of the marginal system equals that of the
 original system and therefore identification in the marginal system implies 
 identification in the normalized system. One could of course also consider 
 identification of parameters that do not occur in the original example and also 
-interpret these, e.g., parameters in $\tilde{\Phi}$ that 
+interpret these, e.g., parameters in $\Gamma$ that 
 correspond to aggregating effects along multiple unobserved paths, similarly to 
 the 
 interpretation of the normalized parameters, 
@@ -952,10 +952,10 @@ ${\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta})$.
 	this is the causal graph of a Hawkes process on nodes $V = \{1,2,3,4,5\}$ 
 	such that coordinate process $5$ is unobserved. If we apply the 
 	identification criterion of \cite{weihs2018}, we find that every 
-	$\tilde{\Phi}_{\beta\alpha}$ 
+	$\Gamma_{\beta\alpha}$ 
 	such that 
 	$\alpha,\beta\in O$ is identified from $\bar{C}$ (note that 
-	$\tilde{\Phi}_{\beta\alpha}={\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta})$ 
+	$\Gamma_{\beta\alpha}={\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta})$ 
 	for $\alpha,\beta\in O$ in this example). It 
 	follows 
 	from the 
@@ -1025,12 +1025,15 @@ $\alpha,\beta\in V$).
 
 \begin{prop}
 	Let $\mathcal{D} = (O\disjU U, E)$. If $\pa_\mathcal{D}(\beta) \subseteq 
-	O$, then for all $\alpha$ the function $\phi_{\beta\alpha}$ is identified 
+	O$ (that is, all parents of $\beta$ in the causal graph are observed), then 
+	for all $\alpha$ the function $\phi_{\beta\alpha}$ is identified 
 	from 
 	the infinitesimal covariance process of the $O$-processes and 
 	$\Lambda_{OO}$.
 	\label{prop:gPaId}
 \end{prop}
+
+[FIX: this argument does not work]
 
 \begin{proof}
 	In Equation \ref{eq:covCauFunc}, we note that $\phi_{\beta\alpha}$ only 
@@ -1122,7 +1125,7 @@ From Equation \ref{eq:Gtilde} and the section on marginalization we see that
 every equality 
 constraint in a linear structural equation model implied by the graphical 
 structure imposes the same constraint
-on the parameters $(\tilde{\Phi}, \Theta)$ and this allows us to find 
+on the parameters $(\Gamma, \Theta)$ and this allows us to find 
 constraints 
 in the Hawkes model. We will show by an example that these constraints may 
 provide information about the underlying structure that is not contained the 
@@ -1136,15 +1139,15 @@ Markov equivalence class.
 	see that the graphical structure imposes the constraint 
 	
 	$$\bar{C}_{14}/\bar{C}_{13} = (\bar{C}_{34} - 
-	\tilde{\Phi}_{32}\bar{C}_{24})/(\bar{C}_{33} - 
-	\tilde{\Phi}_{32}\bar{C}_{23}),$$ 
+	\Gamma_{32}\bar{C}_{24})/(\bar{C}_{33} - 
+	\Gamma_{32}\bar{C}_{23}),$$ 
 	
 	and 
 	therefore this algebraic constraint is also satisfied by the Hawkes model 
-	corresponding to the graph (note that $\tilde{\Phi}_{32} = 
+	corresponding to the graph (note that $\Gamma_{32} = 
 	\Phi_{32}/(1-\Phi_{33})$, and that the constraint 
 	corresponds to
-	two ways of identifying $\tilde{\Phi}_{43}$). The graphs \textbf{B} and 
+	two ways of identifying $\Gamma_{43}$). The graphs \textbf{B} and 
 	\textbf{C} in Figure 
 	\ref{fig:smallCycle} (right) 
 	imply the same set of local independences
@@ -1294,9 +1297,9 @@ the distribution,
 we can obtain more constraints. In this subsection, we use Proposition 
 \ref{prop:gPaId} to identify some of the entries in $\Phi$. We then treat these 
 parameters as known in the integrated covariance equation which allows us to 
-obtain more constraints. This is related to previous work on identification of 
-causal effects in linear structural equations models with prior knowledge of 
-some parameters \citep{chenIJCAI2016,chenICML2017}.
+obtain more constraints. This is similar to previous work on identification in 
+linear structural equations models with prior knowledge  
+\citep{chenIJCAI2016,chenICML2017}.
 
 \begin{exmp}
 	
@@ -1312,10 +1315,10 @@ some parameters \citep{chenIJCAI2016,chenICML2017}.
 	and 
 	$\Phi_{33}$.  Leveraging this information we can again find two ways of 
 	identifying 
-	$\tilde{\Phi}_{43}$ and from this we will obtain an equality constraint 
+	$\Gamma_{43}$ and from this we will obtain an equality constraint 
 	that 
 	will 
-	discriminate between graphs \textbf{A} and \text{B} in 
+	discriminate between graphs \textbf{A} and \textbf{B} in 
 	Figure \ref{fig:bigCycle}. This can be done in different ways. We 
 	construct an {\it auxiliary 
 	variable} following \cite{chenIJCAI2016, chenICML2017}. This can be thought 
@@ -1323,8 +1326,8 @@ some parameters \citep{chenIJCAI2016,chenICML2017}.
 	identification or constraints for a given model. Let $O=\{1,2,3,4\}$ and 
 	let $\Phi^+$ be a 
 	$5\times 5$ 
-	matrix such that $\Phi_{OO}^+ = \tilde{\Phi}$, $\Phi_{52}^+ = 
-	-\tilde{\Phi}_{32}, \Phi_{53}^+ 
+	matrix such that $\Phi_{OO}^+ = \Gamma$, $\Phi_{52}^+ = 
+	-\Gamma_{32}, \Phi_{53}^+ 
 	= 1$, and else zero, and we let $\Theta^+$ be a $5\times 5$ matrix such 
 	that $\Theta_{OO}^+ = \Theta$, and $\Theta_{55}^+ = 1$ and zero else. This 
 	construction corresponds to a linear SEM where we added an \emph{auxiliary 
@@ -1337,37 +1340,37 @@ some parameters \citep{chenIJCAI2016,chenICML2017}.
 	$$
 	
 	can be computed from $\bar{C}$ and it holds that 
-	$C^+=\bar{C}_{OO}$. By direct computation, we see that $\tilde{\Phi}_{43} = 
+	$C^+=\bar{C}_{OO}$. By direct computation, we see that $\Gamma_{43} = 
 	C_{14}^+/C_{13}^+$. To obtain a constraint, we find a second method of 
-	identification of $\tilde{\Phi}_{43}$ by noting that
+	identification of $\Gamma_{43}$ by noting that
 	
 	\begin{align}
-		\Theta = (I - \tilde{\Phi})\bar{C}(I-\tilde{\Phi})^T = \bar{C} - 
-		\tilde{\Phi}\bar{C} - \bar{C}\tilde{\Phi}^T + 
-		\tilde{\Phi}\bar{C}\tilde{\Phi}^T,
+		\Theta = (I - \Gamma)\bar{C}(I-\Gamma)^T = \bar{C} - 
+		\Gamma\bar{C} - \bar{C}\Gamma^T + 
+		\Gamma\bar{C}\Gamma^T,
 		\label{eq:expandTheta}
 	\end{align}
 
 	
-	assuming that $\tilde{\Phi}$ is weakly stable. By considering the 
+	assuming that $\Gamma$ is weakly stable. By considering the 
 	$(3,4)$-entry of the above matrix equation,
 	
 	$$
-	\tilde{\Phi}_{43} = (\bar{C}_{34} - 
-	\tilde{\Phi}_{32}\bar{C}_{24})/(\bar{C}_{33} - 
-	\tilde{\Phi}_{32}\bar{C}_{23}).
+	\Gamma_{43} = (\bar{C}_{34} - 
+	\Gamma_{32}\bar{C}_{24})/(\bar{C}_{33} - 
+	\Gamma_{32}\bar{C}_{23}).
 	$$
 	
  Again, we obtained two ways of identifying 
- the parameter $\tilde{\Phi}_{43}$, that is, a constraint
+ the parameter $\Gamma_{43}$, that is, a constraint
  
  $$
  C_{14}^+/C_{13}^+ = (\bar{C}_{34} - 
- \tilde{\Phi}_{32}\bar{C}_{24})/(\bar{C}_{33} - 
- \tilde{\Phi}_{32}\bar{C}_{23})
+ \Gamma_{32}\bar{C}_{24})/(\bar{C}_{33} - 
+ \Gamma_{32}\bar{C}_{23})
  $$
  
- using that $\tilde{\Phi}_{32} = {\Phi}_{32}/(1-\Phi_{33})$ is known as 
+ using that $\Gamma_{32} = {\Phi}_{32}/(1-\Phi_{33})$ is known as 
  ${\Phi}_{32}$ and 
  ${\Phi}_{33}$ are known. This constraint is satisfied in 
  Figure
@@ -1383,6 +1386,14 @@ some parameters \citep{chenIJCAI2016,chenICML2017}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Ideas}
+
+Use positivity constraints to obtain further identification? See e.g. cyclic 
+examples in Drton, Foygel, Sullivant (AOS, 2011), their counterexamples do not 
+work under positivity constraints, i.e., one does have (global) identification 
+in that case. Give example of added identification and equality constraints 
+under Hawkes (e.g., positivity) constraints
+
 \section{Conclusion}
 
 We obtained identification results and equality constraints for Hawkes process 
@@ -1396,9 +1407,9 @@ A Hawkes process is defined using the set of $\phi_{\beta\alpha}$-functions
 along 
 with the $\mu_\alpha$-constants for $\alpha,\beta$ in the finite set $V$ and a 
 Hawkes process model is in that sense nonparametric.  Constraints that arise 
-from the integrated covariance offer also a dimension reduction in that we 
-actually test these constraints using a finite parameter space instead of a 
-function space. This should make them more suitable to employ in data analysis 
+from the integrated covariance offer also a dimension reduction in that we  
+test these constraints using a finite parameter space instead of a 
+function space. This makes them more suitable to employ in data analysis 
 as estimation of the link functions, $\{\phi_{\beta\alpha} \}$, is a 
 challenging problem even in the case of full 
 observation and partial observation only adds to the 
