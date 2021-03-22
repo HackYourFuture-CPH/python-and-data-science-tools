@@ -58,6 +58,8 @@
 
 \newcommand{\disjU}{\mathbin{\dot{\cup}}}
 
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
 \usepackage{tikz}
 \usepgflibrary{arrows}
 \usetikzlibrary{shapes}
@@ -1386,13 +1388,127 @@ linear structural equations models with prior knowledge
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Ideas}
+\section{Ideas/Notes}
 
 Use positivity constraints to obtain further identification? See e.g. cyclic 
 examples in Drton, Foygel, Sullivant (AOS, 2011), their counterexamples do not 
 work under positivity constraints, i.e., one does have (global) identification 
 in that case. Give example of added identification and equality constraints 
 under Hawkes (e.g., positivity) constraints
+
+Note that for positive matrices, it seems that spectral radius less than one in 
+the full system entails spectral radius less than one in the marginal system 
+(tested empirically) (interlacing property of Schur complements?) - contrary to 
+lin SEMs system, and what I write earlier in this paper.
+
+Note that for $n$-cycles (see Foygel, Sullivant, Drton, Global id, AOS) lin 
+SEMs generically have two solutions, though only one of these have spectral 
+radius less than one (tested empirically). Note that if $G_0$, $G_1$ are the 
+two solutions, then it holds that $det(G_0)det(G_1) = 1$, use this to prove 
+this? (both solutions will have positive entries only). Note also that for a 
+linear SEM Graph A in \ref{fig:bigCycle} generically has only two solutions - 
+just like the 4-cycle. Can I show that only one satisfies spectral constraint 
+(using the conjecture from above that this is implied by the spectral 
+constraint in the full system)
+
+A philosophical point (may be important): even if we do not have generic ID of 
+a model, but only finite-to-one (i.e., finitely many solutions) one could have 
+equality constraints: just test it for any parameter set which is a solution in 
+the smaller model.
+
+\begin{exmp}
+	Let $(G_1, \Omega_1)$ ,$(G_2, \Omega_2)$ be the two solutions for an 
+	$n$-cycle (generically, they are distinct, [ref to Drton]). It holds that 
+	[show] $det(G_1)det(G_2) = 1$. Assuming that the observed covariance is 
+	from a stable system, say $\rho(G_1) < 1$. Then the absolute value of every 
+	eigenvalue of $G_1$ is less than 1, and therefore $det(G_1) < 1$. Then 
+	$det(G_2) > 1$ and therefore $G_2$ has an eigenvalue with an absolute value 
+	larger than 1.
+	
+	In the notation of Drton et al (Global id): for the two solutions that 
+	
+	$$
+	\delta_i^1 = \delta_i^0 + \prod_i \delta_i^0 (\prod_i (\lambda_i^0)^2 - 
+	1)/det(K_{-1})
+	$$
+	
+	\noindent and the same with $0$ and $1$ switched. Then
+
+	$$
+	\delta_i^1 = \delta_i^1 + \prod_i \delta_i^1 (\prod_i (\lambda_i^1)^2 - 
+	1)/det(K_{-1}) + \prod_i \delta_i^0 (\prod_i (\lambda_i^0)^2 - 
+	1)/det(K_{-1})
+	$$	
+	
+	\noindent so this means that 
+	
+	\begin{align}
+			- (\prod_i \delta_i^1) (\prod_i (\lambda_i^1)^2 - 
+			1) = (\prod_i \delta_i^0) (\prod_i (\lambda_i^0)^2 - 
+			1)
+			\label{eq:deltaLambdaProd}
+	\end{align}
+
+
+	
+	\noindent Assume without loss of generality that $\rho(\Lambda^1) < 1$, 
+	then every eigenvalue of $\Lambda^1$ has an absolute value less than 1, and 
+	$det(\Lambda^i) < 1$. Due to the structure of $\Lambda^i$ it holds that 
+	$det(\Lambda^1) = \prod_i(\lambda_i^1)$ such that $\prod_i(\lambda_i^1) < 
+	1$ 
+	and $\prod_i(\lambda_i^1)^2 < 1$. Every $\delta_i^0$ and $\delta_i^1$ are 
+	positive, and this means that the left-hand side of 
+	\ref{eq:deltaLambdaProd} is positive. Therefore we must have $(\prod_i 
+	(\lambda_i^0)^2 - 
+	1) > 0$ and therefore $(\prod_i 
+	(\lambda_i^0) > 1$. This means that $det(\Lambda^0) > 1$ and therefore 
+	$\rho(\Lambda^0) \geq 1$.
+\end{exmp}
+
+\begin{prop}
+	Let $G$ be entrywise nonnegative and $\rho(G)<1$. Then $\tilde{G}=G_{OO} + 
+	G_{OU}(I-G_{UU})^{-1}G_{UO}$ is entrywise nonnegative and  
+	$\rho(\tilde{G})<1$
+\end{prop}
+
+\begin{proof}
+	We will show that if $A$ is a nonnegative matrix (i.e., $A_{ij} \geq 0$ for 
+	every $i$ and $j$) and $\rho(A) < 1$, then $\rho(B) < 1$ for $B = A_{OO} + 
+	A_{OU}(I - A_{UU})^{-1}A_{UO}$. To this end, it suffices to show that 
+	
+	\begin{align*}
+		\norm{B^k} &= \norm{(A_{OO} + 
+			A_{OU}(I - A_{UU})^{-1}A_{UO})^k} \\
+		&\leq \norm{(A_{OO} + 
+			A_{OU}(I - A_{UU})^{-1}A_{UO})}^k \\
+		&\leq \norm{A_{OO}}^k + \norm{ 
+			A_{OU}(\sum_{i=0}^k A_{UU}^i) A_{UO})}^k \\ &+ \norm{
+			A_{OU}(\sum_{i=k+1}^\infty A_{UU}^i)A_{UO})}^k.
+	\end{align*}
+	
+	\noindent We have that $\norm{A_{OO}}^k \rightarrow 0$ and $\norm{ 
+		A_{OU}(\sum_{i=0}^k A_{UU}^i) A_{UO})}^k \leq \norm{ 
+		A}^k $ and $\norm{ 
+		A}^k \rightarrow_{k\rightarrow \infty} 0$. Finally, $\norm{
+		A_{OU}(\sum_{i=k+1}^\infty A_{UU}^i)A_{UO})} \leq \norm{
+		A_{OU}}\norm{(\sum_{i=k+1}^\infty A_{UU}^i)}\norm{A_{UO})}$ and the 
+		middle factor goes to 0 as the sum is convergent. [FIX: check all of 
+		this]
+
+
+	
+	
+\end{proof}
+
+Note that the above does not hold without the condition that $G$ be entrywise 
+nonnegative [ref to counterexample in Hyttinen]
+
+Question: find an example where one does not have generic ID with these 
+additional constraints.
+
+Re-write to define an actual Hawkes covariance model? Define parameter space 
+etc, makes it clear what id is, and what the problems amount to - also in 
+comparison with lin SEM work.
 
 \section{Conclusion}
 
