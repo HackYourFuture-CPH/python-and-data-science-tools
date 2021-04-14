@@ -25,6 +25,7 @@
 
 \usepackage{amsfonts}
 \usepackage{amsthm}
+\usepackage{comment}
 \usepackage{dsfont}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -74,7 +75,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\title{Equality Constraints and Causal Identification in Linear Hawkes 
+\title{Equality Constraints in Linear Hawkes 
 Processes}
 
 % The standard author block has changed for UAI 2021 to provide
@@ -86,12 +87,12 @@ Processes}
 %
 % Add authors in order of decreasing contribution
 \author[1]{\href{mailto: Søren Wengel Mogensen 
-<swemo@dtu.dk>}{Søren~Wengel~Mogensen}{}} 
+<soren.wengel_mogensen@control.lth.se>}{Søren~Wengel~Mogensen}{}} 
 % Add affiliations after the authors
 \affil[1]{%
-    Section of Cognitive Systems\\
-    Technical University of Denmark\\
-    Denmark
+    Department of Automatic Control\\
+    Lund University\\
+    Sweden
 }
 
 \begin{document}
@@ -106,8 +107,7 @@ can also find equality constraints in the class of linear Hawkes process,
 extending this theory to continuous-time stochastic processes. We 
 show that Hawkes process models in a certain sense satisfy the equality 
 constraints 
-of a linear structural equation model, and we also show that one may 
-find additional constraints. These results
+of a linear structural equation model. These results
 allow more refined constraint-based structure learning in this class of 
 processes.
 \end{abstract}
@@ -126,7 +126,7 @@ assuming that the dynamical development of each coordinate process, $X_t^i$,
 depends directly only on a subset of the other coordinate processes which can 
 be 
 represented by a directed graph which is the \emph{structure} that methods 
-should aim to learn. As examples of this, \cite{eichlerHawkes2017, xu2016} learn
+aim to learn. As examples of this, \cite{eichlerHawkes2017, xu2016} learn
 graphs describing the structure of multivariate linear Hawkes processes from 
 dynamical observation of the process whereas 
 \cite{achab2017} use integrated cumulants of 
@@ -145,14 +145,14 @@ structures that
 are indistinguishable using tests of local independence only which enables more 
 refined structure learning algorithms. This development 
 is analogous to structural causal models in which equality constraints have 
-been used for structure learning as and addition to conditional independence 
+been used for structure learning in addition to conditional independence 
 constraints 
 \citep{robins1986,vermaEquiAndSynthesis,robins1999,tian2002,shpitser2014,richardson2017}.
 
 Arguing for the existence of equality constraints also leads us to new 
 identification 
-results for Hawkes processes, 
-and we give a causal interpretation of the parameters which is closely 
+results for Hawkes processes. We also describe a causal interpretation of the 
+parameters which is closely 
 related to the so-called cluster representation of a linear Hawkes process.
 
 
@@ -175,7 +175,7 @@ We consider a filtered probability space $(\Omega, \mathcal{F},
 (X_t^1,X_t^2,\ldots,X_t^n)^T$, and let $V= \{1,2\ldots, n\}$. $\mathcal{F}_t$ 
 is 
 a filtration, that is, a nondecreasing family of $\sigma$-algebras which for 
-each time point, $t\in \mathbb{R}$, represents the available information at 
+each time point, $t\in \mathbb{R}$, represent the available information at 
 that time. For each 
 $\alpha\in 
 V$, we say that $X^\alpha$ is a \emph{coordinate process}. Each coordinate 
@@ -186,7 +186,7 @@ that $T_i^\alpha < T_{i+1}^\alpha$ almost surely. For $s<t$, we let the
 $N_t^\alpha - 
 N_s^\alpha$ denote the number of points (events) in the $\alpha$-process 
 in the interval $(s,t]$, that is,  $N_t^\alpha - 
-N_s^\alpha= \sum_i \mathds{1}_{s \leq T_i^\alpha \leq t}$. We 
+N_s^\alpha= \sum_i \mathds{1}_{s < T_i^\alpha \leq t}$. We 
 assume that no 
 two events occur simultaneously. For 
 $\alpha\in V$ the \emph{intensity process}, $\lambda_t^\alpha$, 
@@ -199,7 +199,7 @@ N_t^\alpha = 1
 $$
 
 The intensity, $\lambda^\alpha$, therefore describes how likely an 
-$\alpha$-event is in the immediate future $(t, t+h)$, for small $h$, given the 
+$\alpha$-event is in the immediate future $(t, t+h]$, for small $h$, given the 
 past until time $t$.
 
 \begin{defn}[Linear Hawkes process]
@@ -229,7 +229,9 @@ $n\times n$ matrix $\Phi$ such that $\Phi_{\beta\alpha} =
 (largest 
 absolute value of its eigenvalues) is less than 1 which implies that we can 
 assume the Hawkes process to have stationary increments and $\lambda_t$ to be a 
-stationary process \citep{jovanovic2015, bacry2016}.
+stationary process \citep{jovanovic2015, bacry2016}. We denote the spectral 
+radius of a matrix, $A$, by $\rho(A)$, and if $\rho(A) < 1$ then we say that 
+$A$ is \emph{Schur stable}.
 We define the $n\times n$ matrix $R=(I_n - \Phi)^{-1}$ where $I_n$ is the 
 $n\times n$ identity matrix. $R$ is well-defined due to the assumption on 
 the spectral radius of $\Phi$ and furthermore $R = \sum_{i=0}^\infty \Phi^i$. 
@@ -292,20 +294,16 @@ denote the $n\times n$ diagonal matrix such that $\Lambda_{\alpha\alpha} =
 
 \paragraph{Integrated Covariance}
 
-We will define two probabilistic concepts that describe the covariance between 
-coordinate proceses. One 
-is seen to be an integrated (and time-independent) measure of covariance 
-(below) and 
-one is seen to be a 
-time-dependent measure of covariance (see Subsection \ref{ssec:idCauFunc}). We 
-define an $n\times n$ matrix, $C$, such that for $\alpha,\beta\in V$,
+We define a probabilistic concept which is seen to be a cumulative measure of 
+covariance between two coordinate processes. Let $C$ be an $n\times n$ matrix 
+such that for $\alpha,\beta\in V$,
 
 \begin{align}
 	C_{\beta\alpha} dt = \int_{-\infty}^{\infty} E(dN_t^\beta 
-	dN_{t+\tau}^\alpha) - E(dN_t^\beta )(dN_{t+\tau}^\alpha) d\tau,
+	dN_{t+\tau}^\alpha) - E(dN_t^\beta )(dN_{t+\tau}^\alpha) d\tau.
 \end{align}
 
-which is seen to contain the \emph{integrated covariances} of each pair of 
+The entries of $C$ contain the \emph{integrated covariances} between pairs of 
 coordinate processes. The following matrix equation holds 
 \citep{jovanovic2015,	 
 achab2017}.
@@ -317,8 +315,8 @@ achab2017}.
 \end{align}
 
 
-where $-T$ denotes transposing and 
-inverting a matrix.
+where $-T$ denotes transposition and 
+inversion of a matrix.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -336,18 +334,20 @@ independent). The clusters are generated recursively. Each event of type
 $\alpha$ at time $s$ in a cluster have \emph{child} events of type $\beta$ 
 according 
 to an inhomogeneous Poisson process with rate $\phi_{\beta\alpha}(t-s)$ for $t 
-> s$, and these processes are all independent. This exemplified in Figure 
+> s$, and these processes are all independent. This is illustrated in Figure 
 \ref{fig:haw} (bottom) in which four 
 generation 0-events are shown, each of them starting a cluster. Parent-child 
 relations are shown using line segments. Note that 
 $\phi_{\beta\alpha} = 0$ means that there will be no $\beta$-children from an 
 $\alpha$-event, though there could be $\beta$-descendants further down from the 
-$\alpha$-event if 
+$\alpha$-event, e.g., if 
 there exists $\gamma$ such that $\phi_{\gamma\alpha} \neq 0$ and 
 $\phi_{\beta\gamma} \neq 0$. The observed Hawkes process is then the 
 superposition of the events in all clusters. One should note that when 
-observing a Hawkes process, we only assume access to 
-$(\alpha_i, t_i)$, that is, a set of event times and types, not the clusters.
+observing a Hawkes process, we only have access to a set of event times and 
+types
+$(\alpha_i, t_i)$ and not to the cluster structure, that is, the line segments 
+in Figure \ref{fig:haw} (bottom) are unobserved.
 
 The parameters in $\Phi$ and $R$ have straightforward interpretations. From the 
 cluster process definition of the Hawkes process, it follows that 
@@ -519,9 +519,9 @@ C_X = (I_n - B)^{-1}\Sigma_\varepsilon (I_n - B)^{-T},
 see \cite{hyttinen2012}. Often one will assume that some entries of $B$ and 
 $\Sigma_\varepsilon$ are zero which can be encoded by a DMG (also known as a 
 \emph{mixed graph}) such that if 
-$\alpha \rightarrow \beta$ is not in the DMG, then $B_{\beta\alpha} = 0$ and 
-if, 
-$\alpha\rightarrow\beta$ is not in the DMG, then 
+$\alpha \rightarrow \beta$ is not in the DMG, then $B_{\beta\alpha} = 0$, and 
+if
+$\alpha\leftrightarrow\beta$ is not in the DMG, then 
 $(\Sigma_\varepsilon)_{\beta\alpha} = (\Sigma_\varepsilon)_{\alpha\beta} = 0$. 
 The 
 error terms are often assumed to be Gaussian. We note that acyclicity is 
@@ -530,24 +530,27 @@ i.e., that the DMG corresponding to the model is
 acyclic, though we are not making 
 this assumption.
 
-We should note that in the linear SEM literature, some authors parametrize the 
-model using a 
-tranposition of $B$, $X = B^TX + \varepsilon$, though the notation we use 
-aligns better with the common 
+We should note that in the linear SEM literature, authors often parametrize 
+the model in Equation \ref{eq:SEM} using a 
+tranposition of $B$, $X = B^TX + \varepsilon$. We use this alternative notation 
+as it 
+aligns better with common 
 notation 
-in Hawkes process literature.
+in the Hawkes process literature.
 
 One see immediately the similarity between Equations (\ref{eq:covarEq}) 
 and (\ref{eq:covSEM}) in that the observable left-hand side of the equations in 
-both cases impose the same restrictions on the model parameters, and we use 
+both cases impose similar restrictions on the model parameters, and we use 
 this similarity to translate results to the Hawkes models. There are two 
 questions that should be addressed. First, the diagonal of $B$ in 
 the linear SEM is often assumed to be zero, and we will handle this by 
 re-writing 
-Equation (\ref{eq:covarEq}) slightly (\ref{sssec:normEff}). Second, $\Lambda$ 
-is diagonal in Equation (\ref{eq:covarEq}) whereas there is no such restriction 
+Equation (\ref{eq:covarEq}) slightly (Subsection \ref{sssec:normEff}). Second, 
+$\Lambda$ 
+is a diagonal matrix in Equation (\ref{eq:covarEq}) whereas there is no such 
+restriction 
 a priori on $\Sigma_\varepsilon$ and we will see that this discrepancy 
-corresponds to marginalization of the systems (\ref{sssec:marg}).
+corresponds to marginalization of the systems (Subsection \ref{sssec:marg}).
 
 
 
@@ -556,46 +559,12 @@ corresponds to marginalization of the systems (\ref{sssec:marg}).
 \subsection{Marginalization}
 \label{sssec:marg} 
 
-We will mostly be interested in systems that are only partially observed in 
-which case only a proper submatrix of $C$ in Equation (\ref{eq:covarEq}) is 
-observed. We let $V = O \disjU 
-U$ and think of $O$ as the set of observed processes. Let $\bar{C} = C_{OO}$ be 
-the observed submatrix of $C$. We 
-have 
-that 
-
-\begin{align}
-\bar{C} = (I - \bar{\Phi})^{-1}\Theta(I - \bar{\Phi})^{-T}
-\end{align}
-
-where 
-
-\begin{align*}
-\bar{\Phi} & = {\Phi}_{OO} +  {\Phi}_{OU}(I_l - 
-{\Phi}_{UU})^{-1}{\Phi}_{UO} \\
-\Theta & = (I_k-\bar{\Phi})[(I_n - {\Phi})^{-1}{\Lambda}(I - 
-{\Phi})^{-T}]_{OO}(I_k-\bar{\Phi})^T. \\
-\end{align*}
-
-The assumption that $\Phi$ has spectral radius less than one does not imply 
-that $\bar{Phi}$ does as well, though $I - \bar{\Phi}$ is guaranteed to be 
-invertible \cite{hyttinen2012}. Let 
-$\tilde{\Lambda} 
-= D^{-1}\Lambda D^{-1}$. Using Schur complements, we can write (see the 
-appendix)
-
-\begin{align*}
-\Theta =  {\Lambda}_{OO} + & {\Phi}_{OU}((I_n - 
-{\Phi})^{-1})_{UU}{\Lambda}_{UU} \times  \\ & ((I_n - 
-{\Phi})^{-T})_{UU}
-{\Phi}_{OU}^T.
-\end{align*}
-
-$\Theta$ is clearly positive semidefinite, and positive definite if 
-$\Lambda$ is. The above computations are of course the same as in the case of a 
-linear 
-structural equation model. We will use \emph{latent projections} to find 
-graphical representations of partially observed Hawkes processes.
+If the Hawkes process is only partially observed, only a proper submatrix of 
+$C$ in Equation (\ref{eq:covarEq}) is available, and the coordinate processes, 
+$V$, are partitioned into a set of observed processes, $O$, and a set of 
+unobserved processes, $U$, such that $V = O\disjU U$. We use a \emph{latent 
+projection} to represent the graphical structure of the partially observed 
+system.
 
 \begin{defn}[Latent projection, \cite{vermaEquiAndSynthesis,richardson2017}]
 	\label{def:latProj}
@@ -621,10 +590,156 @@ not needed
 and the definition is often stated using paths 
 \citep{richardson2017}.
 
+\begin{thm}
+
+	Let $N$ be a multivariate Hawkes process with stationary increments such 
+	that $O$ are the 
+	observed 
+	coordinate processes and $U$ are the unobserved coordinate processes and 
+	let $\mathcal{D}$ be its causal graph. Then the observed integrated 
+	covariance can be written as
+	
+	\begin{align}
+	\Sigma = (I - \Phi)^{-1} \Theta (I - \Phi)^{-T}
+	\label{eq:margThm}
+	\end{align}
+	
+
+	
+	\noindent where
+	
+	\begin{align*}
+	\alpha \not\rightarrow_\mathcal{G} \beta & \Rightarrow 
+	\Gamma_{\beta\alpha} = 0 \\
+	\alpha \not\leftrightarrow_\mathcal{G} \beta & \Rightarrow 
+	\Theta_{\beta\alpha} = \Theta_{\alpha\beta} = 0 
+	\end{align*}
+	
+	when $\mathcal{G}$ is the latent projection of $\mathcal{D}$ on $O$. The 
+	matrix $\Gamma$ is Schur stable and all entries of $\Gamma$ and $\Omega$ 
+	are 
+	nonnegative. $\Omega$ is positive definite.
+\end{thm}
+	
+	\begin{proof}
+		In this proof, let $(\Phi, \Lambda)$ denote the parameters in the full 
+		system, and let $\Sigma$ denote the full integrated covariance matrix. 
+		Let $\bar{\Sigma} = \Sigma_{OO}$ be 
+		the observed submatrix of $\Sigma$. We 
+		have 
+		that $I - \bar{\Phi}$ is invertible and
+		
+		\begin{align}
+		\bar{\Sigma} = (I - \bar{\Phi})^{-1}\Theta(I - \bar{\Phi})^{-T}
+		\end{align}
+		
+		where 
+		
+		\begin{align*}
+		\bar{\Phi} & = {\Phi}_{OO} +  {\Phi}_{OU}(I_l - 
+		{\Phi}_{UU})^{-1}{\Phi}_{UO} \\
+		\Theta & = (I_k-\bar{\Phi})[(I_n - {\Phi})^{-1}{\Lambda}(I - 
+		{\Phi})^{-T}]_{OO}(I_k-\bar{\Phi})^T, \\
+		\end{align*}
+		
+		see \citep{hyttinen2012}. Using Schur complements, we can write (see 
+		the 
+		appendix)
+		
+		\begin{align*}
+		\Theta =  {\Lambda}_{OO} + & {\Phi}_{OU}((I_n - 
+		{\Phi})^{-1})_{UU}{\Lambda}_{UU} \times  \\ & ((I_n - 
+		{\Phi})^{-T})_{UU}
+		{\Phi}_{OU}^T.
+		\end{align*}
+		
+		$\Theta$ is clearly positive semidefinite, and positive definite if 
+		$\Lambda$ is. Then entries of $\bar{\Phi}$ and $\Omega$ are 
+		nonnegative, and Lemma \ref{lem:margStab} shows that $\bar{\Phi}$ is 
+		Schur stable. If $\alpha$ is not a parent of 
+		$\beta$ in the latent projection then there is no directed path from 
+		$\alpha$ to $\beta$ in $\mathcal{D}$ and it follows that 
+		$\bar{\Phi}_{\beta\alpha} = 0$ using that $(I-A)^{-1} = 
+		\sum_{i=0}^\infty 
+		A^i$ when $\rho(A) < 1$. Similarly, we see that 
+		$\alpha\not\leftrightarrow_\mathcal{G}\beta$ implies that 
+		$\Omega_{\alpha\beta} = \Omega_{\beta\alpha} = 0$. 
+		
+		
+	\end{proof}
+
+
+\subsubsection{Stability under marginalization}
+
+We use the following lemma to that if the full system is Schur stable, then a 
+partially observed system is also Schur stable. This result does not hold 
+without the assumption of nonnegative entries in the directed matrix (see 
+\cite{hyttinen2012} for an example which illustrates this).
+
+\begin{lem}
+	Let $A$ be a square matrix with nonnegative entries such that $\rho(A)<1$, 
+	and let $O\disjU U$ be a partition of its rows and columns. The matrix 
+	$B=A_{OO} + 
+	A_{OU}(I-A_{UU})^{-1}A_{UO}$ has nonnegative entries and  
+	$\rho(B)<1$.
+	\label{lem:margStab}
+	\end{lem}
+	
+	For a matrix, $A$, it holds that
+	
+	$$
+	\rho(A) < 1 \ \  \text{   if and only if   } \ \ \lim_{k\rightarrow \infty} 
+	A^k = 0,
+	$$
+	
+	[FIX: add ref].
+	
+	We read $A_{UU}^k$ as $(A_{UU})^k$.
+	
+	\begin{proof}
+		We have that $\lim_{k\rightarrow\infty} A^k = 0$. For each $k$ and for 
+		each $i,j\in U$, we have that $0 \leq (A_{UU}^k)_{ij} \leq 
+		((A^k)_{UU})_{ij}$. This means that $\lim_{k\rightarrow\infty} A_{UU}^k 
+		= 0$ and therefore $\rho(A_{UU}) < 1$. It follows that 
+		$(I-A_{UU})^{-1} = \sum_{i=0}^\infty A_{UU}^i$ and that all entries of 
+		$B$ are nonnegative.
+		
+		It holds that
+		
+		\begin{align*}
+		\norm{B^k} &= \norm{(A_{OO} + 
+			A_{OU}(I - A_{UU})^{-1}A_{UO})^k} \\
+			&\leq \norm{(A_{OO} + 
+				A_{OU}(I - A_{UU})^{-1}A_{UO})}^k \\
+				&\leq \norm{A_{OO}}^k + \norm{ 
+					A_{OU}(\sum_{i=0}^k A_{UU}^i) A_{UO})}^k \\ &+ \norm{
+					A_{OU}(\sum_{i=k+1}^\infty A_{UU}^i)A_{UO})}^k.
+					\end{align*}
+					
+					\noindent We have that $\norm{A_{OO}}^k \rightarrow 0$ as 
+					argued above. Also 
+					$\norm{ 
+						A_{OU}(\sum_{i=0}^k A_{UU}^i) A_{UO})}^k \leq \norm{ 
+						A^{k+2}}^k $ and $\norm{ 
+						A^k} \rightarrow_{k\rightarrow \infty} 0$. Finally, 
+						$\norm{
+						A_{OU}(\sum_{i=k+1}^\infty A_{UU}^i)A_{UO})} \leq \norm{
+						A_{OU}}\norm{(\sum_{i=k+1}^\infty 
+						A_{UU}^i)}\norm{A_{UO}}$ and the 
+						middle factor goes to 0.
+						
+						
+						
+						
+						\end{proof}
+						
+		
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Normalized Effects}
 \label{sssec:normEff}
+
+[FIX: stability of normalized effects?]
 
 When $\Phi$ is a matrix of direct effects of a Hawkes process (or marginalized 
 effects, $\bar{\Phi}$), the diagonal 
@@ -663,18 +778,7 @@ ${\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta}) $ is
 the expected number of $\beta$-events on subtrees of the form $\alpha - \beta - 
 \beta - \ldots - 
 \beta$ for any number of $\beta$-events. 
-Let $D$ denote a 
-diagonal matrix such that the $\alpha$'th diagonal element equals 
-$1 - \bar{\Phi}_{\alpha\alpha}$. Then
 
-
-\begin{align}
-\bar{C} & = (I - \bar{\Phi})^{-1}\Theta(I - \bar{\Phi})^{-T} \nonumber  \\
-& = (D(I - \Gamma))^{-1}\Theta (D(I - \Gamma))^{-T} \nonumber \\
-& = (I - \Gamma)^{-1}D^{-1}\Theta D^{-1}(I - 
-\Gamma)^{-T}.
-\label{eq:Gtilde}
-\end{align}
 
 If we consider a Hawkes process and its causal graph, $\mathcal{D} = (V,E)$, we 
 see that the latent projection of $\mathcal{D}$, $\mathcal{G} = (O,F)$, 
@@ -693,7 +797,99 @@ this
 casts the Hawkes integrated covariance as a set of equations describing the 
 covariance 
 matrix of a linear SEM, the Hawkes parameters are required to be nonnegative. 
+
+\begin{cor}
+	Let $N$ be a multivariate Hawkes process with stationary increments such 
+	that $O$ are the 
+	observed 
+	coordinate processes and $U$ are the unobserved coordinate processes and 
+	let $\mathcal{D}$ be its causal graph. Then the observed integrated 
+	covariance can be written as
 	
+	$$
+	\Sigma = (I - \Gamma)^{-1}\Omega (I - \Gamma)^{-T}
+	$$
+	
+	\noindent where $\Gamma$ has zeros on the diagonal and furthermore
+	
+	\begin{align*}
+		\alpha \not\rightarrow_\mathcal{G} \beta & \Rightarrow 
+		\Gamma_{\beta\alpha} = 0 \\
+		\alpha \not\leftrightarrow_\mathcal{G} \beta & \Rightarrow 
+		\Omega_{\beta\alpha} = \Omega_{\alpha\beta} = 0 
+	\end{align*}
+	
+	when $\mathcal{G}$ is the latent projection of $\mathcal{D}$ on $O$. The 
+	matrix $\Gamma$ is Schur stable and all entries of $\Gamma$ and $\Omega$ 
+	are 
+	nonnegative.
+\end{cor}
+
+\begin{proof}
+	Consider the representation from Theorem \ref{thm:marg}. Then we have 
+	
+	$$
+	\Sigma= (I - \Phi)^{-1} \Theta (I - \Phi)^{-T}.
+	$$ 
+	
+	Let $D$ denote a 
+	diagonal matrix such that the $\alpha$'th diagonal element equals 
+	$1 - \bar{\Phi}_{\alpha\alpha}$ and $\Gamma$ is as defined above. Then
+	
+	
+	\begin{align}
+	\Sigma 
+	& = (D(I - \Gamma))^{-1}\Theta (D(I - \Gamma))^{-T} \nonumber \\
+	& = (I - \Gamma)^{-1}D^{-1}\Theta D^{-1}(I - 
+	\Gamma)^{-T}.
+	\label{eq:Gtilde}
+	\end{align}
+	
+	The claims all follow from Theorem \ref{thm:marg}. We should just show that 
+	$\Gamma$ is a Schur stable matrix.
+\end{proof}
+
+\begin{prop}
+	Let $\Phi$ be a nonnegative matrix such that $\rho(\Phi) < 1$. Then the 
+	normalized matrix, $\Gamma$, also satisfies $\rho(\Gamma) < 1$. 
+\end{prop}
+
+\begin{proof}
+	Assume to obtain a contradiction that $\rho(\Gamma) \geq 1$ and let 
+	$\lambda = \rho(\Gamma)$. The matrix $\Gamma$ is nonnegative and therefore 
+	$\lambda$ is an eigenvalue of $\Gamma$ and a nonnegative eigenvector, $x 
+	\neq 0$, 
+	can be chosen \citep[Theorem 8.3.1]{horn1985}, $\Gamma x = \lambda x$.
+	
+	Let $D_\Phi$ denote the diagonal matrix such that $(D_{\Phi})_{ii} = 
+	\Phi_{ii}$ for all $i$. From the definition of $\Gamma$, we have
+	
+	\begin{align*}
+		\Phi= \Gamma - D_\Phi\Gamma + D_\Phi.
+	\end{align*}
+	
+	Multiplying with $x$ and using $\Gamma x = \lambda x$, we obtain
+	
+	\begin{align*}
+		\Phi x = \lambda x + (1- \lambda)D_\Phi x
+	\end{align*}
+	
+	For all $i$, $(D_\Phi)_{ii} = \Phi_{ii}\leq \rho(\Phi) = 1$ 
+	\citep[Corollary 
+	8.1.20]{horn1985}. We have that $1 - \lambda \leq 0$ and that the entries 
+	of $x$ are nonnegative and therefore
+	
+	\begin{align*}
+		\Phi x \geq \lambda x  + (1- \lambda) x = x
+	\end{align*}
+	
+	where the inequality should be read entrywise. It holds that $x \neq 0$ and 
+	therefore $\Phi x \geq x$ implies that $\rho(\Phi) \geq 1$ which is a 
+	contradiction \citep[Theorem 8.3.2]{horn1985}.
+\end{proof}
+
+[FIX: add that model is closed under marginalization and normalization? But 
+what is the model?]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -982,6 +1178,8 @@ ${\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta})$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{comment}
+
 \subsection{Identifying Link Functions}
 \label{ssec:idCauFunc}
 
@@ -1051,6 +1249,8 @@ Under the conditions of Proposition \ref{prop:gPaId}, it also follows
 immediately that $\Phi_{\beta\alpha}$ is identified from the observed 
 infinitesimal covariance process and $\Lambda_{OO}$ we will use this in Section 
 \ref{ssec:eqInfCov} to obtain further constraints.
+
+\end{comment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1289,6 +1489,9 @@ Markov equivalence class.
 	\end{figure*}
 
 
+\begin{comment}
+
+
 \subsection{Using Infinitesimal Covariance}
 \label{ssec:eqInfCov}
 
@@ -1385,25 +1588,92 @@ linear structural equations models with prior knowledge
 \end{exmp}
 
 
+\end{comment}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Identification of cycles}
+
+The $n$-cycle is the directed graph on nodes $\alpha_1,\ldots,\alpha_n$ such 
+that $\alpha_i \rightarrow \alpha_{i+1}$ for all $i = 1,\ldots,n-1$ and 
+$\alpha_n\rightarrow \alpha_1$. When $n \geq 3$, \cite{drton2011} show that 
+Equation \ref{eq:covSEM} has at 
+most two solutions when the graph is an $n$-cycle and that generically it has 
+two solutions. We show in the following that at most one of them is in the 
+Hawkes model [fix: better terminology], that is, has nonnegative entries and 
+the directed part is Schur stable. 
+
+\begin{prop}
+	Let $\mathcal{G}$ be an $n$-cycle. Then there is a unique Hawkes solution 
+	to 
+	
+	$$
+	\Sigma = (I - G)^{-1}\Theta(I - G)^{-T}
+	$$
+	
+	such that $(G, \Theta) \in $ [FIX].
+\end{prop}
+
+\begin{proof}
+	Let $(G_0, \Omega_0)$ ,$(G_1, \Omega_1)$ be the two solutions of a linear 
+	SEM corresponding to 
+	$n$-cycle (generically, they are distinct). We assume that the observed 
+	covariance is 
+	from a Schur stable system, without loss of generality, say $\rho(G_1) < 
+	1$. Let 
+	$\delta_i^j$ denote the inverse of the $i$'th diagonal element of 
+	$\Omega_j$ and let 
+	$\lambda_i^j$ denote the $(i,i+1)$-entry of $G_j$ (modulo $n$). 
+	\cite{drton2011} show that,
+	
+	\begin{align*}
+	\delta_i^1 &= \delta_i^0 + \prod_j \delta_j^0 (\prod_j (\lambda_j^0)^2 - 
+	1)/\det(K_{-i}) \ \ \ \ \ \ \ \  \text{and} \\
+	\delta_i^0 &= \delta_i^1 + \prod_j \delta_j^1 (\prod_j (\lambda_j^1)^2 - 
+	1)/\det(K_{-i}),
+	\end{align*}
+	
+	\noindent where $K$ is the inverse of the observed covariance, $\Sigma$, 
+	and $K_{-i}$ denotes the submatrix of $K$ with the $i$'th row and column 
+	deleted. Replacing $\delta_i^1$ in the lower equation with the expression 
+	in the upper equation we obtain, 
+	
+	\begin{align}
+	- (\prod_i \delta_i^1) (\prod_i (\lambda_i^1)^2 - 
+	1) = (\prod_i \delta_i^0) (\prod_i (\lambda_i^0)^2 - 
+	1).
+	\label{eq:deltaLambdaProd}
+	\end{align}
+	
+	\noindent Assume without loss of generality that $\rho(G_0) < 1$, 
+	then every eigenvalue of $G_0$ has an absolute value less than 1, and 
+	$\det(G_0) < 1$. Due to the structure of $G_0$ it holds that 
+	$\det(G_0) = \prod_i(\lambda_i^0)$ such that $\prod_i(\lambda_i^0) < 
+	1$ 
+	and $\prod_i(\lambda_i^0)^2 < 1$. Every $\delta_i^0$ is 
+	positive, and this means that the right-hand side of 
+	\ref{eq:deltaLambdaProd} is negative. Every $\delta_i^1$ is positive and 
+	therefore we must have $(\prod_i 
+	(\lambda_i^1)^2 - 
+	1) > 0$ and therefore $(\prod_i 
+	(\lambda_i^1) > 1$. This means that $\det(G_1) > 1$ and therefore 
+	$\rho(G_1) \geq 1$.
+\end{proof}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Ideas/Notes}
 
-Use positivity constraints to obtain further identification? See e.g. cyclic 
-examples in Drton, Foygel, Sullivant (AOS, 2011), their counterexamples do not 
-work under positivity constraints, i.e., one does have (global) identification 
-in that case. Give example of added identification and equality constraints 
-under Hawkes (e.g., positivity) constraints
+check everything, also numerically - check also n-cycle proof, different 
+formula for delta is used (there seems to be an error in Drton2011)
 
-Note that for positive matrices, it seems that spectral radius less than one in 
-the full system entails spectral radius less than one in the marginal system 
-(tested empirically) (interlacing property of Schur complements?) - contrary to 
-lin SEMs system, and what I write earlier in this paper.
+Formulate more clearly that id in SEMs relate to the marginalized and 
+normalized Hawkes problem!
 
-Note that for $n$-cycles (see Foygel, Sullivant, Drton, Global id, AOS) lin 
-SEMs generically have two solutions, though only one of these have spectral 
-radius less than one (tested empirically). Note that if $G_0$, $G_1$ are the 
+In n-cycle example: Note that if $G_0$, $G_1$ are the 
 two solutions, then it holds that $det(G_0)det(G_1) = 1$, use this to prove 
 this? (both solutions will have positive entries only). Note also that for a 
 linear SEM Graph A in \ref{fig:bigCycle} generically has only two solutions - 
@@ -1411,97 +1681,14 @@ just like the 4-cycle. Can I show that only one satisfies spectral constraint
 (using the conjecture from above that this is implied by the spectral 
 constraint in the full system)
 
-A philosophical point (may be important): even if we do not have generic ID of 
-a model, but only finite-to-one (i.e., finitely many solutions) one could have 
-equality constraints: just test it for any parameter set which is a solution in 
-the smaller model.
+check that one does not have generic id for all graphs!
 
-\begin{exmp}
-	Let $(G_1, \Omega_1)$ ,$(G_2, \Omega_2)$ be the two solutions for an 
-	$n$-cycle (generically, they are distinct, [ref to Drton]). It holds that 
-	[show] $det(G_1)det(G_2) = 1$. Assuming that the observed covariance is 
-	from a stable system, say $\rho(G_1) < 1$. Then the absolute value of every 
-	eigenvalue of $G_1$ is less than 1, and therefore $det(G_1) < 1$. Then 
-	$det(G_2) > 1$ and therefore $G_2$ has an eigenvalue with an absolute value 
-	larger than 1.
-	
-	In the notation of Drton et al (Global id): for the two solutions that 
-	
-	$$
-	\delta_i^1 = \delta_i^0 + \prod_i \delta_i^0 (\prod_i (\lambda_i^0)^2 - 
-	1)/det(K_{-1})
-	$$
-	
-	\noindent and the same with $0$ and $1$ switched. Then
-
-	$$
-	\delta_i^1 = \delta_i^1 + \prod_i \delta_i^1 (\prod_i (\lambda_i^1)^2 - 
-	1)/det(K_{-1}) + \prod_i \delta_i^0 (\prod_i (\lambda_i^0)^2 - 
-	1)/det(K_{-1})
-	$$	
-	
-	\noindent so this means that 
-	
-	\begin{align}
-			- (\prod_i \delta_i^1) (\prod_i (\lambda_i^1)^2 - 
-			1) = (\prod_i \delta_i^0) (\prod_i (\lambda_i^0)^2 - 
-			1)
-			\label{eq:deltaLambdaProd}
-	\end{align}
+Note that for positive matrices, it seems that spectral radius less than one in 
+the full system entails spectral radius less than one in the marginal system 
+(tested empirically) (interlacing property of Schur complements?) - contrary to 
+lin SEMs system, and what I write earlier in this paper.
 
 
-	
-	\noindent Assume without loss of generality that $\rho(\Lambda^1) < 1$, 
-	then every eigenvalue of $\Lambda^1$ has an absolute value less than 1, and 
-	$det(\Lambda^i) < 1$. Due to the structure of $\Lambda^i$ it holds that 
-	$det(\Lambda^1) = \prod_i(\lambda_i^1)$ such that $\prod_i(\lambda_i^1) < 
-	1$ 
-	and $\prod_i(\lambda_i^1)^2 < 1$. Every $\delta_i^0$ and $\delta_i^1$ are 
-	positive, and this means that the left-hand side of 
-	\ref{eq:deltaLambdaProd} is positive. Therefore we must have $(\prod_i 
-	(\lambda_i^0)^2 - 
-	1) > 0$ and therefore $(\prod_i 
-	(\lambda_i^0) > 1$. This means that $det(\Lambda^0) > 1$ and therefore 
-	$\rho(\Lambda^0) \geq 1$.
-\end{exmp}
-
-\begin{prop}
-	Let $G$ be entrywise nonnegative and $\rho(G)<1$. Then $\tilde{G}=G_{OO} + 
-	G_{OU}(I-G_{UU})^{-1}G_{UO}$ is entrywise nonnegative and  
-	$\rho(\tilde{G})<1$
-\end{prop}
-
-\begin{proof}
-	We will show that if $A$ is a nonnegative matrix (i.e., $A_{ij} \geq 0$ for 
-	every $i$ and $j$) and $\rho(A) < 1$, then $\rho(B) < 1$ for $B = A_{OO} + 
-	A_{OU}(I - A_{UU})^{-1}A_{UO}$. To this end, it suffices to show that 
-	
-	\begin{align*}
-		\norm{B^k} &= \norm{(A_{OO} + 
-			A_{OU}(I - A_{UU})^{-1}A_{UO})^k} \\
-		&\leq \norm{(A_{OO} + 
-			A_{OU}(I - A_{UU})^{-1}A_{UO})}^k \\
-		&\leq \norm{A_{OO}}^k + \norm{ 
-			A_{OU}(\sum_{i=0}^k A_{UU}^i) A_{UO})}^k \\ &+ \norm{
-			A_{OU}(\sum_{i=k+1}^\infty A_{UU}^i)A_{UO})}^k.
-	\end{align*}
-	
-	\noindent We have that $\norm{A_{OO}}^k \rightarrow 0$ and $\norm{ 
-		A_{OU}(\sum_{i=0}^k A_{UU}^i) A_{UO})}^k \leq \norm{ 
-		A}^k $ and $\norm{ 
-		A}^k \rightarrow_{k\rightarrow \infty} 0$. Finally, $\norm{
-		A_{OU}(\sum_{i=k+1}^\infty A_{UU}^i)A_{UO})} \leq \norm{
-		A_{OU}}\norm{(\sum_{i=k+1}^\infty A_{UU}^i)}\norm{A_{UO})}$ and the 
-		middle factor goes to 0 as the sum is convergent. [FIX: check all of 
-		this]
-
-
-	
-	
-\end{proof}
-
-Note that the above does not hold without the condition that $G$ be entrywise 
-nonnegative [ref to counterexample in Hyttinen]
 
 Question: find an example where one does not have generic ID with these 
 additional constraints.
@@ -1547,7 +1734,8 @@ complexity of this task.
                          % so you can already fill it to test with the
                          % ‘accepted’ class option
     This work was supported by a research grant from
-    VILLUM FONDEN (13358).
+    VILLUM FONDEN (13358) and by a DFF-International Postdoctoral Grant 
+    (0164-00023B) from Independent Research Fund Denmark.
 \end{acknowledgements}
 
 \appendix
