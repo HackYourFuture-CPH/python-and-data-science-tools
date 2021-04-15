@@ -590,6 +590,27 @@ not needed
 and the definition is often stated using paths 
 \citep{richardson2017}.
 
+Using a DMG, $\mathcal{G} = (V,E)$, we will describe a parametrization of the 
+observed integrated covariances. We let $\mathbb{M}_+^s(\mathcal{G})$ denote 
+the set of of Schur stable matrices with nonnegative entries such that for 
+$\alpha,\beta\in V$
+
+$$
+\alpha\not\rightarrow_\mathcal{G}\beta \Rightarrow M_{\beta\alpha} = 0.
+$$
+
+We let $\mathbb{M}_{0,+}^s(\mathcal{G})\subseteq 
+\mathbb{M}_+^s(\mathcal{G})$ denote the subset of matrices in which all 
+diagonal 
+elements are zero.
+We let $\mathbb{M}_+^{pd}(\mathcal{G})$ denote the set of symmetric, positive 
+definite matrices with nonnegative entries such that for $\alpha,\beta\in V$
+
+$$
+\alpha\not \leftrightarrow_\mathcal{G} \beta \Rightarrow M_{\beta\alpha} = 
+M_{\alpha\beta} = 0.
+$$
+
 \begin{thm}
 
 	Let $N$ be a multivariate Hawkes process with stationary increments such 
@@ -606,19 +627,11 @@ and the definition is often stated using paths
 	
 
 	
-	\noindent where
+	\noindent such that $(\Phi, \Theta) \in \mathbb{M}_+^s(\mathcal{G}) \times 
+	\mathbb{M}_+^{pd}(\mathcal{G})$ when $\mathcal{G}$ is the latent projection 
+	of $\mathcal{D}$ on $O$.
 	
-	\begin{align*}
-	\alpha \not\rightarrow_\mathcal{G} \beta & \Rightarrow 
-	\Gamma_{\beta\alpha} = 0 \\
-	\alpha \not\leftrightarrow_\mathcal{G} \beta & \Rightarrow 
-	\Theta_{\beta\alpha} = \Theta_{\alpha\beta} = 0 
-	\end{align*}
-	
-	when $\mathcal{G}$ is the latent projection of $\mathcal{D}$ on $O$. The 
-	matrix $\Gamma$ is Schur stable and all entries of $\Gamma$ and $\Omega$ 
-	are 
-	nonnegative. $\Omega$ is positive definite.
+	\label{thm:marg}
 \end{thm}
 	
 	\begin{proof}
@@ -692,11 +705,10 @@ without the assumption of nonnegative entries in the directed matrix (see
 	A^k = 0,
 	$$
 	
-	[FIX: add ref].
-	
-	We read $A_{UU}^k$ as $(A_{UU})^k$.
+	\citep[Theorem 5.6.12]{horn1985}.
 	
 	\begin{proof}
+		In this proof, $A_{UU}^k$ should be read as $(A_{UU})^k$.
 		We have that $\lim_{k\rightarrow\infty} A^k = 0$. For each $k$ and for 
 		each $i,j\in U$, we have that $0 \leq (A_{UU}^k)_{ij} \leq 
 		((A^k)_{UU})_{ij}$. This means that $\lim_{k\rightarrow\infty} A_{UU}^k 
@@ -738,8 +750,6 @@ without the assumption of nonnegative entries in the directed matrix (see
 
 \subsection{Normalized Effects}
 \label{sssec:normEff}
-
-[FIX: stability of normalized effects?]
 
 When $\Phi$ is a matrix of direct effects of a Hawkes process (or marginalized 
 effects, $\bar{\Phi}$), the diagonal 
@@ -810,19 +820,12 @@ matrix of a linear SEM, the Hawkes parameters are required to be nonnegative.
 	\Sigma = (I - \Gamma)^{-1}\Omega (I - \Gamma)^{-T}
 	$$
 	
-	\noindent where $\Gamma$ has zeros on the diagonal and furthermore
+	\noindent such that $(\Gamma, \Omega) \in \mathbb{M}_{0,+}^s(\mathcal{G}) 
+	\times 
+	\mathbb{M}_+^{pd}(\mathcal{G})$ when $\mathcal{G}$ is the latent projection 
+	of $\mathcal{D}$ on $O$.
 	
-	\begin{align*}
-		\alpha \not\rightarrow_\mathcal{G} \beta & \Rightarrow 
-		\Gamma_{\beta\alpha} = 0 \\
-		\alpha \not\leftrightarrow_\mathcal{G} \beta & \Rightarrow 
-		\Omega_{\beta\alpha} = \Omega_{\alpha\beta} = 0 
-	\end{align*}
-	
-	when $\mathcal{G}$ is the latent projection of $\mathcal{D}$ on $O$. The 
-	matrix $\Gamma$ is Schur stable and all entries of $\Gamma$ and $\Omega$ 
-	are 
-	nonnegative.
+	\label{cor:normEq}
 \end{cor}
 
 \begin{proof}
@@ -888,8 +891,6 @@ matrix of a linear SEM, the Hawkes parameters are required to be nonnegative.
 	contradiction \citep[Theorem 8.3.2]{horn1985}.
 \end{proof}
 
-[FIX: add that model is closed under marginalization and normalization? But 
-what is the model?]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -899,36 +900,31 @@ what is the model?]
 
 Using constraints on the causal graph, we will discuss the identification of 
 the entries in the 
-matrix $\Phi$ and the functions $\phi_{\beta\alpha}$. To give a formal 
+matrices $\Phi$ and $\Gamma$. To give a formal 
 definition 
 of 
 identification, consider two stationary Hawkes 
 processes, $M_1\in\mathbb{M}$ and $M_2\in\mathbb{M}$, with coordinate processes 
 $V_1$ and $V_2$, 
-respectively, for a class of models $\mathbb{M}$. Let $ \tilde{P}_1$ and $ 
+respectively, for a model $\mathbb{M}$. Let $ \tilde{P}_1$ and $ 
 \tilde{P}_2$ be their marginal 
 distributions over a common observed set of 
 coordinate processes, $O$, let $f$ be a function of 
 such a marginal distribution, and let 
-$\alpha,\beta\in O$. Finally, let $\Pi_{\beta\alpha}^i$ be a parameter and 
-$\phi_{\beta\alpha}^i$ the link function from $\alpha$ to 
-$\beta$ in $M_i$, respectively ($\Pi_{\beta\alpha} = \Phi_{\beta\alpha}, 
-\Pi_{\beta\alpha}=\Gamma_{\beta\alpha},$ or $\Pi_{\beta\alpha} = 
-\Phi_{\beta\alpha}/(1-\Phi_{\beta\beta})$, e.g.). We will say that the 
+$\alpha,\beta\in O$. Finally, let $\Pi_{\beta\alpha}^i$ be a parameter 
+($\Pi_{\beta\alpha} = \Phi_{\beta\alpha}$ or 
+$\Pi_{\beta\alpha}=\Gamma_{\beta\alpha},$). We will say that the 
 parameter 
-$A$ \emph{is 
+$\Pi_{\beta\alpha}$ \emph{is 
 identified from} 
-$f(\tilde{P})$ in the class $\mathbb{M}$ if $f(\tilde{P}_1) = f(\tilde{P}_2)$ 
+$f(\tilde{P})$ in the model $\mathbb{M}$ if $f(\tilde{P}_1) = f(\tilde{P}_2)$ 
 implies $\Pi_{\beta\alpha}^1 = 
-\Pi_{\beta\alpha}^2$. Similarly, we say 
-$\phi_{\beta\alpha}$ is identified from $f(P)$ in the class $\mathbb{M}$ if 
-$f(\tilde{P}_1) = 
-f(\tilde{P}_2)$ 
-implies $\phi_{\beta\alpha}^1 = \phi_{\beta\alpha}^2$. Note that while 
+\Pi_{\beta\alpha}^2$. Note that while 
 identification 
 is often only discussed from the 
 observed distribution in its entirety, we use $f$ to distinguish simpler 
-statistics which can be sufficient for identification. As we will see some 
+statistics that can be sufficient for identification. As we will see under 
+graphical constraints some 
 parameters are identified from the integrated covariance matrix in which case 
 the inferential problem is reduced to a finite-dimensional one.
 
@@ -937,20 +933,33 @@ the inferential problem is reduced to a finite-dimensional one.
 
 \subsection{Identification as a Linear SEM}
 
-The idea is now 
+There are several papers describing graphical conditions to ensure 
+identifiability of parameters of a linear structural equation model. For these 
+results, one assumes a certain graphical structure represented by a DMG which 
+encodes sparsity in the matrices $B$ and $\Sigma_\varepsilon$ in Equation 
+(\ref{eq:covSEM}). Identification of a parameter means that for a fixed 
+graphical structure and an observed covariance, $C_X$, this parameter is 
+uniquely determined. The idea is now 
 that one can use any available identification result from the (cyclic) linear 
 structural equation toolbox to show identification of the entries in 
 $\Gamma$ such as those provided by, e.g., \cite{foygelHalftrek2012, 
 	chenNIPS2016, 
-	weihs2018}. 
-These are often 
-formulated in terms of graphical 
-conditions, and we note that the 
-marginalized set of equations correspond to a linear structural 
-equation model described by the latent projection of the Hawkes causal graph 
-(Definition \ref{def:latProj}). We also note that one typically has to 
+	weihs2018}. This follows just from noting that if we use the latent 
+	projection of the Hawkes causal graph to encode sparsity, the problem in 
+	Corollary \ref{cor:normEq} is the same as the linear SEM problem, though 
+	with a smaller parameters space as $\Gamma$ and $\Omega$ are required to be 
+	nonnegative and $\Gamma$ is required to be Schur stable. While any 
+	identification result from the linear SEM problem therefore applies to the 
+	problem in Corollary \ref{cor:normEq}, one can actually obtain stronger 
+	results using that the parameter space is smaller. Section 
+	\ref{ssec:idCycles} shows this by an example.
+
+We also note that one typically has to 
 distinguish between \emph{global} and \emph{generic} identification of 
 parameters.
+
+\begin{comment}
+
 
 \begin{prop}
 	Let $\alpha,\beta \in O$, $\alpha\neq \beta$. The parameter 
@@ -1006,6 +1015,8 @@ correspond to aggregating effects along multiple unobserved paths, similarly to
 the 
 interpretation of the normalized parameters, 
 ${\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta})$.
+
+\end{comment}
 
 
 \begin{exmp}
@@ -1148,11 +1159,12 @@ ${\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta})$.
 			
 	Consider the graph in Figure \ref{fig:smallCycle}\textbf{A} and assume that 
 	this is the causal graph of a Hawkes process on nodes $V = \{1,2,3,4,5\}$ 
-	such that coordinate process $5$ is unobserved. If we apply the 
+	such that coordinate process $5$ is unobserved. Let $\Phi$ be the $4\times 
+	4$ matrix of direct effects. If we apply the 
 	identification criterion of \cite{weihs2018}, we find that every 
 	$\Gamma_{\beta\alpha}$ 
 	such that 
-	$\alpha,\beta\in O$ is identified from $\bar{C}$ (note that 
+	$\alpha,\beta\in O$ is identified from $\Sigma$ (note that 
 	$\Gamma_{\beta\alpha}={\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta})$ 
 	for $\alpha,\beta\in O$ in this example). It 
 	follows 
@@ -1174,6 +1186,82 @@ ${\Phi}_{\beta\alpha}/(1-{\Phi}_{\beta\beta})$.
 	cannot, using only the integrated covariance, separate the contributions 
 	from coordinate processes 2 and 5 to the observed covariance. 
 \end{exmp}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Identification of cycles}
+\label{ssec:idCycles}
+
+The $n$-cycle, $\mathcal{D}_n$, is the directed graph on nodes 
+$\alpha_1,\ldots,\alpha_n$ such 
+that $\alpha_i \rightarrow \alpha_{i+1}$ for all $i = 1,\ldots,n-1$ and 
+$\alpha_n\rightarrow \alpha_1$. When $n \geq 3$, \cite{drton2011} show that 
+Equation \ref{eq:covSEM} has at 
+most two solutions when the graph is an $n$-cycle and that generically it has 
+two solutions. We show in the following that at most one of them is in 
+$\mathbb{M}_+^s(\mathcal{G}) \times 
+\mathbb{M}_{+,0}^{pd}(\mathcal{G})$, thus, is a solution to the normalized 
+Hawkes problem.
+
+\begin{prop}
+	Let $\mathcal{G}$ be an $n$-cycle. There is a unique solution 
+	to 
+	
+	$$
+	\Sigma = (I - \Gamma)^{-1}\Theta(I - \Gamma)^{-T}
+	$$
+	
+	such that $(\Gamma, \Omega) \in \mathbb{M}_{0,+}^s(\mathcal{G}) \times 
+	\mathbb{M}_+^{pd}(\mathcal{G})$.
+\end{prop}
+
+\begin{proof}
+	Let $(G_0, \Omega_0)$ ,$(G_1, \Omega_1)$ be the two solutions of a linear 
+	SEM corresponding to 
+	$n$-cycle (generically, they are distinct). We assume that the observed 
+	covariance is 
+	from a Schur stable system, without loss of generality, say $\rho(G_1) < 
+	1$. Let 
+	$\delta_i^j$ denote the inverse of the $i$'th diagonal element of 
+	$\Omega_j$ and let 
+	$\lambda_i^j$ denote the $(i,i+1)$-entry of $G_j$ (modulo $n$). 
+	\cite{drton2011} show that,
+	
+	\begin{align*}
+	\delta_i^1 &= \delta_i^0 + \prod_j \delta_j^0 (\prod_j (\lambda_j^0)^2 - 
+	1)/\det(K_{-i}) \ \ \ \ \ \ \ \  \text{and} \\
+	\delta_i^0 &= \delta_i^1 + \prod_j \delta_j^1 (\prod_j (\lambda_j^1)^2 - 
+	1)/\det(K_{-i}),
+	\end{align*}
+	
+	\noindent where $K$ is the inverse of the observed covariance, $\Sigma$, 
+	and $K_{-i}$ denotes the submatrix of $K$ with the $i$'th row and column 
+	deleted. Replacing $\delta_i^1$ in the lower equation with the expression 
+	in the upper equation we obtain, 
+	
+	\begin{align}
+	- (\prod_i \delta_i^1) (\prod_i (\lambda_i^1)^2 - 
+	1) = (\prod_i \delta_i^0) (\prod_i (\lambda_i^0)^2 - 
+	1).
+	\label{eq:deltaLambdaProd}
+	\end{align}
+	
+	\noindent Assume without loss of generality that $\rho(G_0) < 1$, 
+	then every eigenvalue of $G_0$ has an absolute value less than 1, and 
+	$\det(G_0) < 1$. Due to the structure of $G_0$ it holds that 
+	$\det(G_0) = \prod_i(\lambda_i^0)$ such that $\prod_i(\lambda_i^0) < 
+	1$ 
+	and $\prod_i(\lambda_i^0)^2 < 1$. Every $\delta_i^0$ is 
+	positive, and this means that the right-hand side of 
+	\ref{eq:deltaLambdaProd} is negative. Every $\delta_i^1$ is positive and 
+	therefore we must have $(\prod_i 
+	(\lambda_i^1)^2 - 
+	1) > 0$ and therefore $(\prod_i 
+	(\lambda_i^1) > 1$. This means that $\det(G_1) > 1$ and therefore 
+	$\rho(G_1) \geq 1$.
+\end{proof}
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1270,8 +1358,9 @@ conditional independence alone. We will see that the analogous statement holds
 for the Hawkes process models, though the relevant notion of independence to 
 compare with is 
 that of \emph{local independence}. Local independence is an asymmetric notion 
-of independence which can be defined 
-for stochastic processes \citep{schweder1970, aalen1987, didelez2000, 
+of independence on the coordinate processes of
+a multivariate stochastic processes \citep{schweder1970, aalen1987, 
+didelez2000, 
 didelez2008}. The following definition is specific to point processes, however, 
 it can be extended to other classes of stochastic processes 
 \citep{aalen1987,didelez2006,mogensenUAI2018,mogensen2018}.
@@ -1316,8 +1405,6 @@ question is therefore whether there are constraints imposed by the
  and such constraints can be used to distinguish between graphical structures 
  that imply the same set of local independences. In the next subsection, we 
  show that one can use the integrated mean and covariance to find such 
- constraints. In the subsection after next, we show that when using
- dynamical observation of the marginal distribution, we can find additional 
  constraints.
 
 
@@ -1340,9 +1427,9 @@ Markov equivalence class.
 	linear SEM, we can, e.g., use Theorem 1 and Lemma 1 of \cite{chen2014} to 
 	see that the graphical structure imposes the constraint 
 	
-	$$\bar{C}_{14}/\bar{C}_{13} = (\bar{C}_{34} - 
-	\Gamma_{32}\bar{C}_{24})/(\bar{C}_{33} - 
-	\Gamma_{32}\bar{C}_{23}),$$ 
+	$$\Sigma_{14}/\Sigma_{13} = (\Sigma_{34} - 
+	\Gamma_{32}\Sigma_{24})/(\Sigma_{33} - 
+	\Gamma_{32}\Sigma_{23}),$$ 
 	
 	and 
 	therefore this algebraic constraint is also satisfied by the Hawkes model 
@@ -1357,6 +1444,9 @@ Markov equivalence class.
 	\textbf{B} only and therefore this constraint allows us to 
 	discriminate between the two models.
 \end{exmp}
+
+\begin{comment}
+
 
 	\begin{figure*}
 		%\begin{tabular}{cc}
@@ -1487,6 +1577,8 @@ Markov equivalence class.
 			are omitted from this 
 			vizualiation.}
 	\end{figure*}
+	
+\end{comment}
 
 
 \begin{comment}
@@ -1590,82 +1682,14 @@ linear structural equations models with prior knowledge
 
 \end{comment}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Identification of cycles}
-
-The $n$-cycle is the directed graph on nodes $\alpha_1,\ldots,\alpha_n$ such 
-that $\alpha_i \rightarrow \alpha_{i+1}$ for all $i = 1,\ldots,n-1$ and 
-$\alpha_n\rightarrow \alpha_1$. When $n \geq 3$, \cite{drton2011} show that 
-Equation \ref{eq:covSEM} has at 
-most two solutions when the graph is an $n$-cycle and that generically it has 
-two solutions. We show in the following that at most one of them is in the 
-Hawkes model [fix: better terminology], that is, has nonnegative entries and 
-the directed part is Schur stable. 
-
-\begin{prop}
-	Let $\mathcal{G}$ be an $n$-cycle. Then there is a unique Hawkes solution 
-	to 
-	
-	$$
-	\Sigma = (I - G)^{-1}\Theta(I - G)^{-T}
-	$$
-	
-	such that $(G, \Theta) \in $ [FIX].
-\end{prop}
-
-\begin{proof}
-	Let $(G_0, \Omega_0)$ ,$(G_1, \Omega_1)$ be the two solutions of a linear 
-	SEM corresponding to 
-	$n$-cycle (generically, they are distinct). We assume that the observed 
-	covariance is 
-	from a Schur stable system, without loss of generality, say $\rho(G_1) < 
-	1$. Let 
-	$\delta_i^j$ denote the inverse of the $i$'th diagonal element of 
-	$\Omega_j$ and let 
-	$\lambda_i^j$ denote the $(i,i+1)$-entry of $G_j$ (modulo $n$). 
-	\cite{drton2011} show that,
-	
-	\begin{align*}
-	\delta_i^1 &= \delta_i^0 + \prod_j \delta_j^0 (\prod_j (\lambda_j^0)^2 - 
-	1)/\det(K_{-i}) \ \ \ \ \ \ \ \  \text{and} \\
-	\delta_i^0 &= \delta_i^1 + \prod_j \delta_j^1 (\prod_j (\lambda_j^1)^2 - 
-	1)/\det(K_{-i}),
-	\end{align*}
-	
-	\noindent where $K$ is the inverse of the observed covariance, $\Sigma$, 
-	and $K_{-i}$ denotes the submatrix of $K$ with the $i$'th row and column 
-	deleted. Replacing $\delta_i^1$ in the lower equation with the expression 
-	in the upper equation we obtain, 
-	
-	\begin{align}
-	- (\prod_i \delta_i^1) (\prod_i (\lambda_i^1)^2 - 
-	1) = (\prod_i \delta_i^0) (\prod_i (\lambda_i^0)^2 - 
-	1).
-	\label{eq:deltaLambdaProd}
-	\end{align}
-	
-	\noindent Assume without loss of generality that $\rho(G_0) < 1$, 
-	then every eigenvalue of $G_0$ has an absolute value less than 1, and 
-	$\det(G_0) < 1$. Due to the structure of $G_0$ it holds that 
-	$\det(G_0) = \prod_i(\lambda_i^0)$ such that $\prod_i(\lambda_i^0) < 
-	1$ 
-	and $\prod_i(\lambda_i^0)^2 < 1$. Every $\delta_i^0$ is 
-	positive, and this means that the right-hand side of 
-	\ref{eq:deltaLambdaProd} is negative. Every $\delta_i^1$ is positive and 
-	therefore we must have $(\prod_i 
-	(\lambda_i^1)^2 - 
-	1) > 0$ and therefore $(\prod_i 
-	(\lambda_i^1) > 1$. This means that $\det(G_1) > 1$ and therefore 
-	$\rho(G_1) \geq 1$.
-\end{proof}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Ideas/Notes}
+
+FIX: stress throughout that the central idea is to use something 
+time-independent to find equality constraints
 
 check everything, also numerically - check also n-cycle proof, different 
 formula for delta is used (there seems to be an error in Drton2011)
@@ -1701,10 +1725,12 @@ comparison with lin SEM work.
 
 We obtained identification results and equality constraints for Hawkes process 
 models through the similarity between integrated Hawkes covariance and observed 
-covariance of a linear structural equation model. We also argued that more 
-constraints can be found by considering infinitesimal covariance. These 
-equality constraints will be useful for structure learning as they can 
-supplement constraint-based learning based on tests of local independence.
+covariance of a linear structural equation model. These 
+equality constraints are useful for structure learning as they can 
+supplement constraint-based learning based on tests of local independence. The 
+approach in this paper finds equality constraints through a time-independent 
+statistic which may be applicable in other classes of stochastic processes as 
+well.
 
 A Hawkes process is defined using the set of $\phi_{\beta\alpha}$-functions 
 along 
