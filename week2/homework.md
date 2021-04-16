@@ -23,7 +23,7 @@ Create a PR to add your homework to the respective week folder.
 
 5. Write a Python script to check whether a given key already exists in a dictionary. <br>
 
-Additional Exercises: <br> 
+### Additional Exercises: <br> 
 
 6. Write a function called showNumbers that takes a parameter called limit. It should print all the numbers between 0 and limit with a label to identify the even and odd numbers. <br>
 For example, if the limit is 3, it should print: <br>
