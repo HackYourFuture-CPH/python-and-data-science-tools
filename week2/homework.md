@@ -14,6 +14,7 @@ Create a PR to add your homework to the respective week folder.
   c.	If it is divisible by both 3 and 5, it should return “FizzBuzz”. <br>
   d.	Otherwise, it should return the same number. <br>
 
+2. Consider a  lst= [5, 10, 20] and write a try and except block to avoid IndexError. <br>
 
 
   
