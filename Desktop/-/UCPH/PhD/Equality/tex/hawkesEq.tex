@@ -103,13 +103,21 @@ Conditional independence is often used as a testable
 implication of causal models of random variables. In addition, equality 
 constraints have been proposed to distinguish between data-generating 
 mechanisms. We show that one 
-can also find equality constraints in the class of linear Hawkes process, 
-extending this theory to continuous-time stochastic processes. We 
-show that Hawkes process models in a certain sense satisfy the equality 
+can also find equality constraints in linear Hawkes processes, 
+extending this theory to a class of continuous-time stochastic processes. This 
+is done by proving that Hawkes process models in a certain sense satisfy the 
+equality 
 constraints 
-of a linear structural equation model. These results
+of linear structural equation models. These results
 allow more refined constraint-based structure learning in this class of 
-processes.
+processes. Arguing for the existence of equality constraints leads us to 
+new 
+identification 
+results for Hawkes processes. We also describe a causal interpretation of the 
+linear 
+Hawkes process which is closely 
+related to its so-called cluster representation.
+
 \end{abstract}
 
 
@@ -121,8 +129,8 @@ structure from observational data is a classical one
 studies models of random variables and without an explicit notion of time, this 
 question has also been 
 studied for stochastic process models. For a multivariate stochastic 
-process, $X_t = (X_t^1, X_t^2, \ldots, X_t^n)$, this is often formalized by 
-assuming that the dynamical development of each coordinate process, $X_t^i$,   
+process, $X_t = (X_t^1, X_t^2, \ldots, X_t^n)^T$, this is often formalized by 
+assuming that the dynamical evolution of each coordinate process, $X_t^i$,   
 depends directly only on a subset of the other coordinate processes which can 
 be 
 represented by a directed graph which is the \emph{structure} that methods 
@@ -143,18 +151,12 @@ use equality
 constraints in linear Hawkes processes to distinguish between graphical 
 structures that 
 are indistinguishable using tests of local independence only which enables more 
-refined structure learning algorithms. This development 
-is analogous to structural causal models in which equality constraints have 
+refined structure learning algorithms. This development parallels that of 
+structural causal models without an explicit notion of 
+time in which equality constraints have 
 been used for structure learning in addition to conditional independence 
 constraints 
 \citep{robins1986,vermaEquiAndSynthesis,robins1999,tian2002,shpitser2014,richardson2017}.
-
-Arguing for the existence of equality constraints also leads us to new 
-identification 
-results for Hawkes processes. We also describe a causal interpretation of the 
-parameters which is closely 
-related to the so-called cluster representation of a linear Hawkes process.
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -222,16 +224,17 @@ We will often write \emph{Hawkes process} instead of \emph{linear Hawkes
 process}. 
 We assume throughout for all 
 $\alpha$ and $\beta$ that $\phi_{\beta\alpha}$ is a continuous 
-function the support of which is contained in $(0, \infty)$. We define the 
+function on $(0, \infty)$ and zero outside this interval. We define the 
 $n\times n$ matrix $\Phi$ such that $\Phi_{\beta\alpha} = 
 \int_{-\infty}^\infty 
-\phi_{\beta\alpha}(s) \ds$. We assume that the spectral radius of $\Phi$ 
-(largest 
-absolute value of its eigenvalues) is less than 1 which implies that we can 
+\phi_{\beta\alpha}(s) \ds$. For a square matrix, $A$, its spectral radius, 
+$\rho(A)$, is the largest absolute value of its eigenvalues, 
+$\lambda_1,\ldots,\lambda_m$, i.e., $\rho(A) = \max_{i = 1,\ldots,m}\{\vert 
+\lambda_i \vert \}$. If $\rho(A) < 1$ then we say that 
+$A$ is \emph{Schur stable}. We assume that $\Phi$ is Schur stable which implies 
+that we can 
 assume the Hawkes process to have stationary increments and $\lambda_t$ to be a 
-stationary process \citep{jovanovic2015, bacry2016}. We denote the spectral 
-radius of a matrix, $A$, by $\rho(A)$, and if $\rho(A) < 1$ then we say that 
-$A$ is \emph{Schur stable}.
+stationary process \citep{jovanovic2015, bacry2016}.
 We define the $n\times n$ matrix $R=(I_n - \Phi)^{-1}$ where $I_n$ is the 
 $n\times n$ identity matrix. $R$ is well-defined due to the assumption on 
 the spectral radius of $\Phi$ and furthermore $R = \sum_{i=0}^\infty \Phi^i$. 
@@ -248,7 +251,7 @@ $$
 
 \noindent which is independent of $t$ due to stationarity. We let $\Lambda$ 
 denote the $n\times n$ diagonal matrix such that $\Lambda_{\alpha\alpha} = 
-\Lambda^\alpha$.
+\Lambda^\alpha$ and we assume $\Lambda$ to be positive definite.
 
 
 \begin{figure}
@@ -323,11 +326,13 @@ inversion of a matrix.
 \paragraph{Cluster Representation}
 
 In Definition \ref{def:hawProc}, Hawkes processes are introduced by specifying 
-the intensity processes. One can also define them by using a so-called cluster 
-representation which, as we will see, lends itself to a straight-forward causal 
-interpretation.
+their intensity processes. One can also define them by using a so-called 
+cluster 
+representation as described below \citep{jovanovic2015}. This representation 
+lends itself to a 
+straightforward causal interpretation as we will see.
 
-For each $\alpha\in V$, \emph{generation 0}-events occur as points a 
+For each $\alpha\in V$, \emph{generation 0}-events are generated from a 
 homogeneous Poisson process with rate $\mu_\alpha$. Each generation 0-event 
 creates a \emph{Hawkes tree}, that is, a cluster of events (the clusters are 
 independent). The clusters are generated recursively. Each event of type 
@@ -378,7 +383,8 @@ coordinate processes is determined exogenously. We will instead use the cluster
 representation to give a causal
 interpretation based on a type of \emph{injection intervention}. That is, the 
 observational state of the system is given by the Hawkes process as defined 
-above. An interventional state is defined by a set of \emph{injections}, 
+above. An interventional state is defined by a set of deterministic 
+\emph{injections}, 
 $\{(\alpha_i, t_i) \}_{i =1,\ldots, M} $, such that each injection is an 
 element in $V\times \mathbb{R}$. Each injection is 
 a root in a Hawkes tree and the interventional processes are given as the 
@@ -387,8 +393,8 @@ linear Hawkes process is {\it
 causal} if a Hawkes tree rooted at an injection event has the same distribution 
 as an 
 intrinsic, or non-injection, Hawkes tree for all coordinate processes $\alpha 
-\in V$. In 
-other words, the intervention events 
+\in V$, and all trees (interventional and intrinsic) are independent. In 
+other words, the interventional events 
 propagate in the same way through the system as the intrinsic events. This 
 causal assumption is seen to correspond closely to 
 the assumption of \emph{autonomy} or \emph{modularity} which is often used to 
@@ -399,7 +405,7 @@ We note that this type of interventions is a simplistic version of
 interventions that are undertaken in some fields of 
 science, e.g., in neuroscience where experimenters may intervene on neurons by 
 means of extracellular electrical stimulation. This, however, is not expected 
-to break their intrinsic dynamics nor 
+to break the intrinsic dynamics of the nervous system nor 
 sever causal mechanisms \citep{meffin2012, komarov2019}. It is also similar to 
 how interventions are 
 often 
@@ -434,11 +440,13 @@ type $\beta$, counting the injectional event if $\alpha=\beta$.
 
 A {\it graph} is a pair $(V,E)$ where $V$ is a finite set of nodes and $E$ is a 
 set edges, each between a pair of (not necessarily distinct) nodes. We will  
-consider {\it directed mixed graphs} (DMGs), i.e., graphs such that every edge 
+use {\it directed mixed graphs} (DMGs), i.e., graphs such that every edge 
 is 
 either \emph{directed}, $\rightarrow$, or \emph{bidirected}, $\leftrightarrow$. 
-We use $\sim$ to denote a generic edge of either type. If the edge 
-$\alpha\rightarrow\beta$ is in the graph $\mathcal{G}$, we say that $\alpha$ is 
+We use $\sim$ to denote a generic edge of either type. If an edge $\alpha \sim 
+\beta$ is in a graph $\mathcal{G}$, we write $\alpha \sim_\mathcal{G} \beta$. 
+If the edge 
+$\alpha\rightarrow\beta$ is in the graph $\mathcal{G}$, say that $\alpha$ is 
 a \emph{parent} of $\beta$, and we let $\pa_\mathcal{G}(\beta)$ denote the set 
 of parents 
 of $\beta$ in the graph $\mathcal{G}$.
@@ -448,9 +456,8 @@ Given a causal Hawkes process with coordinate processes indexed by $V =
 such that 
 $\alpha \rightarrow_\mathcal{D} \beta$ if and only if $\phi_{\beta\alpha} \neq 
 0$. 
-Due 
-to the assumptions of continuous and nonnegative $\phi_{\beta\alpha}$, we see 
-that if $\alpha\rightarrow\beta$ in the causal graph, then there exist a 
+Using the continuity assumption of $\phi_{\beta\alpha}$, we see 
+that if $\alpha\rightarrow\beta$ is in the causal graph, then there exist a 
 nontrivial interval such 
 that $\phi_{\beta\alpha} > 0$ on this interval.
 
@@ -469,10 +476,7 @@ more than once. We say that a path from $\alpha$ to $\beta$ is \emph{directed}
 if every edge is directed and points towards $\beta$, and a \emph{directed 
 cycle} is a directed path from $\alpha$ to $\beta$ composed with the edge 
 $\beta\rightarrow\alpha$. We say that a DMG is \emph{acyclic} if it contains no 
-\emph{directed cycles}. We say that a walk $\alpha \sim \gamma_1 \sim \ldots 
-\sim 
-\gamma_k \sim \beta$ is \emph{unobserved} if $\gamma_i \in U$ for all $i = 
-1,\ldots, k$ and $k \geq 1$. 
+directed cycles.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -480,9 +484,10 @@ $\beta\rightarrow\alpha$. We say that a DMG is \emph{acyclic} if it contains no
 
 \section{Representation as a Linear SEM}
 
-The relation between the observed quantity, $C$, and the parameters in $\Phi$ 
+The relation between the observed quantity, $C$, and the parameters, $(\Phi, 
+\Lambda)$, 
 in 
-Equation (\ref{eq:covarEq}) is seen to be very similar to the relation between 
+Equation (\ref{eq:covarEq}) is seen to be similar to the relation between 
 causal parameters and the covariance matrix of a \emph{linear structural 
 	equation model} (linear SEM) and we will leverage this fact. 
 There is 
@@ -499,7 +504,7 @@ to
 Hawkes processes. Let $X = (X_1,\ldots,X_n)^T$ be a vector of random variables 
 and 
 $\varepsilon = 
-(\varepsilon_1,\ldots,\varepsilon_n)^T$ is a vector of zero-mean noise terms,
+(\varepsilon_1,\ldots,\varepsilon_n)^T$ be a vector of zero-mean noise terms,
 
 \begin{align}
 X = BX + \varepsilon
@@ -507,21 +512,21 @@ X = BX + \varepsilon
 \end{align}
 
 such that the matrix $B$ has zeros on the diagonal. We let $\Sigma_\varepsilon$ 
-denote the covariance of $\varepsilon$. We assume that the spectral radius of 
-$B$ is less than one, and the
-covariance matrix of $X$ is then
+denote the covariance of $\varepsilon$. The matrix $I_n - B$ is invertible if 
+and only if $B$ does not have $1$ as an eigenvalue and in this case the
+covariance of $X$ is
 
 \begin{align}
-C_X = (I_n - B)^{-1}\Sigma_\varepsilon (I_n - B)^{-T},
+C_X = (I_n - B)^{-1}\Sigma_\varepsilon (I_n - B)^{-T}.
 \label{eq:covSEM}
 \end{align}
 
-see \cite{hyttinen2012}. Often one will assume that some entries of $B$ and 
+Often one will assume that some entries of $B$ and 
 $\Sigma_\varepsilon$ are zero which can be encoded by a DMG (also known as a 
 \emph{mixed graph}) such that if 
 $\alpha \rightarrow \beta$ is not in the DMG, then $B_{\beta\alpha} = 0$, and 
 if
-$\alpha\leftrightarrow\beta$ is not in the DMG, then 
+$\alpha\leftrightarrow\beta, \alpha\neq \beta$ is not in the DMG, then 
 $(\Sigma_\varepsilon)_{\beta\alpha} = (\Sigma_\varepsilon)_{\alpha\beta} = 0$. 
 The 
 error terms are often assumed to be Gaussian. We note that acyclicity is 
@@ -538,19 +543,19 @@ aligns better with common
 notation 
 in the Hawkes process literature.
 
-One see immediately the similarity between Equations (\ref{eq:covarEq}) 
-and (\ref{eq:covSEM}) in that the observable left-hand side of the equations in 
-both cases impose similar restrictions on the model parameters, and we use 
+One immediately sees the similarity between Equations (\ref{eq:covarEq}) 
+and (\ref{eq:covSEM}) in that the observable left-hand sides of the equations 
+impose similar restrictions on the model parameters, and we use 
 this similarity to translate results to the Hawkes models. There are two 
 questions that should be addressed. First, the diagonal of $B$ in 
 the linear SEM is often assumed to be zero, and we will handle this by 
 re-writing 
-Equation (\ref{eq:covarEq}) slightly (Subsection \ref{sssec:normEff}). Second, 
+Equation (\ref{eq:covarEq}) slightly (Section \ref{sssec:normEff}). Second, 
 $\Lambda$ 
 is a diagonal matrix in Equation (\ref{eq:covarEq}) whereas there is no such 
 restriction 
 a priori on $\Sigma_\varepsilon$ and we will see that this discrepancy 
-corresponds to marginalization of the systems (Subsection \ref{sssec:marg}).
+corresponds to marginalization of the systems (Section \ref{sssec:marg}).
 
 
 
@@ -593,18 +598,20 @@ and the definition is often stated using paths
 Using a DMG, $\mathcal{G} = (V,E)$, we will describe a parametrization of the 
 observed integrated covariances. We let $\mathbb{M}_+^s(\mathcal{G})$ denote 
 the set of of Schur stable matrices with nonnegative entries such that for 
-$\alpha,\beta\in V$
+$\alpha,\beta\in V,\ M 
+\in \mathbb{M}_+^s(\mathcal{G})$
 
 $$
 \alpha\not\rightarrow_\mathcal{G}\beta \Rightarrow M_{\beta\alpha} = 0.
 $$
 
-We let $\mathbb{M}_{0,+}^s(\mathcal{G})\subseteq 
+We let $\mathbb{M}_{+,0}^s(\mathcal{G})\subseteq 
 \mathbb{M}_+^s(\mathcal{G})$ denote the subset of matrices in which all 
 diagonal 
 elements are zero.
 We let $\mathbb{M}_+^{pd}(\mathcal{G})$ denote the set of symmetric, positive 
-definite matrices with nonnegative entries such that for $\alpha,\beta\in V$
+definite matrices with nonnegative entries such that for $\alpha,\beta\in V, \ 
+M\in \mathbb{M}_+^{pd}(\mathcal{G})$
 
 $$
 \alpha\not \leftrightarrow_\mathcal{G} \beta \Rightarrow M_{\beta\alpha} = 
@@ -613,11 +620,12 @@ $$
 
 \begin{thm}
 
-	Let $N$ be a multivariate Hawkes process with stationary increments such 
+	Let $X$ be a multivariate Hawkes process with stationary increments such 
 	that $O$ are the 
 	observed 
 	coordinate processes and $U$ are the unobserved coordinate processes and 
-	let $\mathcal{D}$ be its causal graph. Then the observed integrated 
+	let $\mathcal{D} = (O \disjU U, E)$ be its causal graph. Then the observed 
+	integrated 
 	covariance can be written as
 	
 	\begin{align}
@@ -667,7 +675,7 @@ $$
 		\end{align*}
 		
 		$\Theta$ is clearly positive semidefinite, and positive definite if 
-		$\Lambda$ is. Then entries of $\bar{\Phi}$ and $\Omega$ are 
+		$\Lambda$ is. Then entries of $\bar{\Phi}$ and $\Theta$ are 
 		nonnegative, and Lemma \ref{lem:margStab} shows that $\bar{\Phi}$ is 
 		Schur stable. If $\alpha$ is not a parent of 
 		$\beta$ in the latent projection then there is no directed path from 
@@ -684,7 +692,8 @@ $$
 
 \subsubsection{Stability under marginalization}
 
-We use the following lemma to that if the full system is Schur stable, then a 
+We use the following lemma to show that if the full system is Schur stable, 
+then a 
 partially observed system is also Schur stable. This result does not hold 
 without the assumption of nonnegative entries in the directed matrix (see 
 \cite{hyttinen2012} for an example which illustrates this).
@@ -716,36 +725,49 @@ without the assumption of nonnegative entries in the directed matrix (see
 		$(I-A_{UU})^{-1} = \sum_{i=0}^\infty A_{UU}^i$ and that all entries of 
 		$B$ are nonnegative.
 		
-		It holds that
+		We define 
 		
-		\begin{align*}
-		\norm{B^k} &= \norm{(A_{OO} + 
-			A_{OU}(I - A_{UU})^{-1}A_{UO})^k} \\
-			&\leq \norm{(A_{OO} + 
-				A_{OU}(I - A_{UU})^{-1}A_{UO})}^k \\
-				&\leq \norm{A_{OO}}^k + \norm{ 
-					A_{OU}(\sum_{i=0}^k A_{UU}^i) A_{UO})}^k \\ &+ \norm{
-					A_{OU}(\sum_{i=k+1}^\infty A_{UU}^i)A_{UO})}^k.
-					\end{align*}
-					
-					\noindent We have that $\norm{A_{OO}}^k \rightarrow 0$ as 
-					argued above. Also 
-					$\norm{ 
-						A_{OU}(\sum_{i=0}^k A_{UU}^i) A_{UO})}^k \leq \norm{ 
-						A^{k+2}}^k $ and $\norm{ 
-						A^k} \rightarrow_{k\rightarrow \infty} 0$. Finally, 
-						$\norm{
-						A_{OU}(\sum_{i=k+1}^\infty A_{UU}^i)A_{UO})} \leq \norm{
-						A_{OU}}\norm{(\sum_{i=k+1}^\infty 
-						A_{UU}^i)}\norm{A_{UO}}$ and the 
-						middle factor goes to 0.
-						
-						
-						
-						
+		$$
+		B_i = A_{OO} + A_{OU}\left( \sum_{i = 0}^{i} A_{UU} \right) A_{UO}.
+		$$			
+		
+		We have $B_i \leq (\sum_{j = 0}^{i} A)_{OO} $ where the inequality 
+		should 
+		be read 
+		entrywise. Assume that $\rho(B) \geq 1$ to obtain a contradiction. If 
+		$\rho(B) > 1$, then $\lim_{k \rightarrow \infty} \norm{B^k} = 
+		\infty$. Then $\lim_{k \rightarrow \infty} \norm{B^k} = \lim_{k 
+		\rightarrow \infty} \lim_{i \rightarrow \infty} \norm{B_i^k} \leq 
+		\lim_{k 
+		\rightarrow \infty} \lim_{i \rightarrow \infty} \norm{(\sum_{j = 0}^{i} 
+		A)_{OO}^k}$. This is a contradiction as [FIX: this doesn't work]
+		
 						\end{proof}
-						
 		
+		The above shows that the observed integrated covariance of a linear 
+		Hawkes process is parametrized such that the sparsity of matrices 
+		$\Phi$ and $\Omega$ is described by its latent projection, more 
+		precisely $(\Phi,\Omega) \in \mathbb{M}_{+}^s(\mathcal{G})\times 
+		\mathbb{M}_+^{pd}\mathcal{G}$. On the other hand, we can ask if there 
+		for any pair, $(\Phi_0,\Omega_0)$, in this set exists a linear Hawkes 
+		process such that its observed integrated covariance is
+		
+		$$
+		\Sigma = (I - \Phi)^{-1}\Omega (I - \Phi)^{-T}
+		$$
+		
+		and such that the latent projection of the causal graph of the linear 
+		Hawkes process is equal to $\mathcal{G}$. This is in fact the case. For 
+		each bidirected edge one can add an additional node. Now consider the 
+		larger matrix that embeds $\Phi$ in a zero matrix. This matrix has 
+		eigenvalues zeros and the eigenvalues of $\Phi$. Using continuity of 
+		eigenvalues we add $\epsilon$ along the edges from auxiliary nodes to 
+		nodes connected by bidirected edges in the original graph. Choosing 
+		small $\epsilon$ this new, larger matrix will be Schur stable [FIX: 
+		re-write this]
+		
+		[FIX: hertil]
+	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Normalized Effects}
@@ -1705,7 +1727,7 @@ just like the 4-cycle. Can I show that only one satisfies spectral constraint
 (using the conjecture from above that this is implied by the spectral 
 constraint in the full system)
 
-check that one does not have generic id for all graphs!
+
 
 Note that for positive matrices, it seems that spectral radius less than one in 
 the full system entails spectral radius less than one in the marginal system 
@@ -1715,7 +1737,7 @@ lin SEMs system, and what I write earlier in this paper.
 
 
 Question: find an example where one does not have generic ID with these 
-additional constraints.
+additional constraints. check that one does not have generic id for all graphs!
 
 Re-write to define an actual Hawkes covariance model? Define parameter space 
 etc, makes it clear what id is, and what the problems amount to - also in 
