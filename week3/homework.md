@@ -12,7 +12,7 @@ The exercises this week wrap up the tasks in the Week 3 Jupyter notebook. For al
 
 ### Mandatory
 - Task 1: Clean the data. Make summaries and plots of the data (there are many options - just make a couple of summaries and a couple of plots).
-- Investigate if the participants in the sudoku experiment were doing the Latin letter or the Greek letter sudoku fastest using the techniques in the Jupyter notebook (model-based, or using visualizations and summaries).
+- Investigate if the participants in the sudoku experiment were faster doing the Latin letter or the Greek letter sudoku using the techniques in the Jupyter notebook (model-based, or using visualizations and summaries).
 
 ### Optional
 - Task 2: solve Task 2.
