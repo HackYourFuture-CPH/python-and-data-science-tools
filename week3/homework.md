@@ -8,7 +8,7 @@ Create a PR to add your homework to the respective week folder.
 
 ## Homework exercises for Week #3
 
-The exercises this week wrap up the tasks in the Week 3 Jupyter notebook. For all the exercises, remember to comment your code. Depending on your prior experience with Python, these tasks may require too much.
+The exercises this week wrap up the tasks in the Week 3 Jupyter notebook. For all the exercises, remember to comment your code.
 
 ### Mandatory
 - Task 1: Clean the data. Make summaries and plots of the data (there are many options - just make a couple of summaries and a couple of plots).
