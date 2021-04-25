@@ -2,7 +2,7 @@
 
 ## How to deliver homework 
 
-Make a Fork of this repository https://github.com/HackYourFuture-CPH/python-and-data-science-tools-HYF-homework
+Click on ![image](https://user-images.githubusercontent.com/6642037/115988976-3796da80-a5bc-11eb-9184-554a2218b2ae.png) https://github.com/HackYourFuture-CPH/python-and-data-science-tools-HYF-homework and create a copy of this structure on your own GitHub profile
 
 Create a PR to add your homework to the respective week folder.
 
