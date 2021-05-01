@@ -18,16 +18,16 @@ Create a PR to add your homework to the respective week folder like you are used
 
 4. Delete the columns that have null values == 141
 
-5.Print the title of the recipes that are vegetarian == TRUE and glutenFree == True
+5. Print the title of the recipes that are vegetarian == TRUE and glutenFree == True
 
-6.How many vegan recipes are there (Vegan = Vegetarian and dairy free)?
+6. How many vegan recipes are there (Vegan = Vegetarian and dairy free)?
 
-7.Compare the average amount of Vitamin B12 for the vegan and non-vegan recipes. How reliable are the results?
+7. Compare the average amount of Vitamin B12 for the vegan and non-vegan recipes. How reliable are the results?
 
-8.Compare the average health Score for both types of recipes (vegan vs non-vegan).
+8. Compare the average health Score for both types of recipes (vegan vs non-vegan).
 
-9.Create a new column: "VeganWeek" where you decrease the price of vegan products by 10%, but only if they already cost more than 100.
+9. Create a new column: "VeganWeek" where you decrease the price of vegan products by 10%, but only if they already cost more than 100.
 
-10.Among the non-vegan recipes, find the one requiring most time to prepare. How is it called?
+10. Among the non-vegan recipes, find the one requiring most time to prepare. How is it called?
 
-11.Build a model using linear regression on this dataset
+11. Build a model using linear regression on this dataset
